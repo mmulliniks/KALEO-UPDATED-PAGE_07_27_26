@@ -1,0 +1,1592 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Kaleo Arts — Where art, joy & community collide.</title>
+<meta name="description" content="A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Stage-dark palette pulled from the photos */
+    --stage: oklch(11% 0.018 260);      /* near-black stage */
+    --stage-2: oklch(15% 0.02 260);     /* one stop up */
+    --stage-3: oklch(19% 0.022 260);    /* card surface */
+    --rule: oklch(28% 0.02 260);        /* hairlines */
+    --cream: oklch(96% 0.015 82);       /* warm off-white for text */
+    --cream-mute: oklch(82% 0.02 78);   /* softer secondary text */
+    --cream-fade: oklch(62% 0.02 260);  /* dim text */
+    --amber: oklch(75% 0.15 68);        /* single warm accent — the spotlight */
+    --amber-hot: oklch(68% 0.18 55);    /* deeper amber for hover */
+    --bright: oklch(94% 0.028 82);      /* cream section bg */
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--stage); }
+  body {
+    background: var(--stage);
+    color: var(--cream);
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    font-weight: 400;
+  }
+  a { color: inherit; text-decoration: none; }
+  em { font-style: italic; }
+  img { display: block; max-width: 100%; }
+
+  .wrap { max-width: 1440px; margin: 0 auto; padding: 0 40px; position: relative; }
+  .wrap-lg { max-width: 1600px; margin: 0 auto; padding: 0 40px; position: relative; }
+
+  /* ==================== NAV ==================== */
+  .nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 50;
+    padding: 20px 0;
+    background: oklch(11% 0.018 260 / 0.7);
+    backdrop-filter: blur(20px) saturate(1.2);
+    -webkit-backdrop-filter: blur(20px) saturate(1.2);
+    border-bottom: 1px solid oklch(28% 0.02 260 / 0.6);
+    transition: padding .3s, background .3s;
+  }
+  .nav.compact { padding: 12px 0; }
+  .nav-inner {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 26px;
+    letter-spacing: -0.025em;
+    color: var(--cream);
+    display: inline-flex; align-items: center; gap: 10px;
+    line-height: 1;
+  }
+  .nav-logo em { font-style: italic; color: var(--amber); font-weight: 400; }
+  .nav-logo .dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--amber);
+    margin-right: 4px;
+    box-shadow: 0 0 12px var(--amber);
+  }
+  .nav-logo-mark {
+    display: block;
+    height: 32px;
+    width: auto;
+    filter: drop-shadow(0 2px 12px oklch(75% 0.15 68 / 0.25));
+    transition: height .3s, transform .3s;
+  }
+  .nav.compact .nav-logo-mark { height: 26px; }
+  .nav-links {
+    display: flex;
+    gap: 26px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--cream-mute);
+    align-items: center;
+  }
+  .nav-links a { transition: color .2s; }
+  .nav-links a:hover { color: var(--amber); }
+  .nav-cta {
+    padding: 10px 18px;
+    background: var(--amber);
+    color: var(--stage) !important;
+    border-radius: 100px;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+    transition: all .2s;
+  }
+  .nav-cta:hover { background: var(--cream); }
+
+  /* ==================== HERO — FULL-BLEED CINEMATIC ==================== */
+  .hero {
+    position: relative;
+    height: 100vh;
+    min-height: 640px;
+    overflow: hidden;
+    background: var(--stage);
+  }
+  .hero-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 30%;
+    will-change: transform;
+    /* Ken burns */
+    animation: hero-drift 22s ease-in-out infinite alternate;
+    transform-origin: center 40%;
+  }
+  @keyframes hero-drift {
+    0%   { transform: scale(1.08) translate3d(0, 0, 0); }
+    100% { transform: scale(1.14) translate3d(-1%, -2%, 0); }
+  }
+  /* Vignette overlays */
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, oklch(11% 0.018 260 / 0.35) 0%, oklch(11% 0.018 260 / 0.05) 30%, oklch(11% 0.018 260 / 0.45) 65%, oklch(11% 0.018 260 / 0.95) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+  .hero::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 45%, transparent 0%, oklch(11% 0.018 260 / 0.35) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 130px 0 60px;
+  }
+  /* Soft top-left scrim so the headline reads cleanly against the stage,
+     without the middle of the photo (where the performers' faces sit)
+     picking up any wash. */
+  .hero::before {
+    background:
+      linear-gradient(
+        115deg,
+        oklch(11% 0.018 260 / 0.72) 0%,
+        oklch(11% 0.018 260 / 0.55) 22%,
+        oklch(11% 0.018 260 / 0.18) 48%,
+        oklch(11% 0.018 260 / 0.05) 62%,
+        oklch(11% 0.018 260 / 0.35) 85%,
+        oklch(11% 0.018 260 / 0.92) 100%
+      );
+  }
+  .hero-top-meta {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fade-in 1s ease 0.4s forwards;
+  }
+  .hero-top-meta .l::before {
+    content: "";
+    display: inline-block;
+    width: 40px; height: 1px;
+    background: var(--amber);
+    vertical-align: middle;
+    margin-right: 14px;
+  }
+  .hero-top-meta .r { color: var(--cream-mute); }
+
+  .hero-center {
+    flex: 1;
+    display: flex;
+    /* Anchor headline in the upper third so it clears the performers' faces,
+       and pin it hard-left of the wrap so it never crosses center stage. */
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  .hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    /* Slightly tighter cap so long headlines can't sprawl across the subjects. */
+    font-size: clamp(56px, 8.4vw, 140px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--cream);
+    text-align: left;
+    /* Narrow measure keeps the block in the left column, off the faces. */
+    max-width: 11ch;
+  }
+  .hero-title .line {
+    display: block;
+    /* overflow: hidden masks the pre-animation .word translateY(110%).
+       With line-height: 0.92, descenders on j/p/g/y (e.g. "Kaleojoy")
+       fall below the line box and get clipped. Pad the clip line down
+       into the descender zone; negate the pad on margin so line rhythm
+       and the .hero-center anchoring don't shift. */
+    overflow: hidden;
+    padding-bottom: 0.18em;
+    margin-bottom: -0.18em;
+  }
+  .hero-title .word {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(110%);
+    animation: word-rise 1.1s cubic-bezier(.22,.61,.36,1) forwards;
+  }
+  .hero-title .italic {
+    font-style: italic;
+    color: var(--amber);
+    font-weight: 400;
+  }
+  .hero-title .amp {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--cream-mute);
+    padding: 0 0.1em;
+  }
+  @keyframes word-rise {
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    to { opacity: 1; }
+  }
+
+  .hero-bottom {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: end;
+    opacity: 0;
+    animation: fade-in 1s ease 1.4s forwards;
+  }
+  .hero-caption {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--cream);
+    max-width: 40ch;
+    border-left: 2px solid var(--amber);
+    padding: 4px 0 4px 20px;
+  }
+  .hero-caption strong {
+    font-family: 'JetBrains Mono', monospace;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    text-transform: uppercase;
+    display: block;
+    margin-top: 12px;
+  }
+  .hero-cta-row {
+    display: flex; gap: 12px; flex-wrap: wrap;
+    justify-content: flex-end;
+    align-items: end;
+  }
+  .hero-photo-caption {
+    position: absolute;
+    bottom: 28px; right: 40px;
+    z-index: 4;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--cream-mute);
+    text-transform: uppercase;
+    opacity: 0;
+    animation: fade-in 1s ease 1.8s forwards;
+  }
+  .hero-photo-caption::before {
+    content: "";
+    display: inline-block;
+    width: 24px; height: 1px;
+    background: var(--cream-mute);
+    vertical-align: middle;
+    margin-right: 12px;
+  }
+
+  /* ==================== BUTTONS ==================== */
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 16px 26px;
+    border-radius: 100px;
+    transition: all .3s cubic-bezier(.22,.61,.36,1);
+    cursor: pointer;
+    border: 1px solid transparent;
+    white-space: nowrap;
+  }
+  .btn-primary { background: var(--amber); color: var(--stage); }
+  .btn-primary:hover { background: var(--cream); }
+  .btn-secondary { border-color: oklch(85% 0.02 78 / 0.4); color: var(--cream); background: oklch(11% 0.018 260 / 0.4); backdrop-filter: blur(8px); }
+  .btn-secondary:hover { background: var(--cream); color: var(--stage); border-color: var(--cream); }
+  .btn svg { width: 14px; height: 10px; transition: transform .3s; }
+  .btn:hover svg { transform: translateX(4px); }
+
+  /* ==================== VIDEO — WELCOME REEL ==================== */
+  .video-section {
+    padding: 120px 0 100px;
+    background: var(--stage);
+    border-bottom: 1px solid var(--rule);
+  }
+  .video-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 40px;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+  }
+  .video-head .l { max-width: 600px; }
+  .video-head .plate-label { margin-bottom: 24px; }
+  .video-head h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(40px, 5vw, 76px);
+    line-height: 0.98;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    margin: 0;
+  }
+  .video-head h2 em { font-style: italic; color: var(--amber); }
+  .video-head .r {
+    font-family: 'Newsreader', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+    max-width: 34ch;
+    padding-bottom: 10px;
+  }
+  .video-frame {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .video-frame iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+  .video-poster {
+    position: absolute;
+    inset: 0;
+    background: none;
+    border: 0;
+    padding: 0;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+  .video-poster::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 55%, transparent 0%, oklch(11% 0.018 260 / 0.35) 65%),
+      linear-gradient(180deg, oklch(11% 0.018 260 / 0.25) 0%, oklch(11% 0.018 260 / 0.45) 100%);
+    z-index: 1;
+    transition: background .3s;
+  }
+  .video-poster:hover::after {
+    background:
+      radial-gradient(ellipse at 50% 55%, transparent 0%, oklch(11% 0.018 260 / 0.25) 65%),
+      linear-gradient(180deg, oklch(11% 0.018 260 / 0.15) 0%, oklch(11% 0.018 260 / 0.35) 100%);
+  }
+  .video-poster img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1s cubic-bezier(.22,.61,.36,1);
+  }
+  .video-poster:hover img { transform: scale(1.04); }
+  .video-poster .play-badge {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    width: 96px;
+    height: 96px;
+    border-radius: 50%;
+    background: var(--amber);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 8px oklch(75% 0.15 68 / 0.2), 0 20px 40px oklch(0% 0 0 / 0.4);
+    transition: transform .3s ease, background .3s ease, box-shadow .3s ease;
+  }
+  .video-poster:hover .play-badge {
+    transform: translate(-50%, -50%) scale(1.08);
+    background: var(--cream);
+    box-shadow: 0 0 0 12px oklch(96% 0.015 82 / 0.2), 0 24px 50px oklch(0% 0 0 / 0.5);
+  }
+  .video-poster .play-badge svg {
+    width: 28px;
+    height: 28px;
+    fill: var(--stage);
+    margin-left: 4px;
+  }
+  .video-poster .poster-meta {
+    position: absolute;
+    bottom: 20px; left: 24px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    text-transform: uppercase;
+    background: oklch(11% 0.018 260 / 0.55);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid oklch(85% 0.02 78 / 0.2);
+  }
+  .video-poster .poster-meta.r {
+    left: auto;
+    right: 24px;
+  }
+
+  /* ==================== TICKER ==================== */
+  .ticker {
+    background: var(--stage);
+    color: var(--cream);
+    padding: 20px 0;
+    overflow: hidden;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    position: relative;
+  }
+  .ticker-track {
+    display: flex; gap: 48px;
+    white-space: nowrap;
+    animation: scrollX 50s linear infinite;
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 1;
+    letter-spacing: -0.015em;
+  }
+  .ticker-track .sep {
+    color: var(--amber);
+    font-style: normal;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 400;
+  }
+  @keyframes scrollX {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ==================== SECTION SCAFFOLD ==================== */
+  section.spread { padding: 140px 0; position: relative; }
+  section.spread.tight { padding: 100px 0; }
+
+  .plate-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 40px;
+  }
+  .plate-label::before {
+    content: "";
+    width: 40px; height: 1px;
+    background: var(--amber);
+  }
+
+  .section-h {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 108px);
+    line-height: 0.94;
+    letter-spacing: -0.038em;
+    color: var(--cream);
+    max-width: 20ch;
+    margin-bottom: 60px;
+  }
+  .section-h em { font-style: italic; color: var(--amber); font-weight: 400; }
+
+  /* ==================== 3 COMMITMENTS ==================== */
+  .commits-intro { max-width: 60ch; margin-bottom: 60px; }
+  .commits-intro p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+  }
+  .commits {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+  .commit {
+    padding: 50px 32px 50px 0;
+    border-right: 1px solid var(--rule);
+    position: relative;
+  }
+  .commit:last-child { border-right: 0; padding-right: 0; }
+  .commit + .commit { padding-left: 32px; }
+  .commit .no {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+  .commit h3 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: var(--cream);
+  }
+  .commit h3 em { color: var(--amber); font-style: italic; font-weight: 400; }
+  .commit h3 .strike {
+    text-decoration: line-through;
+    text-decoration-color: var(--amber);
+    text-decoration-thickness: 3px;
+    color: var(--cream-fade);
+    font-style: normal;
+  }
+  .commit p {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--cream-mute);
+    max-width: 32ch;
+  }
+
+  /* ==================== APPROACH ==================== */
+  .approach {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: stretch;
+  }
+  .approach-img-wrap {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--stage-2);
+  }
+  .approach-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+  }
+  .approach-img-wrap:hover .approach-img { transform: scale(1.04); }
+  .approach-img-wrap .img-caption {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    text-transform: uppercase;
+    background: oklch(11% 0.018 260 / 0.55);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid oklch(85% 0.02 78 / 0.2);
+  }
+
+  .approach-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .approach-title {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(44px, 5.5vw, 84px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    margin-bottom: 40px;
+  }
+  .approach-title em { font-style: italic; color: var(--amber); }
+  .approach-body p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 22px;
+    line-height: 1.55;
+    color: var(--cream);
+    margin-bottom: 24px;
+    max-width: 44ch;
+  }
+  .approach-body p.secondary {
+    font-size: 18px;
+    color: var(--cream-mute);
+  }
+  .approach-signature {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cream-mute);
+    text-transform: uppercase;
+  }
+  .approach-signature strong { color: var(--cream); font-weight: 500; }
+
+  /* ==================== PROGRAMS ==================== */
+  .programs-hero {
+    position: relative;
+    height: 60vh;
+    min-height: 500px;
+    max-height: 720px;
+    margin-bottom: 100px;
+    overflow: hidden;
+  }
+  .programs-hero img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    will-change: transform;
+  }
+  .programs-hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, oklch(11% 0.018 260 / 0.6) 0%, oklch(11% 0.018 260 / 0.2) 40%, oklch(11% 0.018 260 / 0.7) 100%);
+    z-index: 2;
+  }
+  .programs-hero .caption {
+    position: absolute;
+    top: 30px; left: 40px;
+    z-index: 3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--cream);
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+  .programs-hero .kicker {
+    position: absolute;
+    bottom: 40px; left: 40px;
+    z-index: 3;
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(28px, 3vw, 42px);
+    line-height: 1.15;
+    color: var(--cream);
+    max-width: 24ch;
+  }
+
+  .program-row {
+    display: grid;
+    grid-template-columns: 60px 1.2fr 2fr 140px 140px 40px;
+    gap: 40px;
+    align-items: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--rule);
+    transition: all .4s cubic-bezier(.22,.61,.36,1);
+    position: relative;
+    color: var(--cream);
+  }
+  .program-row:last-of-type { border-bottom: 1px solid var(--rule); }
+  .program-row::before {
+    content: "";
+    position: absolute;
+    left: -40px; right: -40px; top: 0; bottom: 0;
+    background: linear-gradient(90deg, oklch(75% 0.15 68 / 0.12), oklch(75% 0.15 68 / 0));
+    opacity: 0;
+    transition: opacity .3s;
+    z-index: -1;
+  }
+  .program-row:hover::before { opacity: 1; }
+  .program-row:hover .p-name em { color: var(--amber); }
+  .program-row:hover .p-arrow { transform: translate(6px, -6px); color: var(--amber); }
+  .program-row:hover { border-top-color: var(--amber); }
+
+  .p-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--cream-fade);
+    text-transform: uppercase;
+  }
+  .p-name {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .p-name em { color: var(--cream); font-style: italic; font-weight: 400; transition: color .3s; }
+  .p-desc {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+    padding-right: 24px;
+  }
+  .p-grade, .p-price {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    color: var(--cream-mute);
+    text-transform: uppercase;
+  }
+  .p-price { color: var(--amber); }
+  .p-arrow {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 28px;
+    color: var(--cream-fade);
+    text-align: right;
+    transition: transform .3s, color .3s;
+  }
+
+  /* ==================== PULL-QUOTE — PORTRAIT + QUOTE ==================== */
+  .pullq {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 80px;
+    align-items: stretch;
+    min-height: 620px;
+  }
+  .pullq-img-wrap {
+    position: relative;
+    overflow: hidden;
+    background: var(--stage-2);
+  }
+  .pullq-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: center 25%;
+    will-change: transform;
+  }
+  .pullq-caption {
+    position: absolute;
+    bottom: 20px; left: 20px;
+    z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    text-transform: uppercase;
+    background: oklch(11% 0.018 260 / 0.55);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid oklch(85% 0.02 78 / 0.2);
+  }
+  .pullq-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 40px 0;
+  }
+  .pullq-mark {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 120px;
+    line-height: 0.5;
+    color: var(--amber);
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+  .pullq-text {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(36px, 5vw, 72px);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+    margin-bottom: 40px;
+  }
+  .pullq-text em { color: var(--amber); font-style: italic; }
+  .pullq-cite {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+    font-style: normal;
+    display: inline-flex; align-items: center; gap: 14px;
+  }
+  .pullq-cite::before {
+    content: "";
+    display: inline-block;
+    width: 30px; height: 1px;
+    background: var(--cream-mute);
+  }
+
+  /* ==================== HEART / VALUES ==================== */
+  .heart-banner {
+    position: relative;
+    aspect-ratio: 21 / 8;
+    overflow: hidden;
+    margin-bottom: 80px;
+  }
+  .heart-banner img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    will-change: transform;
+  }
+  .heart-banner::after {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, oklch(11% 0.018 260 / 0.4) 0%, oklch(11% 0.018 260 / 0.75) 100%);
+  }
+  .heart-banner .caption {
+    position: absolute;
+    top: 24px; right: 30px;
+    z-index: 3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--cream);
+    text-transform: uppercase;
+    background: oklch(11% 0.018 260 / 0.55);
+    backdrop-filter: blur(8px);
+    padding: 8px 12px;
+    border: 1px solid oklch(85% 0.02 78 / 0.2);
+  }
+  .heart-banner .quote {
+    position: absolute;
+    bottom: 30px; left: 40px;
+    z-index: 3;
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(22px, 2.5vw, 32px);
+    line-height: 1.2;
+    color: var(--cream);
+    max-width: 30ch;
+  }
+
+  .values {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+    counter-reset: v;
+  }
+  .value {
+    counter-increment: v;
+    padding-top: 40px;
+    border-top: 2px solid var(--amber);
+  }
+  .value::before {
+    content: counter(v, decimal-leading-zero);
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    color: var(--amber);
+    margin-bottom: 24px;
+  }
+  .value h3 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 54px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 20px;
+    color: var(--cream);
+  }
+  .value p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--cream-mute);
+    max-width: 32ch;
+  }
+
+  /* ==================== TESTIMONIALS — 3 photo cards ==================== */
+  .voices {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .voice {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: var(--stage-2);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    color: var(--cream);
+    padding: 40px 32px 36px;
+    transition: transform .5s cubic-bezier(.22,.61,.36,1);
+  }
+  .voice:hover { transform: translateY(-6px); }
+  .voice img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    transition: transform 1s cubic-bezier(.22,.61,.36,1);
+    will-change: transform;
+  }
+  .voice:hover img { transform: scale(1.06); }
+  .voice::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg, oklch(11% 0.018 260 / 0.2) 0%, oklch(11% 0.018 260 / 0.5) 40%, oklch(11% 0.018 260 / 0.92) 100%);
+    z-index: 1;
+  }
+  .voice .num {
+    position: relative; z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .voice blockquote {
+    position: relative; z-index: 2;
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.35;
+    letter-spacing: -0.015em;
+    color: var(--cream);
+    margin-bottom: 20px;
+  }
+  .voice cite {
+    position: relative; z-index: 2;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--cream-mute);
+    font-style: normal;
+    display: block;
+    padding-top: 16px;
+    border-top: 1px solid oklch(85% 0.02 78 / 0.25);
+  }
+
+  /* ==================== LOCATION ==================== */
+  .loc {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .loc-map {
+    aspect-ratio: 4 / 5;
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    position: relative;
+  }
+  .loc-map iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: invert(0.85) hue-rotate(180deg) saturate(0.4) brightness(0.9);
+  }
+  .loc-body h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(44px, 5.5vw, 84px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    margin-bottom: 30px;
+    color: var(--cream);
+  }
+  .loc-body h2 em { font-style: italic; color: var(--amber); }
+  .loc-body p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 1.55;
+    color: var(--cream-mute);
+    margin-bottom: 40px;
+    max-width: 44ch;
+  }
+  .loc-details {
+    display: grid;
+    gap: 18px;
+    padding: 30px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 40px;
+  }
+  .loc-details div {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 20px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .loc-details div span:first-child { color: var(--cream-fade); }
+  .loc-details div span:last-child { color: var(--cream); font-weight: 500; }
+
+  /* ==================== FINAL / INVITATION — FULL-BLEED ==================== */
+  .final {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 100px 40px;
+    overflow: hidden;
+  }
+  .final img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 0;
+    will-change: transform;
+  }
+  .final::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 50%, oklch(11% 0.018 260 / 0.4) 0%, oklch(11% 0.018 260 / 0.85) 65%),
+      linear-gradient(180deg, oklch(11% 0.018 260 / 0.5) 0%, oklch(11% 0.018 260 / 0.65) 100%);
+    z-index: 1;
+  }
+  .final-content {
+    position: relative;
+    z-index: 2;
+    max-width: 900px;
+  }
+  .rsvp-eye {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    color: var(--amber);
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid var(--amber);
+    margin-bottom: 50px;
+  }
+  .final h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(80px, 15vw, 260px);
+    line-height: 0.88;
+    letter-spacing: -0.045em;
+    margin-bottom: 50px;
+    color: var(--cream);
+  }
+  .final h2 em { font-style: italic; color: var(--amber); }
+  .final p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    max-width: 40ch;
+    margin: 0 auto 60px;
+    color: var(--cream);
+  }
+  .final .cta-row {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* ==================== FOOTER ==================== */
+  footer {
+    background: var(--stage);
+    color: var(--cream);
+    padding: 100px 0 40px;
+    border-top: 1px solid var(--rule);
+  }
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1.3fr;
+    gap: 60px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 44px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+    color: var(--cream);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .footer-brand em { font-style: italic; color: var(--amber); }
+  .footer-brand-mark {
+    display: block;
+    height: 56px;
+    width: auto;
+    filter: drop-shadow(0 4px 20px oklch(75% 0.15 68 / 0.28));
+    flex-shrink: 0;
+  }
+  .footer-tag {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+    max-width: 32ch;
+  }
+  .footer-col h4 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 26px;
+  }
+  .footer-col a {
+    display: block;
+    padding: 8px 0;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    color: var(--cream-mute);
+    transition: color .2s, padding-left .2s;
+  }
+  .footer-col a:hover { color: var(--amber); padding-left: 4px; }
+  /* Contact column: keep each contact line on its own row. */
+  .footer-contact .footer-col a,
+  .footer-contact > a { display: block; }
+  .footer-contact br { display: block; }
+  /* Social icons row — sit horizontally under the contact block. */
+  .footer-follow {
+    margin-top: 18px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .footer-follow a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    padding: 0;
+    color: var(--cream-mute);
+    background: transparent;
+    transition: color .2s, transform .2s;
+  }
+  .footer-follow a:hover {
+    color: var(--amber);
+    padding-left: 0;
+    transform: translateY(-2px);
+    background: transparent;
+  }
+  .footer-follow svg { display: block; }
+  .footer-fine {
+    padding-top: 40px;
+    display: flex; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--cream-fade);
+    text-transform: uppercase;
+  }
+
+  /* ==================== REVEAL ==================== */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 1s cubic-bezier(.22,.61,.36,1), transform 1.1s cubic-bezier(.22,.61,.36,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  .r-d1 { transition-delay: .1s; }
+  .r-d2 { transition-delay: .2s; }
+  .r-d3 { transition-delay: .3s; }
+  .r-d4 { transition-delay: .4s; }
+
+  [data-parallax] { will-change: transform; }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 960px) {
+    .wrap, .wrap-lg, .nav-inner { padding: 0 20px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+    .hero-content { padding: 100px 0 40px; }
+    .hero-bottom { grid-template-columns: 1fr; gap: 30px; }
+    .hero-cta-row { justify-content: flex-start; }
+    .hero-photo-caption { right: 20px; }
+    .commits, .voices, .footer-top, .values { grid-template-columns: 1fr; gap: 30px; }
+    .commit { border-right: 0; border-bottom: 1px solid var(--rule); padding: 40px 0 !important; }
+    .approach, .pullq, .loc { grid-template-columns: 1fr; gap: 40px; }
+    .approach-img-wrap, .pullq-img-wrap { aspect-ratio: 4 / 3; }
+    .program-row { grid-template-columns: 40px 1fr 40px; gap: 12px; padding: 24px 0; }
+    .p-desc, .p-grade, .p-price { grid-column: 2; }
+    .ticker-track { font-size: 22px; }
+    section.spread { padding: 80px 0; }
+    .plate-label { margin-bottom: 30px; }
+    .section-h { margin-bottom: 40px; }
+    .voice { aspect-ratio: 4 / 5; }
+    .footer-fine { flex-direction: column; gap: 12px; }
+  }
+</style>
+</head>
+<body data-screen-label="Home">
+
+<!-- ==================== NAV ==================== -->
+<!-- Shared nav is injected by assets/chrome-v3.js at the bottom of the page. -->
+<div id="nav-slot"></div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <img class="hero-img" src="assets/img/hero-chosen.jpg" alt="Kaleo students in orange 'Chosen' tees performing on stage with lobster and chef leads under blue lights"/>
+  <div class="hero-content">
+    <div class="wrap-lg">
+      <div class="hero-top-meta">
+        <span class="l">Kaleo Arts - Oakland Township, MI - EST. 2005 </span>
+        <span class="r"></span>
+      </div>
+    </div>
+    <div class="hero-center">
+      <div class="wrap-lg">
+        <h1 class="hero-title">
+          <span class="line"><span class="word" style="animation-delay:.2s">Where</span></span>
+          <span class="line"><span class="word italic" style="animation-delay:.35s">art,</span></span>
+          <span class="line"><span class="word" style="animation-delay:.5s">joy</span> <span class="word amp" style="animation-delay:.65s">&amp;</span></span>
+          <span class="line"><span class="word italic" style="animation-delay:.8s">community</span></span>
+          <span class="line"><span class="word" style="animation-delay:.95s">collide.</span></span>
+        </h1>
+      </div>
+    </div>
+    <div class="wrap-lg">
+      <div class="hero-bottom">
+        <div class="hero-caption">
+          <em>Kaleo</em> is a Greek word — it means <em>"to invite."</em> And today, <em>you're invited!</em>
+          <strong>Ka · leh · oh</strong>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="enroll.html">Enroll today
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="#programs">Explore programs</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-photo-caption">Kaleo Spark · Live performance</div>
+</section>
+
+<!-- ==================== VIDEO — WELCOME REEL ==================== -->
+<section class="video-section">
+  <div class="wrap-lg">
+    <div class="video-head">
+      <div class="l">
+        <span class="plate-label reveal">Plate 01a · Welcome</span>
+        <h2 class="reveal r-d1" style="font-size: 76px">We're <em>glad you're here!</em></h2>
+      </div>
+      <p class="r reveal r-d2">Press play on our welcome video to discover who we are, what we do, and why parents keep coming back.</p>
+    </div>
+    <div class="video-frame reveal r-d1" id="home-video" data-vimeo="https://player.vimeo.com/video/1212944998?h=1c9df65b32" data-video-title="Kaleo Arts welcome video">
+      <button class="video-poster" type="button" aria-label="Play the Kaleo welcome video">
+        <img src="assets/img/kaleo-15.jpg" alt="Students dancing with rainbow ribbons on the Kaleo stage" loading="lazy"/>
+        <span class="play-badge" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z"/></svg>
+        </span>
+        <span class="poster-meta">
+          <svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor" aria-hidden="true" style="vertical-align:-1px;margin-right:6px"><path d="M6 4l14 8-14 8V4z"/></svg>Video · 1:24
+        </span>
+        <span class="poster-meta r">Click to watch our welcome video</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TICKER ==================== -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-track">
+    <span>Now Casting — Fall Session</span><span class="sep">◆</span>
+    <span>Sing · Dance · Act · Write</span><span class="sep">◆</span>
+    <span>Ages Three Through Adult</span><span class="sep">◆</span>
+    <span>No Auditions to Join</span><span class="sep">◆</span>
+    <span>Enroll Today</span><span class="sep">◆</span>
+    <span>Now Casting — Fall Session</span><span class="sep">◆</span>
+    <span>Sing · Dance · Act · Write</span><span class="sep">◆</span>
+    <span>Ages Three Through Adult</span><span class="sep">◆</span>
+    <span>No Auditions to Join</span><span class="sep">◆</span>
+    <span>Enroll Today</span><span class="sep">◆</span>
+  </div>
+</div>
+
+<!-- ==================== 3 COMMITMENTS ==================== -->
+<section class="spread">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 02 · Three commitments</span>
+    <h2 class="section-h reveal r-d1">Three things<br/>we <em>don't</em> do.</h2>
+    <div class="commits-intro reveal r-d2">
+      <p>Every child gets a place, regardless of experience. We build confidence through practice — not trophies. And the price you see is the price you pay.</p>
+    </div>
+    <div class="commits">
+      <div class="commit reveal">
+        <div class="no">No. 01</div>
+        <h3>No <em>auditions</em> <span class="strike">to join</span>.</h3>
+        <p>Every child gets a place, regardless of experience.</p>
+      </div>
+      <div class="commit reveal r-d1">
+        <div class="no">No. 02</div>
+        <h3>No <em>competitions</em>.</h3>
+        <p>We build confidence through practice and performance, not trophies and rankings.</p>
+      </div>
+      <div class="commit reveal r-d2">
+        <div class="no">No. 03</div>
+        <h3>No <em>costume fees</em>.</h3>
+        <p>The price you see is the price you pay.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== APPROACH ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 03 · The approach</span>
+    <div class="approach">
+      <div class="approach-img-wrap reveal">
+        <img class="approach-img" src="assets/img/kk-new-03.jpg" alt="A young performer in butterfly wings, arms outstretched mid-performance under warm stage light" loading="lazy"/>
+        <span class="img-caption">Backstage</span>
+      </div>
+      <div class="approach-body">
+        <h2 class="approach-title reveal">
+          Confidence,<br/>
+          <em>on stage</em><br/>
+          and off.
+        </h2>
+        <p class="reveal r-d1">Our one-of-a-kind performing arts programming brings students from different communities together to develop music, dance, drama, and songwriting skills — while building confidence and character.</p>
+        <p class="reveal r-d2 secondary">Our desire is for every child we work with to know they are valuable, creative, and capable of changing the world for the better.</p>
+        <div class="approach-signature reveal r-d3">— <strong>Renee Mulliniks</strong> · Founder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROGRAMS ==================== -->
+<section class="spread tight" id="programs">
+  <div class="programs-hero reveal">
+    <img src="assets/img/kaleo-07.jpg" alt="A student holds a silver star-shaped balloon amid a cast of young performers in starry costumes on a blue-lit stage" loading="lazy" data-parallax="0.1"/>
+    <span class="caption">Now Showing</span>
+    <div class="kicker">Six ways to join — <em>from first steps in music at age three, to writing original songs in high school.</em></div>
+  </div>
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 04a · The program</span>
+    <h2 class="section-h reveal r-d1">Six <em>ways</em><br/>to join.</h2>
+    <div class="programs">
+      <a class="program-row reveal" href="kaleo-kids.html">
+        <div class="p-num">01</div>
+        <div class="p-name"><em>Kaleo Kids</em></div>
+        <div class="p-desc">High-energy performing arts programs that develop talent and grow character.</div>
+        <div class="p-grade">K–5th grade</div>
+        <div class="p-price">$160 / mo</div>
+        <div class="p-arrow">↗</div>
+      </a>
+      <a class="program-row reveal" href="kazoo.html">
+        <div class="p-num">02</div>
+        <div class="p-name"><em>Kazoo</em></div>
+        <div class="p-desc">A joyful first experience of music, movement, and storytelling.</div>
+        <div class="p-grade">Ages 3–6</div>
+        <div class="p-price">$85 / mo</div>
+        <div class="p-arrow">↗</div>
+      </a>
+      <a class="program-row reveal" href="songwriters.html">
+        <div class="p-num">03</div>
+        <div class="p-name"><em>Songwriters</em></div>
+        <div class="p-desc">Middle and high school artists collaborating on original songs.</div>
+        <div class="p-grade">M.S.–H.S.</div>
+        <div class="p-price">$160 / mo</div>
+        <div class="p-arrow">↗</div>
+      </a>
+      <a class="program-row reveal" href="classes.html">
+        <div class="p-num">04</div>
+        <div class="p-name"><em>Classes</em></div>
+        <div class="p-desc">Show choir, tap, theater, and visual arts — shaped by community demand.</div>
+        <div class="p-grade">All ages</div>
+        <div class="p-price">$105 / mo</div>
+        <div class="p-arrow">↗</div>
+      </a>
+      <a class="program-row reveal" href="private-lessons.html">
+        <div class="p-num">05</div>
+        <div class="p-name"><em>Private Lessons</em></div>
+        <div class="p-desc">One-on-one instruction tailored to your student's instrument, voice, or discipline.</div>
+        <div class="p-grade">All ages</div>
+        <div class="p-price">$133 / mo</div>
+        <div class="p-arrow">↗</div>
+      </a>
+      <a class="program-row reveal" href="spark-camp.html">
+        <div class="p-num">06</div>
+        <div class="p-name"><em>Summer Camp</em></div>
+        <div class="p-desc">A one-week summer camp ending in a full musical theater production.</div>
+        <div class="p-grade">K–6th grade</div>
+        <div class="p-price">Summer only</div>
+        <div class="p-arrow">↗</div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PULL-QUOTE (portrait + quote) ==================== -->
+<section class="spread tight">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 05 · Voices from a Kaleo family</span>
+    <div class="pullq">
+      <div class="pullq-img-wrap reveal">
+        <img class="pullq-img" src="assets/img/kaleo-17.jpg" alt="A young singer in a gold sequined costume performs into a microphone under stage lights" loading="lazy"/>
+        <span class="pullq-caption">Solo</span>
+      </div>
+      <div class="pullq-body">
+        <div class="pullq-mark reveal">"</div>
+        <p class="pullq-text reveal r-d1">
+          My daughter <em>found her voice</em> here — literally and figuratively. No pressure, just growth.
+        </p>
+        <cite class="pullq-cite reveal r-d2">Kaleo Kids parent</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HEART ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <div class="heart-banner reveal">
+      <img src="assets/img/kk-new-10.jpg" alt="A wide low-angle stage shot with the full ensemble arms raised, a dancer in luminous wings at center under the lighting rig" loading="lazy" data-parallax="0.08"/>
+      <span class="caption">Ensemble</span>
+      <p class="quote">Three commitments that shape every class, every rehearsal, every performance we put on.</p>
+    </div>
+    <div class="wrap" style="padding: 0;">
+      <span class="plate-label reveal">Plate 06a · Our heart</span>
+      <h2 class="section-h reveal r-d1">The three commitments that shape <em>everything</em>.</h2>
+      <div class="values">
+        <div class="value reveal">
+          <h3>Empathy.</h3>
+          <p>We help kids see the joy in collaboration, teamwork, and learning to work together to create meaningful artistic moments.</p>
+        </div>
+        <div class="value reveal r-d1">
+          <h3>Excellence.</h3>
+          <p>We set the bar higher to challenge artistic abilities and encourage kids to take risks to reach their full potential.</p>
+        </div>
+        <div class="value reveal r-d2">
+          <h3>Community.</h3>
+          <p>Kaleo means "to invite" — inviting kids to try new things, inviting communities together, inviting talent toward purpose.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== TESTIMONIALS ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 07 · Voices from our families</span>
+    <h2 class="section-h reveal r-d1">Twenty years, <em>one relationship</em><br/>at a time.</h2>
+    <div class="voices">
+      <div class="voice reveal">
+        <img src="assets/img/kaleo-25.jpg" alt="A young performer laughs mid-dance holding a handmade paper mask aloft" loading="lazy"/>
+        <div class="num">Voice 01</div>
+        <blockquote>"My daughter found her voice here — literally and figuratively. No pressure, just growth."</blockquote>
+        <cite>— Kaleo Kids parent</cite>
+      </div>
+      <div class="voice reveal r-d1">
+        <img src="assets/img/kaleo-30.jpg" alt="Young children in pink and green Chosen t-shirts jump joyfully with ribbon streamers on a magenta-lit stage" loading="lazy"/>
+        <div class="num">Voice 02</div>
+        <blockquote>"We tried a competition studio first. This is the first place my son actually asks to go back to."</blockquote>
+        <cite>— Kaleo Kids parent</cite>
+      </div>
+      <div class="voice reveal r-d2">
+        <img src="assets/img/kaleo-21.jpg" alt="A row of young performers in butterfly, sunflower, and bird costumes raise their arms mid-performance" loading="lazy"/>
+        <div class="num">Voice 03</div>
+        <blockquote>"Renee remembers every kid's name and every kid's story. That's rare, and it matters."</blockquote>
+        <cite>— Community member since 2019</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LOCATION ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 08 · Visit</span>
+    <div class="loc">
+      <div class="loc-map reveal">
+        <iframe
+          src="https://www.google.com/maps?q=4906+North+Adams+Road,+Oakland+Township,+MI+48306&z=15&output=embed"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Map to Kaleo Arts, 4906 N. Adams Rd., Oakland Township, MI"></iframe>
+      </div>
+      <div class="loc-body">
+        <h2 class="reveal r-d1">Come <em>see</em><br/>the space.</h2>
+        <p class="reveal r-d2">We just opened our doors at a brand new studio in Oakland Township. Stop by, meet the team, watch a class in session — no appointment needed, but tours are welcome too.</p>
+        <div class="loc-details reveal r-d3">
+          <div><span>Address</span><span>4906 N. Adams Rd.</span></div>
+          <div><span>City</span><span>Oakland Township, MI 48306</span></div>
+          <div><span>Opening</span><span>Fall 2026</span></div>
+          <div><span>Contact</span><span>586-549-1504</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FINAL / INVITATION ==================== -->
+<section class="final">
+  <img src="assets/img/kaleo-33.jpg" alt="A single performer stands framed by spotlight beams pouring down on a smoke-filled stage" loading="lazy" data-parallax="0.05"/>
+  <div class="final-content">
+    <span class="rsvp-eye reveal">R &nbsp;·&nbsp; S &nbsp;·&nbsp; V &nbsp;·&nbsp; P</span>
+    <h2 class="reveal r-d1">You're<br/><em>invited.</em></h2>
+    <p class="reveal r-d2">Come see what an invitation feels like. No auditions to join. No obligation. Just a conversation and a look around.</p>
+    <div class="cta-row reveal r-d3">
+      <a class="btn btn-primary" href="enroll.html">Enroll today
+        <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<!-- Shared footer is injected by assets/chrome-v3.js — same source of
+     truth as every other page. Address, phone, email, and social icons
+     live in chrome-v3.js so edits happen in one place. -->
+<div id="footer-slot"></div>
+
+<script>window.__page = 'home';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>

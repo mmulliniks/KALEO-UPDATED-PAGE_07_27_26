@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Page not found — Kaleo Arts</title>
+<meta name="description" content="This page can't be found. Head back to the Kaleo Arts homepage."/>
+<link rel="stylesheet" href="assets/kaleo-v3.css"/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --stage: oklch(11% 0.018 260);
+    --rule: oklch(28% 0.02 260);
+    --cream: oklch(96% 0.015 82);
+    --cream-mute: oklch(82% 0.02 78);
+    --cream-fade: oklch(62% 0.02 260);
+    --amber: oklch(75% 0.15 68);
+  }
+  html, body { background: var(--stage); color: var(--cream); }
+  body {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  .not-found {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 160px 40px 80px;
+    text-align: center;
+  }
+  .not-found-inner { max-width: 720px; }
+  .eye {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.36em;
+    color: var(--amber);
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border: 1px solid var(--amber);
+    margin-bottom: 40px;
+  }
+  .not-found h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(80px, 14vw, 200px);
+    line-height: 0.9;
+    letter-spacing: -0.045em;
+    margin: 0 0 30px;
+  }
+  .not-found h1 em { font-style: italic; color: var(--amber); }
+  .not-found p {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.5;
+    color: var(--cream-mute);
+    margin: 0 auto 40px;
+    max-width: 44ch;
+  }
+  .not-found .cta-row {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    padding: 16px 26px;
+    border-radius: 100px;
+    transition: all .3s cubic-bezier(.22,.61,.36,1);
+    cursor: pointer;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: inherit;
+  }
+  .btn-primary { background: var(--amber); color: var(--stage); }
+  .btn-primary:hover { background: var(--cream); }
+  .btn-secondary { border-color: oklch(85% 0.02 78 / 0.4); color: var(--cream); }
+  .btn-secondary:hover { background: var(--cream); color: var(--stage); border-color: var(--cream); }
+</style>
+</head>
+<body>
+
+<div id="nav-slot"></div>
+
+<main class="not-found">
+  <div class="not-found-inner">
+    <span class="eye">404 · Not found</span>
+    <h1>This page<br/>wasn't <em>cast</em>.</h1>
+    <p>The page you're looking for isn't on the program. Head back to the homepage, or explore what we do.</p>
+    <div class="cta-row">
+      <a class="btn btn-primary" href="index.html">Back to home</a>
+      <a class="btn btn-secondary" href="enroll.html">Enroll today</a>
+    </div>
+  </div>
+</main>
+
+<div id="footer-slot"></div>
+
+<script>window.__page = '404';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>

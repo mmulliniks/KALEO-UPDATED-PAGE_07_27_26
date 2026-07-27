@@ -1,0 +1,499 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Songwriters — Middle & high school original music | Kaleo Arts</title>
+<meta name="description" content="Middle and high school students collaborate to write, produce, and perform original music, guided by a professional songwriting and production team."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kaleo-v3.css"/>
+<style>
+  /* Album strip */
+  .albums {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+  }
+  .album {
+    aspect-ratio: 1 / 1;
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    padding: 30px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: border-color .3s, background .3s;
+    overflow: hidden;
+  }
+  .album:hover { border-color: var(--amber); background: var(--stage-3); }
+  .album::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 30% 30%, oklch(75% 0.15 68 / 0.18), transparent 60%),
+      linear-gradient(135deg, var(--stage-2), var(--stage-3));
+    z-index: 0;
+    transition: opacity .3s;
+  }
+  .album:hover::before { opacity: 0.7; }
+  .album > * { position: relative; z-index: 1; }
+  .album .yr {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    color: var(--amber);
+    text-transform: uppercase;
+  }
+  .album .title {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(32px, 3.5vw, 52px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+  }
+  .album .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--cream-fade);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  @media (max-width: 960px) { .albums { grid-template-columns: 1fr; } }
+
+  /* Album with artwork — full-bleed cover, overlay caption, link out. */
+  a.album {
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+  .album.has-art { padding: 0; border-color: transparent; }
+  .album.has-art::before { display: none; }
+  .album.has-art .art {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    z-index: 0;
+    transition: transform .5s cubic-bezier(.22,.61,.36,1), filter .3s;
+    filter: saturate(1) brightness(1);
+  }
+  .album.has-art:hover .art { transform: scale(1.04); filter: saturate(1.05) brightness(1.05); }
+  .album.has-art .art-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(180deg, oklch(20% 0.02 260 / 0.55) 0%, oklch(20% 0.02 260 / 0.05) 32%, oklch(20% 0.02 260 / 0.05) 62%, oklch(15% 0.02 260 / 0.85) 100%);
+    transition: opacity .3s;
+  }
+  .album.has-art:hover .art-overlay { opacity: 0.88; }
+  .album.has-art .yr,
+  .album.has-art .title,
+  .album.has-art .sub { position: relative; z-index: 2; }
+  .album.has-art .top,
+  .album.has-art .bot {
+    position: absolute;
+    left: 30px;
+    right: 30px;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 14px;
+  }
+  .album.has-art .top { top: 30px; }
+  .album.has-art .bot { bottom: 30px; align-items: flex-end; }
+  .album.has-art .listen {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--cream);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: oklch(20% 0.02 260 / 0.5);
+    padding: 8px 12px;
+    border: 1px solid oklch(96% 0.015 82 / 0.35);
+    backdrop-filter: blur(6px);
+    transition: background .2s, border-color .2s, color .2s;
+  }
+  .album.has-art:hover .listen { background: var(--amber); border-color: var(--amber); color: var(--stage); }
+  .album.has-art .listen svg { width: 10px; height: 10px; }
+  .album.has-art .title {
+    font-size: clamp(24px, 2.6vw, 38px);
+    font-style: normal;
+    text-shadow: 0 2px 20px oklch(20% 0.02 260 / 0.5);
+  }
+  .album.has-art .sub { color: oklch(96% 0.015 82 / 0.75); margin-top: 0; }
+  .album.has-art .yr { background: oklch(20% 0.02 260 / 0.5); padding: 6px 10px; backdrop-filter: blur(6px); }
+</style>
+</style>
+</head>
+<body data-screen-label="Songwriters">
+<div id="nav-slot"></div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero">
+  <img class="hero-img" src="assets/img/songwriters-04.jpg" alt="A young songwriter sits at the piano in the Kaleo studio, mid-thought, working out a melody"/>
+  <div class="hero-content">
+    <div class="wrap-lg">
+      <div class="hero-top-meta">
+        <span class="l">Middle &amp; high school · Original music program</span>
+        <span class="r">A decade of student songs · streaming</span>
+      </div>
+    </div>
+    <div class="hero-center">
+      <div class="wrap-lg">
+        <h1 class="hero-title">
+          <span class="line"><span class="word" style="animation-delay:.2s">"My</span> <span class="word" style="animation-delay:.32s">kid</span></span>
+          <span class="line"><span class="word italic" style="animation-delay:.5s">wrote</span></span>
+          <span class="line"><span class="word" style="animation-delay:.68s">that."</span></span>
+        </h1>
+      </div>
+    </div>
+    <div class="wrap-lg">
+      <div class="hero-bottom">
+        <div class="hero-caption">
+          That's what you'll tell your friends after your child's first Songwriters session. Middle and high schoolers collaborate to write original music, guided by our professional production and songwriting team.
+          <strong>Middle &amp; high school</strong>
+        </div>
+        <div class="hero-cta-row">
+          <a class="btn btn-primary" href="#lead">Learn more
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </a>
+          <a class="btn btn-secondary" href="#work">How a session works</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-photo-caption">Songwriters · In the studio</div>
+</section>
+
+<!-- ==================== PULL QUOTE ==================== -->
+<section class="spread tight">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 02 · Who it's for</span>
+    <p class="pullq-text reveal r-d1" style="max-width: 24ch;">
+      <span class="pullq-mark" style="margin-bottom: 0; display: inline-block;">"</span>
+      No auditions to join. <em>All</em> middle and high schoolers are welcome.
+    </p>
+  </div>
+</section>
+
+<!-- ==================== HOW A SESSION WORKS ==================== -->
+<section id="work" class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 03 · The process</span>
+    <h2 class="section-h reveal r-d1">How a session <em>works</em>.</h2>
+
+    <div class="commits">
+      <div class="commit reveal">
+        <div class="no">Act I</div>
+        <h3>Write <em>together</em>.</h3>
+        <p>Your student collaborates with peers, guided by professional songwriters.</p>
+      </div>
+      <div class="commit reveal r-d1">
+        <div class="no">Act II</div>
+        <h3>Produce <em>it</em>.</h3>
+        <p>Original songs take shape with our music production team.</p>
+      </div>
+      <div class="commit reveal r-d2">
+        <div class="no">Act III</div>
+        <h3>Perform <em>live</em>.</h3>
+        <p>Finished songs performed live with a band of professional musicians.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== WHY IT MATTERS ==================== -->
+<section class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 04 · Why it matters</span>
+    <div class="approach reverse">
+      <div class="approach-img-wrap reveal">
+        <img class="approach-img" src="assets/img/songwriters-03.jpg" alt="A young songwriter smiles from behind the upright piano while a friend plays through an idea"/>
+        <span class="img-caption">Writing together</span>
+      </div>
+      <div class="approach-body">
+        <h2 class="approach-title reveal">
+          Why <em>it matters</em>.
+        </h2>
+        <p class="reveal r-d1">Over the past decade, the songs Kaleo Songwriters have written are a real testament to what young people are capable of when they're given the space, the support, and the tools to create.</p>
+        <p class="reveal r-d2 secondary">Watching this age group share their ideas, work through feedback together, and refine their craft in a safe and nurturing environment has produced some of the most meaningful breakthroughs in confidence and expression we've ever witnessed at Kaleo.</p>
+        <p class="reveal r-d3 secondary">Each year, some songs from our Songwriters classes are professionally recorded and released on streaming platforms for the world to hear.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ALBUMS ==================== -->
+<section class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 05 · Discography</span>
+    <h2 class="section-h reveal r-d1">Hear what students have <em>made</em>.</h2>
+    <p class="section-lede reveal r-d2">Original songs released over the years, written and performed by Kaleo students. Click any cover to listen.</p>
+
+    <div class="albums">
+      <a class="album has-art reveal" href="https://distrokid.com/hyperfollow/kaleosongwriters/my-kinda-way" target="_blank" rel="noopener" aria-label="Listen to My Kinda Way by Kaleo Songwriters">
+        <div class="art" style="background-image: url('assets/img/my-kinda-way.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Oct 2024</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">My Kinda Way</div>
+            <div class="sub">Kaleo Songwriters · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d1" href="https://distrokid.com/hyperfollow/kaleokids/second-for-you-feat-kaleo-songwriters" target="_blank" rel="noopener" aria-label="Listen to Second For You by Kaleo Kids feat. Kaleo Songwriters">
+        <div class="art" style="background-image: url('assets/img/second-for-you.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Jun 2024</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Second For You</div>
+            <div class="sub">Kaleo Kids · feat. Kaleo Songwriters</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d2" href="https://distrokid.com/hyperfollow/kaleosongwriters/seasons" target="_blank" rel="noopener" aria-label="Listen to Seasons by Kaleo Songwriters">
+        <div class="art" style="background-image: url('assets/img/seasons.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Apr 2024</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Seasons</div>
+            <div class="sub">Kaleo Songwriters · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal" href="https://distrokid.com/hyperfollow/kaleosongwriters/glad-where-im-at-feat-jadden-kaliq-lola--annaly" target="_blank" rel="noopener" aria-label="Listen to Glad Where I'm At by Kaleo Songwriters">
+        <div class="art" style="background-image: url('assets/img/glad-where-im-at.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Mar 2024</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Glad Where I'm At</div>
+            <div class="sub">Kaleo Songwriters · feat. Jadden, Kaliq, Lola &amp; AnnaLy</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d1" href="https://distrokid.com/hyperfollow/spark2/any-other-way" target="_blank" rel="noopener" aria-label="Listen to Any Other Way by Spark">
+        <div class="art" style="background-image: url('assets/img/any-other-way.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Aug 2022</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Any Other Way</div>
+            <div class="sub">Spark · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d2" href="https://distrokid.com/hyperfollow/spark2/beyond" target="_blank" rel="noopener" aria-label="Listen to Beyond by Spark">
+        <div class="art" style="background-image: url('assets/img/beyond.png');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Jul 2021</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Beyond</div>
+            <div class="sub">Spark · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal" href="https://distrokid.com/hyperfollow/spark2/miracle-worker-2" target="_blank" rel="noopener" aria-label="Listen to Miracle Worker by Spark">
+        <div class="art" style="background-image: url('assets/img/miracle-worker.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Jan 2021</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Miracle Worker</div>
+            <div class="sub">Spark · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d1" href="https://distrokid.com/hyperfollow/spark2/worth" target="_blank" rel="noopener" aria-label="Listen to Worth by Spark">
+        <div class="art" style="background-image: url('assets/img/worth.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Aug 2020</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Worth</div>
+            <div class="sub">Spark · Single</div>
+          </div>
+        </div>
+      </a>
+      <a class="album has-art reveal r-d2" href="https://distrokid.com/hyperfollow/spark2/courageous-heart" target="_blank" rel="noopener" aria-label="Listen to Courageous Heart by Spark">
+        <div class="art" style="background-image: url('assets/img/courageous-heart.jpg');"></div>
+        <div class="art-overlay"></div>
+        <div class="top">
+          <span class="yr">Mar 2020</span>
+          <span class="listen">Listen
+            <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+          </span>
+        </div>
+        <div class="bot">
+          <div>
+            <div class="title">Courageous Heart</div>
+            <div class="sub">Spark · Single</div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== ENROLL / PRICE ==================== -->
+<section class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 06 · Bring your songwriter</span>
+    <div class="price-panel reveal r-d1">
+      <div>
+        <div class="price-eye">Session pricing</div>
+        <div class="price-big" style="font-size: clamp(48px, 6vw, 88px);">Contact us</div>
+        <p class="price-note">Contact for current session pricing.</p>
+        <h3>Bring your <em>songwriter</em> to Kaleo.</h3>
+      </div>
+      <div>
+        <ul class="includes">
+          <li>Middle and high school students</li>
+          <li>No auditions to join. No songwriting experience required.</li>
+          <li>Guided by professional songwriters and producers</li>
+          <li>Live performance with a professional band</li>
+          <li>Chance for songs to be recorded and released</li>
+        </ul>
+        <a class="btn btn-primary" href="https://portal.iclasspro.com/kaleoarts/classes?programs=62" target="_blank" rel="noopener" style="width:100%; justify-content:center;">Register
+          <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="iclass-card reveal" style="margin-top: 40px;">
+      <div class="ic-eye">Registration · Powered by iClassPro</div>
+      <h3>Register for <em>Songwriters</em>.</h3>
+      <p>See live class schedules, availability, and register right through our iClassPro portal.</p>
+      <div class="iclass-cta">
+        <a class="iclass-btn" href="https://portal.iclasspro.com/kaleoarts/classes?programs=62" target="_blank" rel="noopener" aria-label="Open Class Schedules">
+          <img alt="Class Schedules" src="https://mktg.iclasspro.com/portal/ClassSchedules.png"/>
+        </a>
+        <a class="btn btn-secondary" href="https://portal.iclasspro.com/kaleoarts/classes?programs=62" target="_blank" rel="noopener">Open registration
+          <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="iclass-hint">Opens portal.iclasspro.com/kaleoarts in a new tab</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== LEAD FORM ==================== -->
+<section id="lead" class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 07 · Enroll</span>
+    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;" class="lead-grid">
+      <div class="reveal">
+        <h2 class="section-h" style="margin-bottom: 30px;">There's a spot for <em>everyone</em> at Kaleo Songwriters.</h2>
+        <p class="section-lede">Tell us your student's grade and we'll follow up with session dates and pricing.</p>
+      </div>
+      <div class="contact-card reveal r-d1">
+        <div class="cc-eye">Reach out, we're friendly</div>
+        <h3>Have a <em>question?</em></h3>
+        <p class="cc-lede">Call or text and we'll help you find the right fit — no forms, no pressure.</p>
+
+        <a class="cc-row" href="tel:+15865491504">
+          <div class="cc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          </div>
+          <div class="cc-body">
+            <div class="cc-label">Call or text</div>
+            <div class="cc-value">586-549-1504</div>
+          </div>
+          <div class="cc-arrow">↗</div>
+        </a>
+
+        <a class="cc-row" href="/cdn-cgi/l/email-protection#552c3a202733273c303b3126153e3439303a342721267b3a2732">
+          <div class="cc-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </div>
+          <div class="cc-body">
+            <div class="cc-label">Email</div>
+            <div class="cc-value"><span class="__cf_email__" data-cfemail="e29b8d979084908b878c8691a289838e878d83909691cc8d9085">[email&#160;protected]</span></div>
+          </div>
+          <div class="cc-arrow">↗</div>
+        </a>
+
+        <div class="cc-note">We reply within one business day · usually much sooner</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>@media (max-width: 960px) { .lead-grid { grid-template-columns: 1fr !important; gap: 40px !important; } }</style>
+
+<!-- ==================== FINAL ==================== -->
+<section class="final">
+  <img src="assets/img/songwriters-07.jpg" alt="A Kaleo Songwriters workshop in the round — one student plays guitar while the group listens" loading="lazy" data-parallax="0.05"/>
+  <div class="final-content">
+    <span class="rsvp-eye reveal">R &nbsp;·&nbsp; S &nbsp;·&nbsp; V &nbsp;·&nbsp; P</span>
+    <h2 class="reveal r-d1">You're<br/><em>invited.</em></h2>
+    <p class="reveal r-d2">Come see what an invitation feels like. No auditions to join. No obligation. Just a conversation and a look around.</p>
+    <div class="cta-row reveal r-d3">
+      <a class="btn btn-primary" href="enroll.html">Enroll today
+        <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>window.__page = 'songwriters';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>

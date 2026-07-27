@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>About — Kaleo Arts</title>
+<meta name="description" content="Twenty years of teaching in this community, one relationship at a time. Founder Renee Mulliniks on the belief that started Kaleo Arts."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/kaleo-v3.css"/>
+<style>
+  /* About-specific */
+  .story {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 60px;
+    align-items: start;
+  }
+  .story .side {
+    position: sticky;
+    top: 120px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--cream-fade);
+  }
+  .story .side strong { display: block; color: var(--amber); margin-bottom: 10px; }
+  .story .body p {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(20px, 1.6vw, 24px);
+    line-height: 1.5;
+    color: var(--cream);
+    margin-bottom: 28px;
+    max-width: 44ch;
+  }
+  .story .body p:first-child::first-letter {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 5em;
+    float: left;
+    line-height: 0.85;
+    padding: 8px 16px 0 0;
+    color: var(--amber);
+  }
+  .story .signature {
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--cream-mute);
+    text-transform: uppercase;
+  }
+  @media (max-width: 960px) {
+    .story { grid-template-columns: 1fr; gap: 40px; }
+    .story .side { position: static; }
+  }
+  /* Nonprofit callout */
+  .nonprofit-card {
+    padding: 50px;
+    border: 1px solid var(--amber);
+    background: linear-gradient(180deg, oklch(75% 0.15 68 / 0.06), oklch(75% 0.15 68 / 0.01));
+    margin-top: 60px;
+  }
+  .nonprofit-card .ic-eye {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    color: var(--amber);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .nonprofit-card p {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.5;
+    color: var(--cream);
+    margin-bottom: 30px;
+    max-width: 56ch;
+  }
+</style>
+</head>
+<body data-screen-label="About">
+<div id="nav-slot"></div>
+
+<!-- ==================== HERO — typographic ==================== -->
+<section class="hero hero-typo">
+  <span class="spot a"></span>
+  <span class="spot b"></span>
+  <div class="hero-content wrap-lg">
+    <div class="hero-top-meta">
+      <span class="l">§ Prologue · Who we are</span>
+      <span class="r">Est. 2005 · Twenty years</span>
+    </div>
+    <div class="hero-center">
+      <div style="width:100%;">
+        <h1 class="hero-title">
+          <span class="line"><span class="word" style="animation-delay:.15s">Twenty</span> <span class="word" style="animation-delay:.28s">years</span></span>
+          <span class="line"><span class="word" style="animation-delay:.42s">of</span> <span class="word" style="animation-delay:.55s">teaching</span></span>
+          <span class="line"><span class="word" style="animation-delay:.7s">in</span> <span class="word" style="animation-delay:.82s">this</span> <span class="word" style="animation-delay:.94s">community,</span></span>
+          <span class="line"><span class="word italic" style="animation-delay:1.08s">one relationship</span></span>
+          <span class="line"><span class="word" style="animation-delay:1.22s">at</span> <span class="word" style="animation-delay:1.32s">a</span> <span class="word" style="animation-delay:1.42s">time.</span></span>
+        </h1>
+        <p class="hero-lede">Hi, I'm Renee Mulliniks, and welcome to Kaleo Arts.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PORTRAIT + INTRO ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <span class="plate-label reveal">Plate 01 · The founder</span>
+    <div class="pullq">
+      <div class="pullq-img-wrap reveal">
+        <picture>
+          <source srcset="assets/img/renee.webp" type="image/webp"/>
+          <img class="pullq-img" src="assets/img/renee.jpg" alt="Renee Mulliniks, founder of Kaleo Arts" style="object-position: center 20%;"/>
+        </picture>
+        <span class="pullq-caption">Renee</span>
+      </div>
+      <div class="pullq-body">
+        <div class="pullq-mark reveal">"</div>
+        <p class="pullq-text reveal r-d1">
+          Every child deserves a place to <em>build confidence</em> and discover their own creativity.
+        </p>
+        <cite class="pullq-cite reveal r-d2">Renee Mulliniks · Founder</cite>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== STORY — long-form editorial ==================== -->
+<section class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 02 · Our story</span>
+    <h2 class="section-h reveal r-d1">Our <em>story</em>.</h2>
+    <div class="story reveal r-d2">
+      <div class="side">
+        <strong>§ 02 · Origins</strong>
+        A letter from<br/>the founder
+      </div>
+      <div class="body">
+        <p>Twenty years ago, we started Kaleo with a simple belief — that every child deserves a place to build confidence and discover their own creativity. The word Kaleo is a Greek word that means "to invite." And that's exactly what we're doing: we're inviting you and your family in.</p>
+        <p>You might be wondering — are we a dance studio? A theater program? A place for music lessons? The answer is… yes. But we're something more than all of that. Kaleo is a place where the performing arts are a vehicle for something bigger — helping kids find their voice, grow in confidence, and learn to express themselves in ways that stay with them long after they leave our stage.</p>
+        <p>We do that through a multidisciplinary approach, developing kids in singing, dancing, and acting all at once. No auditions to join. No competitions. No costume fees. Kaleo is a creative home for your whole family.</p>
+        <p>A huge part of what makes this place special is our teaching staff. Many have had successful professional careers as performers, musicians, and artists in their own right — and they bring that experience into every class. But what truly sets them apart is that they genuinely love the kids they teach. They know each child by name.</p>
+        <div class="signature">— Renee Mulliniks · Founder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== HEART / VALUES ==================== -->
+<section class="spread">
+  <div class="wrap-lg">
+    <div class="heart-banner reveal">
+      <img src="assets/img/kaleo-15.jpg" alt="Students dance across the stage with rainbow-colored ribbons trailing behind them" loading="lazy" data-parallax="0.08"/>
+      <span class="caption">Ensemble</span>
+      <p class="quote">Three commitments that shape every class, every rehearsal, every performance we put on.</p>
+    </div>
+    <div class="wrap" style="padding: 0;">
+      <span class="plate-label reveal">Plate 03a · Our heart</span>
+      <h2 class="section-h reveal r-d1">The three commitments that shape <em>everything</em>.</h2>
+      <div class="values">
+        <div class="value reveal">
+          <h3>Empathy.</h3>
+          <p>We help kids see the joy in collaboration, teamwork, and learning to work together to create meaningful artistic moments.</p>
+        </div>
+        <div class="value reveal r-d1">
+          <h3>Excellence.</h3>
+          <p>We set the bar higher to challenge artistic abilities and encourage kids to take risks to reach their full potential.</p>
+        </div>
+        <div class="value reveal r-d2">
+          <h3>Community.</h3>
+          <p>Kaleo means "to invite" — inviting kids to try new things, inviting communities together, inviting talent toward purpose.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== NONPROFIT PARTNERSHIP ==================== -->
+<section class="spread" style="border-top: 1px solid var(--rule);">
+  <div class="wrap">
+    <span class="plate-label reveal">Plate 04 · Nonprofit partnership with Abide Ministries</span>
+    <h2 class="section-h reveal r-d1">Making sure <em>all are invited</em>.</h2>
+
+    <div class="story reveal r-d2" style="margin-bottom: 60px;">
+      <div class="side">
+        <strong>§ 04 · Community</strong>
+        Abide Ministries<br/>partnership
+      </div>
+      <div class="body">
+        <p>We've always believed the performing arts should be available to every child, not just the ones who can afford it. Through our fiscal sponsorship with Abide Ministries, we operate a portion of Kaleo as a nonprofit — making sure all are truly invited, regardless of location or financial situation.</p>
+        <p>Through the support of organizations like Kensington Church and the generosity of our donors, we've partnered with school districts including Mt. Clemens, Utica, and Pontiac Public Schools, where we currently serve over 1,000 kids per week through daytime programming — the same quality, the same energy, and the same heart that drives everything we do.</p>
+      </div>
+    </div>
+
+    <div class="stats reveal" style="grid-template-columns: repeat(2, 1fr); margin-bottom: 60px;">
+      <div class="stat">
+        <div class="n">1,000+</div>
+        <div class="lbl">Kids served weekly through school partnerships</div>
+      </div>
+      <div class="stat">
+        <div class="n">20</div>
+        <div class="lbl">Years in the community</div>
+      </div>
+    </div>
+
+    <div class="nonprofit-card reveal">
+      <div class="ic-eye">✦ Support Kaleo's community programs</div>
+      <p>All donations to Kaleo's community programs are tax-deductible through our partnership with Abide Ministries. Whether it's a one-time gift or an ongoing partnership, your generosity helps us reach more kids and keep the invitation open to everyone.</p>
+      <a class="btn btn-primary" href="https://abide.community/branches/kaleo-arts/" target="_blank" rel="noopener">Support our community programs
+        <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FINAL ==================== -->
+<section class="final">
+  <img src="assets/img/kaleo-33.jpg" alt="A single performer stands framed by spotlight beams pouring down on a smoke-filled stage" loading="lazy" data-parallax="0.05"/>
+  <div class="final-content">
+    <span class="rsvp-eye reveal">R &nbsp;·&nbsp; S &nbsp;·&nbsp; V &nbsp;·&nbsp; P</span>
+    <h2 class="reveal r-d1">You're<br/><em>invited.</em></h2>
+    <p class="reveal r-d2">Come see what an invitation feels like. No auditions to join. No obligation. Just a conversation and a look around.</p>
+    <div class="cta-row reveal r-d3">
+      <a class="btn btn-primary" href="enroll.html">Enroll today
+        <svg viewBox="0 0 16 12" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 6h12m-4-4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div id="footer-slot"></div>
+
+<script>window.__page = 'about';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>
