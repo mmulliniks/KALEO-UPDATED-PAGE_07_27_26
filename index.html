@@ -97,8 +97,27 @@
     color: var(--cream-mute);
     align-items: center;
   }
-  .nav-links a { transition: color .2s; }
+  .nav-links a { transition: color .2s; position: relative; }
   .nav-links a:hover { color: var(--amber); }
+  .nav-links a.current { color: var(--cream); }
+  /* Underline: grows L→R on enter, exits L→R on leave
+     (origin flips from right → left on hover). Skip the Enroll CTA. */
+  .nav-links a:not(.nav-cta)::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -6px;
+    height: 1px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform .35s cubic-bezier(.22,.61,.36,1);
+    pointer-events: none;
+  }
+  .nav-links a:not(.nav-cta):hover::after,
+  .nav-links a.current:not(.nav-cta)::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
   .nav-cta {
     padding: 10px 18px;
     background: var(--amber);
@@ -110,6 +129,7 @@
     transition: all .2s;
   }
   .nav-cta:hover { background: var(--cream); }
+  .nav-cta.current::after { display: none; }
 
   /* ---------- Mobile hamburger + drawer ---------- */
   .nav-burger {
@@ -253,6 +273,17 @@
     justify-content: space-between;
     padding: 130px 0 60px;
   }
+  /* .wrap-lg uses margin: 0 auto. As a flex child that collapses to
+     content width and centers — invite caption / CTAs drift off the
+     headline rail, and buttons miss .hero-photo-caption's right edge.
+     Force full width on every wrap in the hero stack (including the
+     one nested in .hero-center). */
+  .hero-content > .wrap-lg,
+  .hero-content > .hero-center,
+  .hero-center > .wrap-lg {
+    width: 100%;
+    align-self: stretch;
+  }
   /* Soft top-left scrim so the headline reads cleanly against the stage,
      without the middle of the photo (where the performers' faces sit)
      picking up any wash. */
@@ -295,7 +326,8 @@
        and pin it hard-left of the wrap so it never crosses center stage. */
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 0;
+    /* Small gap under the eyebrow so the H1 doesn't crowd it. */
+    padding: 28px 0 0;
   }
   .hero-title {
     font-family: 'DM Serif Display', serif;
@@ -306,8 +338,8 @@
     letter-spacing: -0.045em;
     color: var(--cream);
     text-align: left;
-    /* Narrow measure keeps the block in the left column, off the faces. */
-    max-width: 11ch;
+    /* Left-column measure — wide enough to breathe, still clear of faces. */
+    max-width: 16ch;
   }
   .hero-title .line {
     display: block;
@@ -632,15 +664,14 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    border-top: 1px solid var(--rule);
+    border: 1px solid var(--rule);
   }
   .commit {
-    padding: 50px 32px 50px 0;
+    padding: 50px 32px;
     border-right: 1px solid var(--rule);
     position: relative;
   }
-  .commit:last-child { border-right: 0; padding-right: 0; }
-  .commit + .commit { padding-left: 32px; }
+  .commit:last-child { border-right: 0; }
   .commit .no {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -802,8 +833,12 @@
     align-items: center;
     padding: 40px 0;
     border-top: 1px solid var(--rule);
-    transition: all .4s cubic-bezier(.22,.61,.36,1);
+    transition: border-top-color .35s cubic-bezier(.22,.61,.36,1);
     position: relative;
+    /* Keep the amber hover wash inside this row — without isolation,
+       ::before can paint behind the page stage and flicker out after
+       .reveal settles. */
+    isolation: isolate;
     color: var(--cream);
   }
   .program-row:last-of-type { border-bottom: 1px solid var(--rule); }
@@ -811,11 +846,18 @@
     content: "";
     position: absolute;
     left: -40px; right: -40px; top: 0; bottom: 0;
-    background: linear-gradient(90deg, oklch(75% 0.15 68 / 0.12), oklch(75% 0.15 68 / 0));
+    background: linear-gradient(
+      90deg,
+      oklch(75% 0.15 68 / 0.28) 0%,
+      oklch(78% 0.14 72 / 0.14) 42%,
+      oklch(75% 0.15 68 / 0) 100%
+    );
     opacity: 0;
-    transition: opacity .3s;
-    z-index: -1;
+    transition: opacity .35s ease;
+    z-index: 0;
+    pointer-events: none;
   }
+  .program-row > * { position: relative; z-index: 1; }
   .program-row:hover::before { opacity: 1; }
   .program-row:hover .p-name em { color: var(--amber); }
   .program-row:hover .p-arrow { transform: translate(6px, -6px); color: var(--amber); }
@@ -1349,7 +1391,8 @@
     .hero-cta-row { justify-content: flex-start; }
     .hero-photo-caption { right: 20px; }
     .commits, .voices, .footer-top, .values { grid-template-columns: 1fr; gap: 30px; }
-    .commit { border-right: 0; border-bottom: 1px solid var(--rule); padding: 40px 0 !important; }
+    .commit { border-right: 0; border-bottom: 1px solid var(--rule); padding: 40px 24px !important; }
+    .commit:last-child { border-bottom: 0; }
     .approach, .pullq, .loc { grid-template-columns: 1fr; gap: 40px; }
     .approach-img-wrap, .pullq-img-wrap { aspect-ratio: 4 / 3; }
     .program-row { grid-template-columns: 40px 1fr 40px; gap: 12px; padding: 24px 0; }
@@ -1426,7 +1469,7 @@
       </div>
     </div>
     <div class="hero-center">
-      <div class="wrap-lg" style="width: 100%;">
+      <div class="wrap-lg">
         <h1 class="hero-title">
           <span class="line"><span class="word" style="animation-delay:.2s">Where</span> <span class="word italic" style="animation-delay:.35s">creativity</span></span>
           <span class="line"><span class="word" style="animation-delay:.5s">shines,</span> <span class="word amp" style="animation-delay:.65s">&amp;</span></span>
@@ -1459,7 +1502,7 @@
     <div class="video-head">
       <div class="l">
         <span class="plate-label reveal">Plate 01a · Welcome</span>
-        <h2 class="reveal r-d1" style="font-size: 76px">We're <em>glad you're here!</em></h2>
+        <h2 class="reveal r-d1">We're <em>glad you're here!</em></h2>
       </div>
       <p class="r reveal r-d2">Press play on our welcome video to discover who we are, what we do, and why parents keep coming back.</p>
     </div>
@@ -1634,11 +1677,11 @@
     <div class="heart-banner reveal">
       <img src="assets/img/kk-new-10.jpg" alt="A wide low-angle stage shot with the full ensemble arms raised, a dancer in luminous wings at center under the lighting rig" loading="lazy" data-parallax="0.08"/>
       <span class="caption">Ensemble</span>
-      <p class="quote">Three commitments that shape every class, every rehearsal, every performance we put on.</p>
+      <p class="quote">Three values behind every class, every rehearsal, every performance.</p>
     </div>
     <div class="wrap" style="padding: 0;">
       <span class="plate-label reveal">Plate 06a · Our heart</span>
-      <h2 class="section-h reveal r-d1">The three commitments that shape <em>everything</em>.</h2>
+      <h2 class="section-h reveal r-d1">The three values that shape <em>everything</em>.</h2>
       <div class="values">
         <div class="value reveal">
           <h3>Empathy.</h3>
@@ -1650,7 +1693,7 @@
         </div>
         <div class="value reveal r-d2">
           <h3>Community.</h3>
-          <p>Kaleo means "to invite" — inviting kids to try new things, inviting communities together, inviting talent toward purpose.</p>
+          <p>We invite kids to try new things, invite communities together, and invite talent toward purpose.</p>
         </div>
       </div>
     </div>
@@ -1666,7 +1709,7 @@
       <div class="voice reveal">
         <img src="assets/img/kaleo-25.jpg" alt="A young performer laughs mid-dance holding a handmade paper mask aloft" loading="lazy"/>
         <div class="num">Voice 01</div>
-        <blockquote>"My daughter found her voice here — literally and figuratively. No pressure, just growth."</blockquote>
+        <blockquote>"Watching him perform on a real stage — we had no idea our son could do that!"</blockquote>
         <cite>— Kaleo Kids parent</cite>
       </div>
       <div class="voice reveal r-d1">
@@ -1699,7 +1742,7 @@
       </div>
       <div class="loc-body">
         <h2 class="reveal r-d1">Come <em>see</em><br/>the space.</h2>
-        <p class="reveal r-d2">We just opened our doors at a brand new studio in Oakland Township. Stop by, meet the team, watch a class in session — no appointment needed, but tours are welcome too.</p>
+        <p class="reveal r-d2">We're opening our doors at a brand new studio in Oakland Township this fall. Stop by, meet the team, watch a class in session — no appointment needed, but tours are welcome too.</p>
         <div class="loc-details reveal r-d3">
           <div><span>Address</span><span>4906 N. Adams Rd.</span></div>
           <div><span>City</span><span>Oakland Township, MI 48306</span></div>
