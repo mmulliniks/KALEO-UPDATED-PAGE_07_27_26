@@ -96,9 +96,23 @@ input, select, textarea { font: inherit; color: inherit; }
 .nav-links a { transition: color .2s; position: relative; }
 .nav-links a:hover { color: var(--amber); }
 .nav-links a.current { color: var(--cream); }
-.nav-links a.current::after {
-  content: ""; position: absolute; left: 0; right: 0; bottom: -6px;
-  height: 1px; background: var(--amber);
+/* Underline: grows L→R on enter, exits L→R on leave
+   (origin flips from right → left on hover). Skip the Enroll CTA. */
+.nav-links a:not(.nav-cta)::after {
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -6px;
+  height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .35s cubic-bezier(.22,.61,.36,1);
+  pointer-events: none;
+}
+.nav-links a:not(.nav-cta):hover::after,
+.nav-links a.current:not(.nav-cta)::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 .nav-cta {
   padding: 10px 18px;
@@ -257,6 +271,18 @@ input, select, textarea { font: inherit; color: inherit; }
   justify-content: space-between;
   padding: 130px 0 60px;
 }
+/* .wrap-lg uses margin: 0 auto. As a flex child that collapses to
+   content width and centers — so the invite caption / CTAs drift off
+   the headline's left rail, and buttons no longer share a right edge
+   with .hero-photo-caption (absolute right: 40px). Force full width
+   on every wrap in the hero stack (including the one nested in
+   .hero-center). */
+.hero-content > .wrap-lg,
+.hero-content > .hero-center,
+.hero-center > .wrap-lg {
+  width: 100%;
+  align-self: stretch;
+}
 .hero-top-meta {
   display: flex; justify-content: space-between; align-items: center;
   font-family: 'JetBrains Mono', monospace;
@@ -289,7 +315,7 @@ input, select, textarea { font: inherit; color: inherit; }
   line-height: 0.9;
   letter-spacing: -0.045em;
   color: var(--cream);
-  max-width: 15ch;
+  max-width: 18ch;
 }
 .hero-title .line {
   display: block;
@@ -684,15 +710,14 @@ section.spread.tight { padding: 100px 0; }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  border-top: 1px solid var(--rule);
+  border: 1px solid var(--rule);
 }
 .commit {
-  padding: 50px 32px 50px 0;
+  padding: 50px 32px;
   border-right: 1px solid var(--rule);
   position: relative;
 }
-.commit:last-child { border-right: 0; padding-right: 0; }
-.commit + .commit { padding-left: 32px; }
+.commit:last-child { border-right: 0; }
 .commit .no {
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -980,8 +1005,12 @@ section.spread.tight { padding: 100px 0; }
   align-items: center;
   padding: 40px 0;
   border-top: 1px solid var(--rule);
-  transition: all .4s cubic-bezier(.22,.61,.36,1);
+  transition: border-top-color .35s cubic-bezier(.22,.61,.36,1);
   position: relative;
+  /* Keep the amber hover wash inside this row — without isolation,
+     ::before at z-index below content can paint behind the page stage
+     and the gradient flickers out after .reveal settles. */
+  isolation: isolate;
   color: var(--cream);
 }
 .program-row:last-of-type { border-bottom: 1px solid var(--rule); }
@@ -989,11 +1018,18 @@ section.spread.tight { padding: 100px 0; }
   content: "";
   position: absolute;
   left: -40px; right: -40px; top: 0; bottom: 0;
-  background: linear-gradient(90deg, oklch(75% 0.15 68 / 0.12), oklch(75% 0.15 68 / 0));
+  background: linear-gradient(
+    90deg,
+    oklch(75% 0.15 68 / 0.28) 0%,
+    oklch(78% 0.14 72 / 0.14) 42%,
+    oklch(75% 0.15 68 / 0) 100%
+  );
   opacity: 0;
-  transition: opacity .3s;
-  z-index: -1;
+  transition: opacity .35s ease;
+  z-index: 0;
+  pointer-events: none;
 }
+.program-row > * { position: relative; z-index: 1; }
 .program-row:hover::before { opacity: 1; }
 .program-row:hover .p-name em { color: var(--amber); }
 .program-row:hover .p-arrow { transform: translate(6px, -6px); color: var(--amber); }
@@ -1801,8 +1837,10 @@ footer {
   .commit, .stat {
     border-right: 0;
     border-bottom: 1px solid var(--rule);
-    padding: 40px 0 !important;
+    padding: 40px 24px !important;
   }
+  .commit:last-child,
+  .stat:last-child { border-bottom: 0; }
   .approach, .pullq, .loc, .price-panel {
     grid-template-columns: 1fr;
     gap: 40px;
