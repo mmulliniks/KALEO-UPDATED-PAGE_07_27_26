@@ -8,17 +8,17 @@
   const navHTML = `
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a class="nav-logo" href="index.html"><img class="nav-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></a>
+      <a class="nav-logo" href="/"><img class="nav-logo-mark" src="/assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></a>
       <div class="nav-links">
-        <a href="kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
-        <a href="kazoo.html"${cur('kazoo')}>Kazoo</a>
-        <a href="songwriters.html"${cur('songwriters')}>Songwriters</a>
-        <a href="classes.html"${cur('classes')}>Classes</a>
-        <a href="private-lessons.html"${cur('private')}>Lessons</a>
-        <a href="spark-camp.html"${cur('spark-camp')}>Camp</a>
-        <a href="about.html"${cur('about')}>About</a>
-        <a href="faq.html"${cur('faq')}>FAQ</a>
-        <a class="nav-cta" href="enroll.html">Enroll</a>
+        <a href="/kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
+        <a href="/kazoo.html"${cur('kazoo')}>Kazoo</a>
+        <a href="/songwriters.html"${cur('songwriters')}>Songwriters</a>
+        <a href="/classes.html"${cur('classes')}>Classes</a>
+        <a href="/private-lessons.html"${cur('private')}>Lessons</a>
+        <a href="/spark-camp.html"${cur('spark-camp')}>Camp</a>
+        <a href="/about.html"${cur('about')}>About</a>
+        <a href="/faq.html"${cur('faq')}>FAQ</a>
+        <a class="nav-cta" href="/enroll.html">Enroll</a>
       </div>
     </div>
   </nav>
@@ -34,16 +34,16 @@
   <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
     <div class="mobile-menu-inner">
       <div class="mobile-menu-eye">Programs</div>
-      <a href="kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
-      <a href="kazoo.html"${cur('kazoo')}>Kazoo</a>
-      <a href="songwriters.html"${cur('songwriters')}>Songwriters</a>
-      <a href="classes.html"${cur('classes')}>Classes</a>
-      <a href="private-lessons.html"${cur('private')}>Private Lessons</a>
-      <a href="spark-camp.html"${cur('spark-camp')}>Summer Camp</a>
+      <a href="/kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
+      <a href="/kazoo.html"${cur('kazoo')}>Kazoo</a>
+      <a href="/songwriters.html"${cur('songwriters')}>Songwriters</a>
+      <a href="/classes.html"${cur('classes')}>Classes</a>
+      <a href="/private-lessons.html"${cur('private')}>Private Lessons</a>
+      <a href="/spark-camp.html"${cur('spark-camp')}>Summer Camp</a>
       <div class="mobile-menu-eye">More</div>
-      <a href="about.html"${cur('about')}>About</a>
-      <a href="faq.html"${cur('faq')}>FAQ</a>
-      <a class="mobile-menu-cta" href="enroll.html">Enroll \u2192</a>
+      <a href="/about.html"${cur('about')}>About</a>
+      <a href="/faq.html"${cur('faq')}>FAQ</a>
+      <a class="mobile-menu-cta" href="/enroll.html">Enroll \u2192</a>
     </div>
   </div>`;
 
@@ -53,23 +53,23 @@
     <div class="wrap-lg">
       <div class="footer-top">
         <div>
-          <a class="footer-brand" href="index.html" aria-label="Back to Kaleo Arts homepage" style="text-decoration: none; color: inherit;"><img class="footer-brand-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></a>
+          <a class="footer-brand" href="/" aria-label="Back to Kaleo Arts homepage" style="text-decoration: none; color: inherit;"><img class="footer-brand-mark" src="/assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></a>
           <p class="footer-tag">Where creativity shines, &amp; everyone belongs. Oakland Township, MI · Est. 2005.</p>
         </div>
         <div class="footer-col">
           <h4>Programs</h4>
-          <a href="kaleo-kids.html">Kaleo Kids</a>
-          <a href="kazoo.html">Kazoo</a>
-          <a href="songwriters.html">Songwriters</a>
-          <a href="classes.html">Classes</a>
-          <a href="private-lessons.html">Private Lessons</a>
-          <a href="spark-camp.html">Summer Camp</a>
+          <a href="/kaleo-kids.html">Kaleo Kids</a>
+          <a href="/kazoo.html">Kazoo</a>
+          <a href="/songwriters.html">Songwriters</a>
+          <a href="/classes.html">Classes</a>
+          <a href="/private-lessons.html">Private Lessons</a>
+          <a href="/spark-camp.html">Summer Camp</a>
         </div>
         <div class="footer-col">
           <h4>More</h4>
-          <a href="about.html">About</a>
-          <a href="faq.html">FAQ</a>
-          <a href="enroll.html">Enroll</a>
+          <a href="/about.html">About</a>
+          <a href="/faq.html">FAQ</a>
+          <a href="/enroll.html">Enroll</a>
           <a href="https://abide.community/branches/kaleo-arts/" target="_blank" rel="noopener">Donate</a>
         </div>
         <div class="footer-col footer-contact">
