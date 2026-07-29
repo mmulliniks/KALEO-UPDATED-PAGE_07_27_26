@@ -21,7 +21,31 @@
         <a class="nav-cta" href="enroll.html">Enroll</a>
       </div>
     </div>
-  </nav>`;
+  </nav>
+  <!-- Burger + drawer are SIBLINGS of <nav>, not children. .nav uses
+       backdrop-filter, which promotes it to a containing block for
+       fixed-positioned descendants — if either lived inside .nav,
+       "position: fixed" would clamp to the nav's 80px height instead of
+       floating over the viewport. The burger stays visually pinned to
+       the top-right of the header via its own fixed positioning. -->
+  <button class="nav-burger" id="nav-burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+    <div class="mobile-menu-inner">
+      <div class="mobile-menu-eye">Programs</div>
+      <a href="kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
+      <a href="kazoo.html"${cur('kazoo')}>Kazoo</a>
+      <a href="songwriters.html"${cur('songwriters')}>Songwriters</a>
+      <a href="classes.html"${cur('classes')}>Classes</a>
+      <a href="private-lessons.html"${cur('private')}>Private Lessons</a>
+      <a href="spark-camp.html"${cur('spark-camp')}>Summer Camp</a>
+      <div class="mobile-menu-eye">More</div>
+      <a href="about.html"${cur('about')}>About</a>
+      <a href="faq.html"${cur('faq')}>FAQ</a>
+      <a class="mobile-menu-cta" href="enroll.html">Enroll \u2192</a>
+    </div>
+  </div>`;
 
   // ---------- FOOTER ----------
   const footerHTML = `
@@ -29,8 +53,8 @@
     <div class="wrap-lg">
       <div class="footer-top">
         <div>
-          <div class="footer-brand"><img class="footer-brand-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></div>
-          <p class="footer-tag">Where art, joy &amp; community collide. Oakland Township, MI · Est. 2005.</p>
+          <a class="footer-brand" href="index.html" aria-label="Back to Kaleo Arts homepage" style="text-decoration: none; color: inherit;"><img class="footer-brand-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></a>
+          <p class="footer-tag">Where creativity shines, &amp; everyone belongs. Oakland Township, MI · Est. 2005.</p>
         </div>
         <div class="footer-col">
           <h4>Programs</h4>
@@ -51,7 +75,7 @@
         <div class="footer-col footer-contact">
           <h4>Visit &amp; Contact</h4>
           <a href="https://maps.google.com/?q=4906+N.+Adams+Rd.,+Oakland+Township,+MI+48306" target="_blank" rel="noopener">4906 N. Adams Rd.<br/>Oakland Township, MI 48306</a>
-          <a href="tel:+15865491504">586-549-1504</a>
+          <a href="tel:+12489551192">248-955-1192</a>
           <a href="mailto:yourfriends@kaleoarts.org">yourfriends@kaleoarts.org</a>
           <div class="footer-follow">
             <a href="https://www.instagram.com/kaleo.arts" target="_blank" rel="noopener" aria-label="Instagram">
@@ -97,6 +121,30 @@
       window.addEventListener('scroll', () => {
         nav.classList.toggle('compact', window.scrollY > 60);
       }, { passive: true });
+    }
+
+    // Mobile menu toggle
+    const burger = document.getElementById('nav-burger');
+    const mobileMenu = document.getElementById('mobile-menu');
+    if (burger && mobileMenu) {
+      const setOpen = (open) => {
+        burger.classList.toggle('open', open);
+        mobileMenu.classList.toggle('open', open);
+        burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+        mobileMenu.setAttribute('aria-hidden', open ? 'false' : 'true');
+        document.body.style.overflow = open ? 'hidden' : '';
+      };
+      burger.addEventListener('click', () => {
+        setOpen(!mobileMenu.classList.contains('open'));
+      });
+      // Close on link tap
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => setOpen(false));
+      });
+      // Close on Esc
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mobileMenu.classList.contains('open')) setOpen(false);
+      });
     }
 
     // Video posters: pull the real thumbnail from Vimeo's oEmbed endpoint

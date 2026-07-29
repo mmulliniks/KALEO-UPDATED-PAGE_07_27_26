@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Kaleo Arts — Where art, joy & community collide.</title>
+<title>Kaleo Arts — Where creativity shines, & everyone belongs.</title>
 <meta name="description" content="A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults."/>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -110,6 +110,98 @@
     transition: all .2s;
   }
   .nav-cta:hover { background: var(--cream); }
+
+  /* ---------- Mobile hamburger + drawer ---------- */
+  .nav-burger {
+    display: none; /* hidden on desktop; shown below 960px via media query */
+    background: transparent;
+    border: 0;
+    padding: 12px;
+    cursor: pointer;
+    width: 48px;
+    height: 48px;
+    /* Fixed so it can sit above the drawer (z:70) while the drawer covers
+       the full viewport. Positioned to align with the nav bar's right
+       padding — 20px on mobile (see .nav-inner mobile override). */
+    position: fixed;
+    top: 16px;
+    right: 12px;
+    z-index: 80;
+  }
+  .nav-burger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--cream);
+    margin: 5px auto;
+    transition: transform .3s, opacity .2s;
+  }
+  .nav-burger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .nav-burger.open span:nth-child(2) { opacity: 0; }
+  .nav-burger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+  .mobile-menu {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Above .nav (z:50) so the drawer covers the nav bar too. The burger
+       button itself is z:80 so it stays tappable to close the drawer. */
+    z-index: 70;
+    background: oklch(11% 0.018 260 / 0.97);
+    backdrop-filter: blur(24px) saturate(1.2);
+    -webkit-backdrop-filter: blur(24px) saturate(1.2);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+    overflow-y: auto;
+    padding: 100px 32px 60px;
+  }
+  .mobile-menu.open { opacity: 1; pointer-events: auto; }
+  .mobile-menu-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+  .mobile-menu-eye {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin: 24px 0 8px;
+  }
+  .mobile-menu-inner > .mobile-menu-eye:first-child { margin-top: 0; }
+  .mobile-menu a {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    line-height: 1.2;
+    color: var(--cream);
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    min-height: 52px;
+    display: flex;
+    align-items: center;
+    transition: color .2s;
+  }
+  .mobile-menu a:hover,
+  .mobile-menu a.current { color: var(--amber); }
+  .mobile-menu a.current::before {
+    content: "\203A\00a0";
+    color: var(--amber);
+  }
+  .mobile-menu-cta {
+    margin-top: 28px;
+    background: var(--amber);
+    color: var(--stage) !important;
+    padding: 18px 24px !important;
+    border-radius: 100px;
+    justify-content: center;
+    font-size: 18px !important;
+    border-bottom: 0 !important;
+    font-family: 'Space Grotesk', sans-serif !important;
+    letter-spacing: 0.02em;
+  }
+  .mobile-menu-cta:hover { color: var(--stage) !important; background: var(--cream); }
 
   /* ==================== HERO — FULL-BLEED CINEMATIC ==================== */
   .hero {
@@ -1241,8 +1333,17 @@
 
   /* ==================== RESPONSIVE ==================== */
   @media (max-width: 960px) {
-    .wrap, .wrap-lg, .nav-inner { padding: 0 20px; }
+    .wrap, .wrap-lg { padding: 0 20px; }
+    /* Burger is fixed at right:12px, ~48px wide → occupies the right
+       ~60px of the viewport. Give .nav-inner extra right padding so
+       the inline Enroll CTA clears the burger instead of colliding. */
+    .nav-inner { padding: 0 68px 0 20px; }
+    /* Hide inline nav links entirely on mobile; the hamburger + drawer
+       takes over. Keep .nav-cta ("Enroll") visible next to the burger
+       so the primary action is always one tap away. */
     .nav-links a:not(.nav-cta) { display: none; }
+    .nav-links { gap: 12px; }
+    .nav-burger { display: block; }
     .hero-content { padding: 100px 0 40px; }
     .hero-bottom { grid-template-columns: 1fr; gap: 30px; }
     .hero-cta-row { justify-content: flex-start; }
@@ -1259,6 +1360,52 @@
     .section-h { margin-bottom: 40px; }
     .voice { aspect-ratio: 4 / 5; }
     .footer-fine { flex-direction: column; gap: 12px; }
+  }
+
+  /* ==================== MOBILE-ONLY OPTIMIZATION (<=720px) ================
+     Phone-only pass — desktop and tablet views are untouched. Hides
+     decorative small text and tightens layout for 360–720px screens.
+     Mirrors the same block in assets/kaleo-v3.css (subpages). */
+  @media (max-width: 720px) {
+    /* (A) Hide decorative small text */
+    .plate-label { display: none !important; }
+    .hero-photo-caption { display: none !important; }
+    .hero-top-meta { display: none !important; }
+    .video-poster .poster-meta { display: none !important; }
+    .approach-img-wrap .img-caption,
+    .pullq-caption { display: none !important; }
+    .rsvp-eye { display: none !important; }
+    .form-panel .form-eye,
+    .iclass-card .ic-eye,
+    .contact-card .cc-eye,
+    .nonprofit-card .ic-eye,
+    .price-panel .price-eye { display: none !important; }
+
+    /* (B) Tighten vertical rhythm */
+    section.spread { padding: 64px 0 !important; }
+    section.spread.tight { padding: 48px 0 !important; }
+
+    /* (C) Headings — balance wrapping, cap size */
+    h1, h2, h3, .hero-title, .section-h { text-wrap: balance; }
+    .section-h { font-size: clamp(36px, 9vw, 52px) !important; line-height: 1.02; }
+
+    /* (D) Image sizing — portrait crops read better on phone */
+    .approach-img-wrap,
+    .pullq-img-wrap { aspect-ratio: 4 / 5 !important; }
+    .voice { aspect-ratio: 1 / 1 !important; }
+
+    /* (E) Program rows — single-column stack, drop decorative num/arrow */
+    .program-row {
+      grid-template-columns: 1fr !important;
+      gap: 6px !important;
+      padding: 22px 0 !important;
+    }
+    .p-num, .p-arrow { display: none !important; }
+    .p-name, .p-desc, .p-grade, .p-price { grid-column: 1 !important; }
+    .p-price { font-size: 16px; color: var(--amber); }
+
+    /* (F) Body copy floor */
+    p, li { font-size: 16px; line-height: 1.5; }
   }
 </style>
 </head>
@@ -1279,13 +1426,12 @@
       </div>
     </div>
     <div class="hero-center">
-      <div class="wrap-lg">
+      <div class="wrap-lg" style="width: 100%;">
         <h1 class="hero-title">
-          <span class="line"><span class="word" style="animation-delay:.2s">Where</span></span>
-          <span class="line"><span class="word italic" style="animation-delay:.35s">art,</span></span>
-          <span class="line"><span class="word" style="animation-delay:.5s">joy</span> <span class="word amp" style="animation-delay:.65s">&amp;</span></span>
-          <span class="line"><span class="word italic" style="animation-delay:.8s">community</span></span>
-          <span class="line"><span class="word" style="animation-delay:.95s">collide.</span></span>
+          <span class="line"><span class="word" style="animation-delay:.2s">Where</span> <span class="word italic" style="animation-delay:.35s">creativity</span></span>
+          <span class="line"><span class="word" style="animation-delay:.5s">shines,</span> <span class="word amp" style="animation-delay:.65s">&amp;</span></span>
+          <span class="line"><span class="word italic" style="animation-delay:.8s">everyone</span></span>
+          <span class="line"><span class="word" style="animation-delay:.95s">belongs.</span></span>
         </h1>
       </div>
     </div>
@@ -1400,13 +1546,13 @@
 </section>
 
 <!-- ==================== PROGRAMS ==================== -->
-<section class="spread tight" id="programs">
+<section class="spread tight">
   <div class="programs-hero reveal">
     <img src="assets/img/kaleo-07.jpg" alt="A student holds a silver star-shaped balloon amid a cast of young performers in starry costumes on a blue-lit stage" loading="lazy" data-parallax="0.1"/>
     <span class="caption">Now Showing</span>
     <div class="kicker">Six ways to join — <em>from first steps in music at age three, to writing original songs in high school.</em></div>
   </div>
-  <div class="wrap">
+  <div class="wrap" id="programs" style="scroll-margin-top: 96px;">
     <span class="plate-label reveal">Plate 04a · The program</span>
     <h2 class="section-h reveal r-d1">Six <em>ways</em><br/>to join.</h2>
     <div class="programs">
@@ -1558,7 +1704,7 @@
           <div><span>Address</span><span>4906 N. Adams Rd.</span></div>
           <div><span>City</span><span>Oakland Township, MI 48306</span></div>
           <div><span>Opening</span><span>Fall 2026</span></div>
-          <div><span>Contact</span><span>586-549-1504</span></div>
+          <div><span>Contact</span><span>248-955-1192</span></div>
         </div>
       </div>
     </div>
