@@ -17,7 +17,21 @@
   --bright: oklch(94% 0.028 82);
 }
 * { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; background: var(--stage); }
+html {
+  scroll-behavior: smooth;
+  background: var(--stage);
+  /* Belt-and-suspenders horizontal overflow lock. body: overflow-x
+     hidden alone lets some browsers still report scrollWidth > innerW
+     on the <html> element (from transformed/scaled descendants like
+     .hero-img with hero-drift, or the ticker's duplicated content),
+     which causes iOS momentum touch to rubber-band horizontally —
+     the "slight pan left/right as I scroll" the user described.
+     Clamping <html> too eliminates the horizontal scroll region
+     entirely. */
+  overflow-x: hidden;
+  /* Also lock the width so no descendant can push the html box wider. */
+  max-width: 100%;
+}
 body {
   background: var(--stage);
   color: var(--cream);
@@ -27,6 +41,7 @@ body {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  max-width: 100%;
   font-weight: 400;
 }
 a { color: inherit; text-decoration: none; }
@@ -1841,13 +1856,14 @@ footer {
   }
   .commit:last-child,
   .stat:last-child { border-bottom: 0; }
-  .approach, .pullq, .loc, .price-panel {
+  .approach, .approach.reverse, .pullq, .loc, .price-panel {
     grid-template-columns: 1fr;
     gap: 40px;
   }
   .price-panel { padding: 40px 30px; }
   .approach.reverse .approach-body { order: 0; }
   .approach-img-wrap, .pullq-img-wrap { aspect-ratio: 4 / 3; }
+  .approach, .pullq { align-items: start; }
   .program-row {
     grid-template-columns: 40px 1fr 40px;
     gap: 12px;
@@ -1907,6 +1923,25 @@ footer {
   .pullq-caption { display: none !important; }
   /* Footer-form "R · S · V · P" mono eyebrow. */
   .rsvp-eye { display: none !important; }
+  /* Marquee ticker: the scrolling italic-serif line ("Where creativity
+     shines · Where every kid belongs · …") duplicates its content to
+     loop seamlessly on desktop. On phone the content is wider than
+     the viewport by design (that's how a marquee works), and it can
+     visually feel like page overflow when combined with the surrounding
+     dark rules. Simplest solution the user asked for: hide it on
+     mobile entirely. */
+  .ticker { display: none !important; }
+  /* Neutralize .reveal on mobile. .reveal starts with `opacity: 0;
+     transform: translateY(30px)` and gets `in` from IntersectionObserver
+     on scroll. On phone this occasionally leaves elements hidden —
+     e.g. the "Confidence, on stage" .approach-img-wrap staying at
+     opacity 0 when the observer's threshold (0.12) doesn't fire on
+     initial layout. Also: less motion on phone is better UX. Force
+     .reveal elements visible from the start on mobile. */
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+  }
   /* Small mono kickers inside cards — hide the pure-decoration ones. */
   .form-panel .form-eye,
   .iclass-card .ic-eye,
@@ -1926,12 +1961,55 @@ footer {
   .section-h { font-size: clamp(36px, 9vw, 52px) !important; line-height: 1.02; }
 
   /* --- (D) IMAGE SIZING -------------------------------------------------- */
-  /* Approach + pull-quote photos: taller portrait crop instead of 4/3 landscape
-     (better for showing kids' faces on a narrow screen). */
-  .approach-img-wrap,
+  /* Approach + pull-quote photos: landscape 4:3 crop keeps the photo
+     compact vertically — a 4:5 portrait at full mobile width is
+     ~490px tall which reads as oversized on a 390-844 phone. */
+  .approach-img-wrap { aspect-ratio: 4 / 3 !important; }
   .pullq-img-wrap { aspect-ratio: 4 / 5 !important; }
+  /* .approach grid uses align-items: stretch on desktop; on mobile
+     the 1-col collapse can stretch the img wrap to the body's
+     computed height and overlap because absolute-inside-relative
+     ignores the intrinsic height. Force each grid child to size
+     to its own content on mobile. */
+  .approach, .pullq { align-items: start !important; }
   /* Ensemble / voices photos: square works best on phone. */
   .voice { aspect-ratio: 1 / 1 !important; }
+  /* Heart-banner: the 21:8 ultra-wide letterbox becomes a sliver on phone —
+     and the overlay quote sits on top of the image with no room to breathe.
+     Switch to a 4:5 portrait crop so faces are visible and the quote gets
+     its own vertical space. */
+  .heart-banner {
+    aspect-ratio: 4 / 5 !important;
+    margin-bottom: 48px !important;
+  }
+  .heart-banner .quote {
+    left: 24px !important;
+    right: 24px !important;
+    bottom: 24px !important;
+    font-size: 20px !important;
+    max-width: none !important;
+  }
+  .heart-banner .caption { top: 18px !important; right: 20px !important; }
+  /* Final / invitation section: the 100vh full-bleed photo pairs with a
+     clamp(80px, 15vw, 260px) headline that runs off narrow screens.
+     Let the section shrink to content, cap the headline, and pull the
+     side padding in so the CTA doesn't hug the edge. */
+  .final {
+    min-height: 0 !important;
+    padding: 100px 24px !important;
+  }
+  .final h2 {
+    font-size: clamp(56px, 18vw, 88px) !important;
+    line-height: 0.95;
+    margin-bottom: 32px !important;
+  }
+  .final p {
+    font-size: 18px !important;
+    margin-bottom: 40px !important;
+  }
+  /* Video frame — 16:9 gets tiny on a 375px phone. Nudge to 4:3 so the
+     poster + play button read at a comfortable size. */
+  .video-frame { aspect-ratio: 4 / 3 !important; }
 
   /* --- (E) PROGRAM ROWS -------------------------------------------------- */
   /* Collapse the 40 / 1fr / 40 grid into a single stack so long program names,
@@ -1948,5 +2026,156 @@ footer {
   /* --- (F) BODY COPY FLOOR ---------------------------------------------- */
   /* Never let paragraph copy shrink below 16px on phone. */
   p, li { font-size: 16px; line-height: 1.5; }
+
+  /* --- (F2) BUTTONS ---------------------------------------------------- */
+  /* .btn is white-space: nowrap globally so pills stay clean on desktop.
+     On phones, long-text buttons like "Support our community programs"
+     (about page nonprofit CTA) or multi-word program CTAs blow past the
+     viewport edge. Allow wrapping + cap max-width so they always sit
+     inside the parent container. Keep the icon on the last line via a
+     flex-wrap alignment tweak. */
+  .btn {
+    white-space: normal !important;
+    max-width: 100% !important;
+    text-align: left;
+    padding: 14px 22px !important;
+    line-height: 1.25;
+  }
+  .btn svg { flex-shrink: 0; }
+
+  /* --- (G-pre) DISABLE PAN/SCALE ANIMATIONS ON MOBILE ------------------- */
+  /* Desktop scales hero-img 1.08 → 1.14 with a 1–2% translate, and the
+     parallax script (chrome-v3.js) continuously applies
+     `translateY(...) scale(1.05)` to every [data-parallax] image on
+     scroll. On a 390px phone these transforms produce a "panning /
+     slightly zoomed as I scroll" feel — subpixel rounding + a scaled
+     image wider than the viewport = visible horizontal drift, even
+     with overflow:hidden. Kill both on mobile. Photos read fine at
+     rest, and less scroll-linked motion is better UX on phone. */
+  .hero-img {
+    animation: none !important;
+    transform: none !important;
+  }
+  [data-parallax] {
+    transform: none !important;
+    will-change: auto !important;
+  }
+
+  /* --- (G) HERO PHOTO SIZE ---------------------------------------------- */
+  /* Cinematic photo hero is height: 100vh + min-height: 640px on desktop.
+     On a 390x844 phone that's a 844px monolith of image before the user
+     sees anything else. Let the hero grow to fit its content so long
+     4–5-line hero titles (Kazoo, Songwriters, Private Lessons, Kaleo
+     Kids, Summer Camp) don't push the CTA row below the visible box
+     and clip the Register / How-it-works buttons. Aim for ~78vh but
+     don't cap it — content wins. */
+  .hero {
+    height: auto !important;
+    min-height: 78vh !important;
+    max-height: none !important;
+  }
+  /* Un-pin hero-content from absolute-inset on mobile so the flex
+     stack (top-meta → title → bottom) grows the section instead of
+     overflowing the fixed-height box. The hero-img keeps its
+     absolute positioning underneath. */
+  .hero-content {
+    position: relative !important;
+    inset: auto !important;
+    min-height: 78vh;
+    padding: 90px 0 40px !important;
+  }
+  /* Make sure the CTA row itself never gets clipped and always wraps
+     cleanly on narrow screens (buttons stack if needed). */
+  .hero-cta-row {
+    flex-wrap: wrap !important;
+    row-gap: 10px !important;
+  }
+  .hero-cta-row .btn { flex: 0 1 auto; }
+  /* Non-typo hero title — desktop clamp() has a 60px floor which is still
+     tight on a 4-word / 5-line phone headline. Reset with a smaller floor. */
+  .hero:not(.hero-typo) .hero-title {
+    font-size: clamp(44px, 12vw, 60px) !important;
+    line-height: 0.95;
+    max-width: 100%;
+  }
+  .hero-caption { font-size: 17px !important; }
+
+  /* --- (H) PROGRAMS-HERO ------------------------------------------------- */
+  /* Kaleo Kids / classes program hero photo — 60vh + 500px floor on desktop.
+     On phone the min-height forces it big; ease it down. */
+  .programs-hero {
+    height: 55vh !important;
+    min-height: 340px !important;
+    max-height: 480px !important;
+    margin-bottom: 56px !important;
+  }
+
+  /* --- (I) PULL QUOTE ---------------------------------------------------- */
+  /* On mobile: collapse the 2-col portrait-beside-quote into a stacked
+     image-on-top layout that matches the .approach treatment used on
+     songwriters/classes. Image goes edge-to-edge (bleeds past the
+     wrap's 24px side padding via negative margin) so the subject
+     reads at real phone scale; the quote lives directly below. */
+  .pullq {
+    grid-template-columns: 1fr !important;
+    min-height: 0 !important;
+    gap: 28px !important;
+    align-items: start !important;
+  }
+  /* Bleed the image past the wrap's inline padding so it reads big.
+     .wrap-lg on mobile has 20px side padding — pull the img wrap
+     -20px on each side to snap it to the viewport edges. Aspect
+     3/4 keeps the singer's face + microphone at generous scale
+     without becoming an oversized 4/5 monolith. */
+  .pullq-img-wrap {
+    aspect-ratio: 3 / 4 !important;
+    width: calc(100% + 40px) !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+  }
+  .pullq-img {
+    object-position: center 20% !important;
+  }
+  /* 120px italic curly quote overwhelms the screen; halve it. */
+  .pullq-mark { font-size: 72px !important; margin-bottom: 8px !important; }
+  .pullq-body { padding: 0 !important; }
+  .pullq-text { font-size: 28px !important; line-height: 1.22; }
+
+  /* --- (J) ALBUMS (songwriters) ----------------------------------------- */
+  /* Album cards are aspect-ratio: 1/1. Full-width means 390px squares
+     stacked — a 9-card grid becomes ~3500px of scroll. Go 2-column so
+     covers read at ~185px each (still crisp) and the strip halves. */
+  .albums {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+  }
+  .album.has-art .top,
+  .album.has-art .bot { left: 14px !important; right: 14px !important; }
+  .album.has-art .top { top: 14px !important; }
+  .album.has-art .bot { bottom: 14px !important; }
+  .album.has-art .title { font-size: 20px !important; line-height: 1.05; }
+  .album.has-art .sub { font-size: 9px !important; }
+  .album.has-art .listen { padding: 5px 8px !important; font-size: 9px !important; }
+  .album.has-art .yr { padding: 4px 7px !important; font-size: 9px !important; }
+
+  /* --- (K) SPARK CAMP WEEK GRID (undersized when 1-col) ------------------ */
+  /* .week grid collapses to 1 col at 960; day cards are then wide + short.
+     Keep 1-col but tighten padding + bottom border for scannability. */
+  .day { padding: 20px 4px !important; }
+}
+
+/* Very small phones (~<=420px): fall back to a single album column so
+   individual covers stay legible instead of two 165px squares with tiny type. */
+@media (max-width: 480px) {
+  .albums {
+    grid-template-columns: 1fr !important;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .album.has-art .title { font-size: 26px !important; }
+  .album.has-art .sub,
+  .album.has-art .listen,
+  .album.has-art .yr { font-size: 10px !important; }
 }
 

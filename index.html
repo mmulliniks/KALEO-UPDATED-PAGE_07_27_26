@@ -23,7 +23,14 @@
     --bright: oklch(94% 0.028 82);      /* cream section bg */
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; background: var(--stage); }
+  html {
+    scroll-behavior: smooth;
+    background: var(--stage);
+    overflow-x: hidden;
+    max-width: 100%;
+    /* Prevent horizontal touch pan-drift on iOS/Android */
+    overscroll-behavior-x: none;
+  }
   body {
     background: var(--stage);
     color: var(--cream);
@@ -33,6 +40,13 @@
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
     overflow-x: hidden;
+    max-width: 100%;
+    overscroll-behavior-x: none;
+    /* Lock horizontal touch panning on mobile browsers. touch-action:
+       pan-y allows normal vertical scrolling but forbids the browser
+       from producing a horizontal pan gesture, which was the source
+       of the "panning left/right as I scroll" feel on the homepage. */
+    touch-action: pan-y;
     font-weight: 400;
   }
   a { color: inherit; text-decoration: none; }
@@ -1423,6 +1437,56 @@
     .contact-card .cc-eye,
     .nonprofit-card .ic-eye,
     .price-panel .price-eye { display: none !important; }
+    /* Ticker: keep it on mobile (user asked for it back). Its wrapper
+       already has overflow: hidden so the duplicated scrolling content
+       is properly clipped and doesn't contribute to page overflow. */
+
+    /* (A2) Force reveal-on-scroll elements visible from the start.
+       IntersectionObserver + opacity:0 occasionally leaves images
+       stuck hidden on phone (e.g. the "Confidence, on stage" photo). */
+    .reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    /* (A3) Kill scroll-linked / hover-linked image transforms on phone.
+       Multiple sources contribute to the "panning" feel on mobile:
+         - hero-drift ken-burns (scale 1.08 → 1.14 with translate)
+         - the parallax loop (translateY + scale 1.05 on scroll)
+         - :hover states that "stick" on touch: .approach-img scales to
+           1.04, .voice img to 1.06, .video-poster img to 1.04, all
+           over 1s+ transitions — a tap-to-scroll triggers them and
+           produces a slow drift.
+       Neutralize all image transforms + transitions on mobile so
+       photos sit perfectly still. */
+    .hero-img {
+      animation: none !important;
+      transform: none !important;
+    }
+    [data-parallax] {
+      transform: none !important;
+      will-change: auto !important;
+    }
+    .approach-img,
+    .voice img,
+    .video-poster img,
+    .pullq-img,
+    .heart-banner img,
+    .programs-hero img,
+    .final img {
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+    /* Disable hover transforms wholesale on touch devices — they don't
+       belong on mobile and can trigger on tap-to-scroll. */
+    .approach-img-wrap:hover .approach-img,
+    .voice:hover img,
+    .voice:hover,
+    .video-poster:hover img,
+    .program-row:hover .p-arrow {
+      transform: none !important;
+    }
 
     /* (B) Tighten vertical rhythm */
     section.spread { padding: 64px 0 !important; }
@@ -1432,10 +1496,117 @@
     h1, h2, h3, .hero-title, .section-h { text-wrap: balance; }
     .section-h { font-size: clamp(36px, 9vw, 52px) !important; line-height: 1.02; }
 
-    /* (D) Image sizing — portrait crops read better on phone */
-    .approach-img-wrap,
-    .pullq-img-wrap { aspect-ratio: 4 / 5 !important; }
+    /* (D) Approach photos — match the songwriters/classes treatment:
+       full-width, landscape 4:3, on top of the body copy. Force
+       align-items so the img-wrap doesn't collapse. */
+    .approach, .approach.reverse, .pullq {
+      grid-template-columns: 1fr !important;
+      gap: 28px !important;
+      align-items: start !important;
+      min-height: 0 !important;
+    }
+    .approach.reverse .approach-body { order: 0 !important; }
+    .approach-img-wrap {
+      aspect-ratio: 4 / 3 !important;
+      width: 100% !important;
+    }
+
+    /* (D2) Pull-quote image — bleed edge-to-edge past the wrap's 20px
+       side padding so the singer with the microphone reads at real
+       phone scale. Aspect 3/4 (portrait) keeps her face + mic in-frame. */
+    .pullq-img-wrap {
+      aspect-ratio: 3 / 4 !important;
+      width: calc(100% + 40px) !important;
+      margin-left: -20px !important;
+      margin-right: -20px !important;
+    }
+    .pullq-img {
+      object-position: center 20% !important;
+    }
+    .pullq-mark { font-size: 72px !important; margin-bottom: 8px !important; }
+    .pullq-body { padding: 0 !important; }
+    .pullq-text { font-size: 28px !important; line-height: 1.22; }
+
     .voice { aspect-ratio: 1 / 1 !important; }
+
+    /* (D4) Approach title — give the "Confidence, / on stage / and off."
+       headline more breathing room. Default line-height (0.96) and
+       margin-bottom (40px) crowded the italic amber line against the
+       body copy below. Loosen leading, add margin above, and cap the
+       font-size floor so 3 lines fit comfortably at 390px width. */
+    .approach-title {
+      font-size: clamp(38px, 10vw, 52px) !important;
+      line-height: 1.02 !important;
+      letter-spacing: -0.03em !important;
+      margin-top: 8px !important;
+      margin-bottom: 28px !important;
+    }
+
+    /* (D5) Programs-hero ("Now Showing") — mobile.
+       Desktop uses height: 60vh + min-height: 500px + a kicker
+       positioned bottom:40px/left:40px with max-width: 24ch. On a
+       390px phone the kicker's 93-char italic serif wraps to ~8 lines
+       and either bleeds off the bottom or bumps into the "Now Showing"
+       caption at the top. Shrink the container, pull the kicker
+       insets in, and cap its width to the viewport minus insets. */
+    .programs-hero {
+      height: auto !important;
+      min-height: 380px !important;
+      max-height: 520px !important;
+      aspect-ratio: 4 / 5 !important;
+      margin-bottom: 64px !important;
+    }
+    .programs-hero .caption {
+      top: 20px !important;
+      left: 20px !important;
+    }
+    .programs-hero .kicker {
+      bottom: 24px !important;
+      left: 20px !important;
+      right: 20px !important;
+      max-width: none !important;
+      font-size: 22px !important;
+      line-height: 1.25 !important;
+    }
+
+    /* (D3) Hero — mobile.
+       Two issues we're solving here:
+       1. Address-bar toggling on mobile Safari changes `vh` mid-scroll,
+          which was making the hero visibly resize as the user scrolled
+          (the "panning" feel). Switch to `dvh` (dynamic viewport
+          height) so the value stays stable while scrolling. Fall back
+          to `vh` for older browsers.
+       2. Fill the whole phone screen on load — 100dvh = the actual
+          visible viewport with the address bar collapsed. The lvh
+          (large viewport height) fallback covers browsers that
+          support lvh but not dvh. The old 100vh unit still leaves an
+          8% black strip below the fold when the address bar hides.
+       Keep hero-content in-flow (position: relative) so tall multi-
+       line hero titles push the CTA row down instead of clipping it. */
+    .hero {
+      height: auto !important;
+      min-height: 100vh !important;
+      min-height: 100lvh !important;
+      min-height: 100dvh !important;
+      max-height: none !important;
+    }
+    .hero-content {
+      position: relative !important;
+      inset: auto !important;
+      min-height: 100vh;
+      min-height: 100lvh;
+      min-height: 100dvh;
+      padding: 96px 0 44px !important;
+    }
+    .hero-cta-row {
+      flex-wrap: wrap !important;
+      row-gap: 10px !important;
+      justify-content: flex-start !important;
+    }
+    .hero-bottom {
+      grid-template-columns: 1fr !important;
+      gap: 30px !important;
+    }
 
     /* (E) Program rows — single-column stack, drop decorative num/arrow */
     .program-row {
@@ -1449,6 +1620,17 @@
 
     /* (F) Body copy floor */
     p, li { font-size: 16px; line-height: 1.5; }
+
+    /* (F2) Buttons — allow long labels to wrap so "Support our community
+       programs" and similar don't overflow the viewport. */
+    .btn {
+      white-space: normal !important;
+      max-width: 100% !important;
+      text-align: left;
+      padding: 14px 22px !important;
+      line-height: 1.25;
+    }
+    .btn svg { flex-shrink: 0; }
   }
 </style>
 </head>
@@ -1501,7 +1683,7 @@
   <div class="wrap-lg">
     <div class="video-head">
       <div class="l">
-        <span class="plate-label reveal">Plate 01a · Welcome</span>
+        <span class="plate-label reveal">Welcome</span>
         <h2 class="reveal r-d1">We're <em>glad you're here!</em></h2>
       </div>
       <p class="r reveal r-d2">Press play on our welcome video to discover who we are, what we do, and why parents keep coming back.</p>
@@ -1540,11 +1722,8 @@
 <!-- ==================== 3 COMMITMENTS ==================== -->
 <section class="spread">
   <div class="wrap">
-    <span class="plate-label reveal">Plate 02 · Three commitments</span>
+    <span class="plate-label reveal">Three commitments</span>
     <h2 class="section-h reveal r-d1">Three things<br/>we <em>don't</em> do.</h2>
-    <div class="commits-intro reveal r-d2">
-      <p>Every child gets a place, regardless of experience. We build confidence through practice — not trophies. And the price you see is the price you pay.</p>
-    </div>
     <div class="commits">
       <div class="commit reveal">
         <div class="no">No. 01</div>
@@ -1568,7 +1747,7 @@
 <!-- ==================== APPROACH ==================== -->
 <section class="spread">
   <div class="wrap-lg">
-    <span class="plate-label reveal">Plate 03 · The approach</span>
+    <span class="plate-label reveal">The approach</span>
     <div class="approach">
       <div class="approach-img-wrap reveal">
         <img class="approach-img" src="assets/img/kk-new-03.jpg" alt="A young performer in butterfly wings, arms outstretched mid-performance under warm stage light" loading="lazy"/>
@@ -1580,7 +1759,7 @@
           <em>on stage</em><br/>
           and off.
         </h2>
-        <p class="reveal r-d1">Our one-of-a-kind performing arts programming brings students from different communities together to develop music, dance, drama, and songwriting skills — while building confidence and character.</p>
+        <p class="reveal r-d1">Kaleo Arts builds character and confidence through our one-of-a-kind performing arts program — developing skills in music, dance, drama, and songwriting. Skills that translate into real-world confidence, communication, and collaboration.</p>
         <p class="reveal r-d2 secondary">Our desire is for every child we work with to know they are valuable, creative, and capable of changing the world for the better.</p>
         <div class="approach-signature reveal r-d3">— <strong>Renee Mulliniks</strong> · Founder</div>
       </div>
@@ -1596,7 +1775,7 @@
     <div class="kicker">Six ways to join — <em>from first steps in music at age three, to writing original songs in high school.</em></div>
   </div>
   <div class="wrap" id="programs" style="scroll-margin-top: 96px;">
-    <span class="plate-label reveal">Plate 04a · The program</span>
+    <span class="plate-label reveal">The program</span>
     <h2 class="section-h reveal r-d1">Six <em>ways</em><br/>to join.</h2>
     <div class="programs">
       <a class="program-row reveal" href="kaleo-kids.html">
@@ -1654,7 +1833,7 @@
 <!-- ==================== PULL-QUOTE (portrait + quote) ==================== -->
 <section class="spread tight">
   <div class="wrap-lg">
-    <span class="plate-label reveal">Plate 05 · Voices from a Kaleo family</span>
+    <span class="plate-label reveal">Voices from a Kaleo family</span>
     <div class="pullq">
       <div class="pullq-img-wrap reveal">
         <img class="pullq-img" src="assets/img/kaleo-17.jpg" alt="A young singer in a gold sequined costume performs into a microphone under stage lights" loading="lazy"/>
@@ -1680,7 +1859,7 @@
       <p class="quote">Three values behind every class, every rehearsal, every performance.</p>
     </div>
     <div class="wrap" style="padding: 0;">
-      <span class="plate-label reveal">Plate 06a · Our heart</span>
+      <span class="plate-label reveal">Our heart</span>
       <h2 class="section-h reveal r-d1">The three values that shape <em>everything</em>.</h2>
       <div class="values">
         <div class="value reveal">
@@ -1703,7 +1882,7 @@
 <!-- ==================== TESTIMONIALS ==================== -->
 <section class="spread">
   <div class="wrap-lg">
-    <span class="plate-label reveal">Plate 07 · Voices from our families</span>
+    <span class="plate-label reveal">Voices from our families</span>
     <h2 class="section-h reveal r-d1">Twenty years, <em>one relationship</em><br/>at a time.</h2>
     <div class="voices">
       <div class="voice reveal">
@@ -1731,7 +1910,7 @@
 <!-- ==================== LOCATION ==================== -->
 <section class="spread">
   <div class="wrap-lg">
-    <span class="plate-label reveal">Plate 08 · Visit</span>
+    <span class="plate-label reveal">Visit</span>
     <div class="loc">
       <div class="loc-map reveal">
         <iframe
