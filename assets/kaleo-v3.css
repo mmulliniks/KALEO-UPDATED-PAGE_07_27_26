@@ -2027,6 +2027,19 @@ footer {
   /* Never let paragraph copy shrink below 16px on phone. */
   p, li { font-size: 16px; line-height: 1.5; }
 
+  /* --- (F1) HEADING FLOOR (mobile) --------------------------------------
+     Defensive rule: any bare h1–h4 that isn't hit by a more specific
+     component rule (e.g. .approach-title, .section-h, .iclass-card h3)
+     still needs to render clearly larger than the 16px body-copy
+     floor. Use :where() so specificity stays 0 and any component
+     rule above continues to win. Named component headings on this
+     page are all clamped 32–60px+ minimums; this only catches
+     ad-hoc / future headings so nothing ever ships heading==body. */
+  :where(h1) { font-size: 32px; line-height: 1.05; }
+  :where(h2) { font-size: 28px; line-height: 1.1; }
+  :where(h3) { font-size: 22px; line-height: 1.15; }
+  :where(h4) { font-size: 20px; line-height: 1.2; }
+
   /* --- (F2) BUTTONS ---------------------------------------------------- */
   /* .btn is white-space: nowrap globally so pills stay clean on desktop.
      On phones, long-text buttons like "Support our community programs"
@@ -2062,16 +2075,21 @@ footer {
   }
 
   /* --- (G) HERO PHOTO SIZE ---------------------------------------------- */
-  /* Cinematic photo hero is height: 100vh + min-height: 640px on desktop.
-     On a 390x844 phone that's a 844px monolith of image before the user
-     sees anything else. Let the hero grow to fit its content so long
-     4–5-line hero titles (Kazoo, Songwriters, Private Lessons, Kaleo
-     Kids, Summer Camp) don't push the CTA row below the visible box
-     and clip the Register / How-it-works buttons. Aim for ~78vh but
-     don't cap it — content wins. */
+  /* Match the homepage: fill the whole phone viewport on load so the
+     photo hero reads as a full "poster" the moment the page opens,
+     never as a partial band with content peeking above the fold.
+       - 100vh   — universal fallback
+       - 100lvh  — large viewport height (address bar collapsed)
+       - 100dvh  — dynamic viewport height (stable while Safari's
+                   address bar shows/hides; prevents mid-scroll resize)
+     Keep height: auto + no max-height so tall multi-line hero titles
+     (Kazoo, Songwriters, Private Lessons, Kaleo Kids, Summer Camp)
+     grow the hero past 100dvh instead of clipping the CTA row. */
   .hero {
     height: auto !important;
-    min-height: 78vh !important;
+    min-height: 100vh !important;
+    min-height: 100lvh !important;
+    min-height: 100dvh !important;
     max-height: none !important;
   }
   /* Un-pin hero-content from absolute-inset on mobile so the flex
@@ -2081,8 +2099,10 @@ footer {
   .hero-content {
     position: relative !important;
     inset: auto !important;
-    min-height: 78vh;
-    padding: 90px 0 40px !important;
+    min-height: 100vh;
+    min-height: 100lvh;
+    min-height: 100dvh;
+    padding: 96px 0 44px !important;
   }
   /* Make sure the CTA row itself never gets clipped and always wraps
      cleanly on narrow screens (buttons stack if needed). */
