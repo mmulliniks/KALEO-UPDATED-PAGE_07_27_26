@@ -425,8 +425,19 @@ input, select, textarea { font: inherit; color: inherit; }
 /* ---------- Typographic hero (no photo) ---------- */
 .hero.hero-typo {
   height: auto;
-  min-height: unset;
-  padding: 200px 0 120px;
+  /* Short-title heroes (FAQ has only 2 lines) were collapsing to
+     ~940px tall, letting the next section's sidebar/TOC peek
+     above the fold on standard laptop viewports. Give the block
+     a viewport-relative floor so it always occupies most of the
+     screen and the section boundary lands below the fold — the
+     About hero (5 lines) grows naturally past this floor. */
+  min-height: 92vh;
+  /* Trimmed headroom above § Prologue — the desktop nav is only
+     ~72px tall, so 200px of top padding read as dead air and
+     shoved the last headline line + lede below the fold on
+     laptop viewports. 112px keeps clear separation from the
+     fixed nav without wasting a quarter of the screen. */
+  padding: 112px 0 96px;
   border-bottom: 1px solid var(--rule);
 }
 .hero.hero-typo::before, .hero.hero-typo::after { display: none; }
@@ -1877,28 +1888,48 @@ footer {
   .voice { aspect-ratio: 4 / 5; }
   .footer-fine { flex-direction: column; gap: 12px; }
   .form-panel { padding: 32px 24px; }
-  .hero.hero-typo { padding: 140px 0 80px; }
+  /* Mobile hero-typo — the top-meta strip is hidden on mobile
+     (rule further below) so the title otherwise floats down in
+     the flex column. Tightened padding + short hero-center so
+     the headline sits close to the nav rather than mid-screen.
+     Also unset the desktop 92vh min-height floor — on phones we
+     want the hero to hug its content, not fill the screen. */
+  .hero.hero-typo {
+    padding: 88px 0 64px;
+    min-height: 0;
+  }
+  .hero.hero-typo .hero-center {
+    flex: 0 0 auto;
+    padding: 0;
+    align-items: flex-start;
+  }
 
   /* Hero titles: the desktop clamp() floors at 60px / 56px, which is
      too big for a 390px phone with a 4- or 5-line headline. Reset the
      clamp with a smaller floor and full-width measure so the words
-     wrap gracefully instead of shoving past the viewport edge. */
+     wrap gracefully instead of shoving past the viewport edge.
+     Scaled up from 40/60 → 48/72 for photo heroes and 40/56 → 52/76
+     for typographic heroes — the tightened top padding was leaving
+     too much negative space on the About / FAQ pages with the
+     previous smaller type. */
   .hero-title {
-    font-size: clamp(40px, 11vw, 60px);
+    font-size: clamp(48px, 12.5vw, 72px);
     line-height: 0.98;
     max-width: 100%;
   }
   .hero.hero-typo .hero-title {
-    font-size: clamp(40px, 10.5vw, 56px);
-    line-height: 1.05;
+    font-size: clamp(52px, 14vw, 76px);
+    line-height: 1.04;
     max-width: 100%;
   }
 }
 
 @media (max-width: 420px) {
-  /* Tighten a hair more on the smallest phones (iPhone SE ~375px). */
-  .hero-title { font-size: 38px; }
-  .hero.hero-typo .hero-title { font-size: 38px; }
+  /* Tighten a hair more on the smallest phones (iPhone SE ~375px)
+     so long words like "community," and "one relationship" don't
+     shove past the 375-px viewport edge. */
+  .hero-title { font-size: 46px; }
+  .hero.hero-typo .hero-title { font-size: 50px; }
 }
 
 /* ==================== MOBILE-ONLY OPTIMIZATION (<=720px) ====================
