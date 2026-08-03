@@ -1463,6 +1463,14 @@
     .hero-img {
       animation: none !important;
       transform: none !important;
+      /* Push the two lead kids (red lobster + white chef, at ~47%
+         horizontal in the source photo) into the RIGHT half of the
+         phone viewport so they sit clear of the left-aligned
+         hero headline. With object-fit: cover, `X%` aligns image-X%
+         to container-X%; setting X ≈ 34% pulls the crop left,
+         which moves the two center subjects rightward on screen.
+         Desktop uses `center 30%` and is unaffected. */
+      object-position: 34% 30% !important;
     }
     [data-parallax] {
       transform: none !important;
