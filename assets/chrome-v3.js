@@ -74,7 +74,7 @@
         </div>
         <div class="footer-col footer-contact">
           <h4>Visit &amp; Contact</h4>
-          <a href="https://maps.google.com/?q=4906+N.+Adams+Rd.,+Oakland+Township,+MI+48306" target="_blank" rel="noopener">4906 N. Adams Rd.<br/>Oakland Township, MI 48306</a>
+          <a href="https://maps.app.goo.gl/PFHu9bBJBTwbmPDP9" target="_blank" rel="noopener">4906 N. Adams Rd.<br/>Oakland Township, MI 48306</a>
           <a href="tel:+12489551192">248-955-1192</a>
           <a href="mailto:yourfriends@kaleoarts.org">yourfriends@kaleoarts.org</a>
           <div class="footer-follow">
