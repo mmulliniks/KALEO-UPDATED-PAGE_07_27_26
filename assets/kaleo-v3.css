@@ -262,6 +262,25 @@ input, select, textarea { font: inherit; color: inherit; }
   0%   { transform: scale(1.08) translate3d(0, 0, 0); }
   100% { transform: scale(1.14) translate3d(-1%, -2%, 0); }
 }
+/* Kill hero-drift on touch devices, not just narrow viewports. The
+   existing @media (max-width: 720px) rule below already disables this
+   for portrait phones, but touch devices in landscape (or larger
+   phones/phablets that exceed 720px) still matched, matched the
+   desktop rule, and kept the animation running. Because the element
+   is will-change: transform, mobile browsers commonly defer
+   compositing this layer until the first scroll/interaction — so the
+   animation's clock has already been ticking since page load, and the
+   first scroll makes it "catch up" to wherever it is in the 22s cycle
+   all at once, reading as a sudden zoom instead of a slow drift.
+   Targeting (hover: none) and (pointer: coarse) catches every touch
+   device regardless of width or orientation, so the animation never
+   starts there and there's nothing to catch up on. */
+@media (hover: none) and (pointer: coarse) {
+  .hero-img {
+    animation: none !important;
+    transform: none !important;
+  }
+}
 .hero::before {
   content: "";
   position: absolute; inset: 0;
