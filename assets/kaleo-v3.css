@@ -2130,16 +2130,26 @@ footer {
      never as a partial band with content peeking above the fold.
        - 100vh   — universal fallback
        - 100lvh  — large viewport height (address bar collapsed)
-       - 100dvh  — dynamic viewport height (stable while Safari's
-                   address bar shows/hides; prevents mid-scroll resize)
+       - 100svh  — SMALL viewport height (address bar shown). This is
+                   the one that stays fixed as you scroll. `dvh` was
+                   used here before, but dvh is the dynamic unit BY
+                   DEFINITION — it's supposed to track the address bar
+                   collapsing/expanding in real time, which is exactly
+                   what was making .hero (and the absolutely-positioned,
+                   object-fit: cover .hero-img filling it) resize the
+                   moment the address bar collapsed on first scroll —
+                   the "hero image scales all at once when I start
+                   scrolling" bug. svh never changes, so the hero's
+                   size is locked in from first paint and there's
+                   nothing to resize when the browser chrome hides.
      Keep height: auto + no max-height so tall multi-line hero titles
      (Kazoo, Songwriters, Private Lessons, Kaleo Kids, Summer Camp)
-     grow the hero past 100dvh instead of clipping the CTA row. */
+     grow the hero past 100svh instead of clipping the CTA row. */
   .hero {
     height: auto !important;
     min-height: 100vh !important;
     min-height: 100lvh !important;
-    min-height: 100dvh !important;
+    min-height: 100svh !important;
     max-height: none !important;
   }
   /* Un-pin hero-content from absolute-inset on mobile so the flex
@@ -2151,7 +2161,7 @@ footer {
     inset: auto !important;
     min-height: 100vh;
     min-height: 100lvh;
-    min-height: 100dvh;
+    min-height: 100svh;
     padding: 96px 0 44px !important;
   }
   /* Make sure the CTA row itself never gets clipped and always wraps
