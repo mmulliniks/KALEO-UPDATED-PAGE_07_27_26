@@ -265,6 +265,22 @@
     0%   { transform: scale(1.08) translate3d(0, 0, 0); }
     100% { transform: scale(1.14) translate3d(-1%, -2%, 0); }
   }
+  /* Kill hero-drift on touch devices, not just narrow viewports.
+     Mirrors the same fix in assets/kaleo-v3.css (subpages) — see that
+     file for the full explanation. Short version: mobile browsers
+     commonly defer compositing a will-change: transform layer until
+     the first scroll, so the animation's clock has already been
+     ticking since page load and the first scroll makes it jump to
+     catch up, instead of drifting smoothly. (hover: none) and
+     (pointer: coarse) catches every touch device regardless of width
+     or orientation, so the animation never starts and there's
+     nothing to catch up on. */
+  @media (hover: none) and (pointer: coarse) {
+    .hero-img {
+      animation: none !important;
+      transform: none !important;
+    }
+  }
   /* Vignette overlays */
   .hero::before {
     content: "";
