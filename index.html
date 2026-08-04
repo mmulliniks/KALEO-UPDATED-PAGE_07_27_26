@@ -1601,21 +1601,24 @@
        Two issues we're solving here:
        1. Address-bar toggling on mobile Safari changes `vh` mid-scroll,
           which was making the hero visibly resize as the user scrolled
-          (the "panning" feel). Switch to `dvh` (dynamic viewport
-          height) so the value stays stable while scrolling. Fall back
-          to `vh` for older browsers.
-       2. Fill the whole phone screen on load — 100dvh = the actual
-          visible viewport with the address bar collapsed. The lvh
-          (large viewport height) fallback covers browsers that
-          support lvh but not dvh. The old 100vh unit still leaves an
-          8% black strip below the fold when the address bar hides.
+          (the "panning"/"zooms all at once" feel). `dvh` does NOT fix
+          this — dvh is the dynamic unit by definition, so it tracks
+          the address bar collapsing in real time, which is exactly
+          what was causing the resize-on-first-scroll. `svh` (small
+          viewport height) is the one that's actually fixed: it always
+          assumes the address bar is showing, so it never changes.
+       2. Fill the whole phone screen on load. The lvh (large viewport
+          height) fallback covers browsers that support lvh but not
+          svh. The old 100vh unit still leaves an 8% black strip below
+          the fold when the address bar hides, so we keep it only as
+          the base fallback for very old browsers.
        Keep hero-content in-flow (position: relative) so tall multi-
        line hero titles push the CTA row down instead of clipping it. */
     .hero {
       height: auto !important;
       min-height: 100vh !important;
       min-height: 100lvh !important;
-      min-height: 100dvh !important;
+      min-height: 100svh !important;
       max-height: none !important;
     }
     .hero-content {
@@ -1623,7 +1626,7 @@
       inset: auto !important;
       min-height: 100vh;
       min-height: 100lvh;
-      min-height: 100dvh;
+      min-height: 100svh;
       padding: 96px 0 44px !important;
     }
     .hero-cta-row {
