@@ -217,6 +217,66 @@
       }, { passive: true });
       updateParallax();
     }
+
+    initEarlyBirdPopup();
+  }
+
+
+  // ---------- Early-bird registration popup ----------
+  // Announces the Aug 25 early-bird deadline once per visitor (until they
+  // dismiss it) and auto-expires after the deadline so nobody has to
+  // remember to remove it later.
+  function initEarlyBirdPopup(){
+    var DEADLINE = new Date('2026-08-26T00:00:00-04:00'); // Aug 25, end of day (America/Detroit)
+    var STORAGE_KEY = 'kaleo-eb-popup-dismissed-2026-08-25';
+    if (Date.now() >= DEADLINE.getTime()) return;
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+    } catch (e) { /* localStorage unavailable (private mode etc) — show anyway */ }
+
+    var html = ''
+      + '<div class="eb-popup-backdrop" id="eb-popup-backdrop" aria-hidden="true">'
+      +   '<div class="eb-popup" role="dialog" aria-modal="true" aria-labelledby="eb-popup-title">'
+      +     '<button class="eb-popup-close" id="eb-popup-close" aria-label="Close">&times;</button>'
+      +     '<span class="eb-popup-eyebrow">§ Early-bird registration</span>'
+      +     '<h2 class="eb-popup-title" id="eb-popup-title">Ends <em>August 25</em>.</h2>'
+      +     '<p class="eb-popup-body">Register by Aug 25 and save — <strong>$100 off</strong> Kaleo Kids &amp; Songwriters, plus <strong>no registration fees</strong> on any program.</p>'
+      +     '<div class="eb-popup-actions">'
+      +       '<a class="btn btn-primary" href="enroll.html" id="eb-popup-enroll">Enroll now'
+      +         '<svg viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>'
+      +       '</a>'
+      +       '<button class="eb-popup-dismiss" id="eb-popup-dismiss">Maybe later</button>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    var backdrop = document.getElementById('eb-popup-backdrop');
+    var closeBtn = document.getElementById('eb-popup-close');
+    var dismissBtn = document.getElementById('eb-popup-dismiss');
+    var enrollBtn = document.getElementById('eb-popup-enroll');
+
+    function dismiss(){
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    }
+    function show(){
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+    dismissBtn.addEventListener('click', dismiss);
+    enrollBtn.addEventListener('click', dismiss);
+    backdrop.addEventListener('click', function(e){ if (e.target === backdrop) dismiss(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) dismiss();
+    });
+
+    setTimeout(show, 3500);
   }
 
   if (document.readyState === 'loading') {
