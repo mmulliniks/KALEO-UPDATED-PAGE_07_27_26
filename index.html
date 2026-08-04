@@ -9,6 +9,47 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Kaleo Arts — Where creativity shines, & everyone belongs.</title>
 <meta name="description" content="A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults."/>
+<link rel="canonical" href="https://kaleoarts.org/"/>
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Kaleo Arts"/>
+<meta property="og:url" content="https://kaleoarts.org/"/>
+<meta property="og:title" content="Kaleo Arts — Where creativity shines, &amp; everyone belongs."/>
+<meta property="og:description" content="A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults."/>
+<meta property="og:image" content="https://kaleoarts.org/assets/img/hero-chosen.jpg"/>
+<meta property="og:image:width" content="2400"/>
+<meta property="og:image:height" content="1597"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Kaleo Arts — Where creativity shines, &amp; everyone belongs."/>
+<meta name="twitter:description" content="A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults."/>
+<meta name="twitter:image" content="https://kaleoarts.org/assets/img/hero-chosen.jpg"/>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  "name": "Kaleo Arts",
+  "alternateName": "Kaleo Kids",
+  "url": "https://kaleoarts.org/",
+  "logo": "https://kaleoarts.org/assets/img/logo-kaleo-mark.png",
+  "image": "https://kaleoarts.org/assets/img/hero-chosen.jpg",
+  "description": "A performing arts home in Oakland Township, MI. No auditions, no competitions, no costume fees — for kids ages 3 through 18, plus adults.",
+  "telephone": "+1-248-955-1192",
+  "email": "yourfriends@kaleoarts.org",
+  "foundingDate": "2005",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "4906 N. Adams Rd.",
+    "addressLocality": "Oakland Township",
+    "addressRegion": "MI",
+    "postalCode": "48306",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.instagram.com/kaleo.arts",
+    "https://www.facebook.com/kaleo.kids.arts"
+  ]
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -264,6 +305,22 @@
   @keyframes hero-drift {
     0%   { transform: scale(1.08) translate3d(0, 0, 0); }
     100% { transform: scale(1.14) translate3d(-1%, -2%, 0); }
+  }
+  /* Kill hero-drift on touch devices, not just narrow viewports.
+     Mirrors the same fix in assets/kaleo-v3.css (subpages) — see that
+     file for the full explanation. Short version: mobile browsers
+     commonly defer compositing a will-change: transform layer until
+     the first scroll, so the animation's clock has already been
+     ticking since page load and the first scroll makes it jump to
+     catch up, instead of drifting smoothly. (hover: none) and
+     (pointer: coarse) catches every touch device regardless of width
+     or orientation, so the animation never starts and there's
+     nothing to catch up on. */
+  @media (hover: none) and (pointer: coarse) {
+    .hero-img {
+      animation: none !important;
+      transform: none !important;
+    }
   }
   /* Vignette overlays */
   .hero::before {
@@ -1585,21 +1642,24 @@
        Two issues we're solving here:
        1. Address-bar toggling on mobile Safari changes `vh` mid-scroll,
           which was making the hero visibly resize as the user scrolled
-          (the "panning" feel). Switch to `dvh` (dynamic viewport
-          height) so the value stays stable while scrolling. Fall back
-          to `vh` for older browsers.
-       2. Fill the whole phone screen on load — 100dvh = the actual
-          visible viewport with the address bar collapsed. The lvh
-          (large viewport height) fallback covers browsers that
-          support lvh but not dvh. The old 100vh unit still leaves an
-          8% black strip below the fold when the address bar hides.
+          (the "panning"/"zooms all at once" feel). `dvh` does NOT fix
+          this — dvh is the dynamic unit by definition, so it tracks
+          the address bar collapsing in real time, which is exactly
+          what was causing the resize-on-first-scroll. `svh` (small
+          viewport height) is the one that's actually fixed: it always
+          assumes the address bar is showing, so it never changes.
+       2. Fill the whole phone screen on load. The lvh (large viewport
+          height) fallback covers browsers that support lvh but not
+          svh. The old 100vh unit still leaves an 8% black strip below
+          the fold when the address bar hides, so we keep it only as
+          the base fallback for very old browsers.
        Keep hero-content in-flow (position: relative) so tall multi-
        line hero titles push the CTA row down instead of clipping it. */
     .hero {
       height: auto !important;
       min-height: 100vh !important;
       min-height: 100lvh !important;
-      min-height: 100dvh !important;
+      min-height: 100svh !important;
       max-height: none !important;
     }
     .hero-content {
@@ -1607,7 +1667,7 @@
       inset: auto !important;
       min-height: 100vh;
       min-height: 100lvh;
-      min-height: 100dvh;
+      min-height: 100svh;
       padding: 96px 0 44px !important;
     }
     .hero-cta-row {
@@ -1654,7 +1714,7 @@
 
 <!-- ==================== HERO ==================== -->
 <section class="hero">
-  <img class="hero-img" src="assets/img/hero-chosen.jpg" alt="Kaleo students in orange 'Chosen' tees performing on stage with lobster and chef leads under blue lights"/>
+  <picture><source srcset="assets/img/hero-chosen.webp" type="image/webp"/><img class="hero-img" src="assets/img/hero-chosen.jpg" width="2400" height="1597" alt="Kaleo students in orange 'Chosen' tees performing on stage with lobster and chef leads under blue lights"/></picture>
   <div class="hero-content">
     <div class="wrap-lg">
       <div class="hero-top-meta">
@@ -1702,7 +1762,7 @@
     </div>
     <div class="video-frame reveal r-d1" id="home-video" data-vimeo="https://player.vimeo.com/video/1212944998?h=1c9df65b32" data-video-title="Kaleo Arts welcome video">
       <button class="video-poster" type="button" aria-label="Play the Kaleo welcome video">
-        <img src="assets/img/kaleo-15.jpg" alt="Students dancing with rainbow ribbons on the Kaleo stage" loading="lazy"/>
+        <img src="assets/img/kaleo-15.jpg" width="2400" height="1597" alt="Students dancing with rainbow ribbons on the Kaleo stage" loading="lazy"/>
         <span class="play-badge" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M6 4l14 8-14 8V4z"/></svg>
         </span>
@@ -1762,7 +1822,7 @@
     <span class="plate-label reveal">The approach</span>
     <div class="approach">
       <div class="approach-img-wrap reveal">
-        <img class="approach-img" src="assets/img/kk-new-03.jpg" alt="A young performer in butterfly wings, arms outstretched mid-performance under warm stage light" loading="lazy"/>
+        <picture><source srcset="assets/img/kk-new-03.webp" type="image/webp"/><img class="approach-img" src="assets/img/kk-new-03.jpg" width="2400" height="1600" alt="A young performer in butterfly wings, arms outstretched mid-performance under warm stage light" loading="lazy"/></picture>
         <span class="img-caption">Backstage</span>
       </div>
       <div class="approach-body">
@@ -1782,7 +1842,7 @@
 <!-- ==================== PROGRAMS ==================== -->
 <section class="spread tight">
   <div class="programs-hero reveal">
-    <img src="assets/img/kaleo-07.jpg" alt="A student holds a silver star-shaped balloon amid a cast of young performers in starry costumes on a blue-lit stage" loading="lazy" data-parallax="0.1"/>
+    <picture><source srcset="assets/img/kaleo-07.webp" type="image/webp"/><img src="assets/img/kaleo-07.jpg" width="2400" height="1597" alt="A student holds a silver star-shaped balloon amid a cast of young performers in starry costumes on a blue-lit stage" loading="lazy" data-parallax="0.1"/></picture>
     <span class="caption">Now Showing</span>
     <div class="kicker">Six ways to join — <em>from first steps in music at age three, to writing original songs in high school.</em></div>
   </div>
@@ -1848,7 +1908,7 @@
     <span class="plate-label reveal">Voices from a Kaleo family</span>
     <div class="pullq">
       <div class="pullq-img-wrap reveal">
-        <img class="pullq-img" src="assets/img/kaleo-17.jpg" alt="A young singer in a gold sequined costume performs into a microphone under stage lights" loading="lazy"/>
+        <picture><source srcset="assets/img/kaleo-17.webp" type="image/webp"/><img class="pullq-img" src="assets/img/kaleo-17.jpg" width="1600" height="2400" alt="A young singer in a gold sequined costume performs into a microphone under stage lights" loading="lazy"/></picture>
         <span class="pullq-caption">Solo</span>
       </div>
       <div class="pullq-body">
@@ -1866,7 +1926,7 @@
 <section class="spread">
   <div class="wrap-lg">
     <div class="heart-banner reveal">
-      <img src="assets/img/kk-new-10.jpg" alt="A wide low-angle stage shot with the full ensemble arms raised, a dancer in luminous wings at center under the lighting rig" loading="lazy" data-parallax="0.08"/>
+      <picture><source srcset="assets/img/kk-new-10.webp" type="image/webp"/><img src="assets/img/kk-new-10.jpg" width="2400" height="1568" alt="A wide low-angle stage shot with the full ensemble arms raised, a dancer in luminous wings at center under the lighting rig" loading="lazy" data-parallax="0.08"/></picture>
       <span class="caption">Ensemble</span>
       <p class="quote">Three values behind every class, every rehearsal, every performance.</p>
     </div>
@@ -1898,19 +1958,19 @@
     <h2 class="section-h reveal r-d1">Twenty years, <em>one relationship</em><br/>at a time.</h2>
     <div class="voices">
       <div class="voice reveal">
-        <img src="assets/img/kaleo-25.jpg" alt="A young performer laughs mid-dance holding a handmade paper mask aloft" loading="lazy"/>
+        <picture><source srcset="assets/img/kaleo-25.webp" type="image/webp"/><img src="assets/img/kaleo-25.jpg" width="2400" height="1600" alt="A young performer laughs mid-dance holding a handmade paper mask aloft" loading="lazy"/></picture>
         <div class="num">Voice 01</div>
         <blockquote>"Watching him perform on a real stage — we had no idea our son could do that!"</blockquote>
         <cite>— Kaleo Kids parent</cite>
       </div>
       <div class="voice reveal r-d1">
-        <img src="assets/img/kaleo-30.jpg" alt="Young children in pink and green Chosen t-shirts jump joyfully with ribbon streamers on a magenta-lit stage" loading="lazy"/>
+        <picture><source srcset="assets/img/kaleo-30.webp" type="image/webp"/><img src="assets/img/kaleo-30.jpg" width="2400" height="1597" alt="Young children in pink and green Chosen t-shirts jump joyfully with ribbon streamers on a magenta-lit stage" loading="lazy"/></picture>
         <div class="num">Voice 02</div>
         <blockquote>"We tried a competition studio first. This is the first place my son actually asks to go back to."</blockquote>
         <cite>— Kaleo Kids parent</cite>
       </div>
       <div class="voice reveal r-d2">
-        <img src="assets/img/kaleo-21.jpg" alt="A row of young performers in butterfly, sunflower, and bird costumes raise their arms mid-performance" loading="lazy"/>
+        <picture><source srcset="assets/img/kaleo-21.webp" type="image/webp"/><img src="assets/img/kaleo-21.jpg" width="2400" height="1568" alt="A row of young performers in butterfly, sunflower, and bird costumes raise their arms mid-performance" loading="lazy"/></picture>
         <div class="num">Voice 03</div>
         <blockquote>"The teachers remember my kid's names and stories. That's rare, and it matters."</blockquote>
         <cite>— Community member since 2019</cite>
@@ -1947,7 +2007,7 @@
 
 <!-- ==================== FINAL / INVITATION ==================== -->
 <section class="final">
-  <img src="assets/img/kaleo-33.jpg" alt="A single performer stands framed by spotlight beams pouring down on a smoke-filled stage" loading="lazy" data-parallax="0.05"/>
+  <picture><source srcset="assets/img/kaleo-33.webp" type="image/webp"/><img src="assets/img/kaleo-33.jpg" width="2400" height="1597" alt="A single performer stands framed by spotlight beams pouring down on a smoke-filled stage" loading="lazy" data-parallax="0.05"/></picture>
   <div class="final-content">
     <span class="rsvp-eye reveal">R &nbsp;·&nbsp; S &nbsp;·&nbsp; V &nbsp;·&nbsp; P</span>
     <h2 class="reveal r-d1">You're<br/><em>invited.</em></h2>
