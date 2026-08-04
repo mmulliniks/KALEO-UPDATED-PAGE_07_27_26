@@ -244,7 +244,7 @@
       +     '</picture>'
       +     '<div class="eb-popup-body-wrap">'
       +       '<span class="eb-popup-eyebrow">§ Early-bird registration</span>'
-      +       '<h2 class="eb-popup-title" id="eb-popup-title"><em>Hey-Yo!</em> Early bird ends <strong>Aug 25</strong>.</h2>'
+      +       '<h2 class="eb-popup-title" id="eb-popup-title"><em>Hey-Yo!</em> Kaleo Early bird pricing ends <strong>Aug 25</strong>.</h2>'
       +       '<p class="eb-popup-body">Register by Aug 25 and save — <strong>$100 off</strong> Kaleo Kids &amp; Songwriters, plus <strong>no registration fees</strong> on any program.</p>'
       +       '<div class="eb-popup-actions">'
       +         '<a class="btn btn-primary" href="enroll.html" id="eb-popup-enroll">Enroll now'
