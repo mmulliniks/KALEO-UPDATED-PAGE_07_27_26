@@ -8,7 +8,7 @@
   const navHTML = `
   <nav class="nav" id="nav">
     <div class="nav-inner">
-      <a class="nav-logo" href="index.html"><picture><source srcset="assets/img/logo-kaleo-mark.webp" type="image/webp"/><img class="nav-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/></picture>Kaleo <em>Arts</em></a>
+      <a class="nav-logo" href="index.html"><picture><source srcset="assets/img/logo-kaleo-mark.webp" type="image/webp"/><img class="nav-logo-mark" src="assets/img/logo-kaleo-mark.png" width="492" height="530" alt=""/></picture>Kaleo <em>Arts</em></a>
       <div class="nav-links">
         <a href="kaleo-kids.html"${cur('kaleo-kids')}>Kaleo Kids</a>
         <a href="kazoo.html"${cur('kazoo')}>Kazoo</a>
@@ -53,7 +53,7 @@
     <div class="wrap-lg">
       <div class="footer-top">
         <div>
-          <a class="footer-brand" href="index.html" aria-label="Back to Kaleo Arts homepage" style="text-decoration: none; color: inherit;"><picture><source srcset="assets/img/logo-kaleo-mark.webp" type="image/webp"/><img class="footer-brand-mark" src="assets/img/logo-kaleo-mark.png" alt=""/></picture>Kaleo <em>Arts</em></a>
+          <a class="footer-brand" href="index.html" aria-label="Back to Kaleo Arts homepage" style="text-decoration: none; color: inherit;"><picture><source srcset="assets/img/logo-kaleo-mark.webp" type="image/webp"/><img class="footer-brand-mark" src="assets/img/logo-kaleo-mark.png" width="492" height="530" alt=""/></picture>Kaleo <em>Arts</em></a>
           <p class="footer-tag">Where creativity shines, &amp; everyone belongs. Oakland Township, MI · Est. 2005.</p>
         </div>
         <div class="footer-col">
