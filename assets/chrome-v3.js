@@ -227,12 +227,17 @@
   // dismiss it) and auto-expires after the deadline so nobody has to
   // remember to remove it later.
   function initEarlyBirdPopup(){
-    var DEADLINE = new Date('2026-08-26T00:00:00-04:00'); // Aug 25, end of day (America/Detroit)
+    var DEADLINE = new Date('2026-08-26T00:00:00-07:00'); // midnight Pacific, Aug 26
     var STORAGE_KEY = 'kaleo-eb-popup-dismissed-2026-08-25';
+    var SESSION_KEY = 'kaleo-eb-popup-seen-session';
     if (Date.now() >= DEADLINE.getTime()) return;
     try {
       if (localStorage.getItem(STORAGE_KEY)) return;
     } catch (e) { /* localStorage unavailable (private mode etc) — show anyway */ }
+    try {
+      // Already shown once this site visit (this tab) — don't show again on other pages.
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+    } catch (e) { /* sessionStorage unavailable — show anyway */ }
 
     var html = ''
       + '<div class="eb-popup-backdrop" id="eb-popup-backdrop" aria-hidden="true">'
@@ -240,7 +245,7 @@
       +     '<button class="eb-popup-close" id="eb-popup-close" aria-label="Close">&times;</button>'
       +     '<picture class="eb-popup-photo">'
       +       '<source srcset="assets/img/eb-popup.webp" type="image/webp"/>'
-      +       '<img src="assets/img/eb-popup.jpg" width="1200" height="800" alt="Kaleo Kids performers cheering on stage with scarves raised and mics in hand"/>'
+      +       '<img src="assets/img/eb-popup.jpg" width="920" height="336" alt="Kaleo Kids performers cheering on stage with scarves raised and mics in hand"/>'
       +     '</picture>'
       +     '<div class="eb-popup-body-wrap">'
       +       '<span class="eb-popup-eyebrow">§ Early-bird registration</span>'
@@ -272,6 +277,7 @@
       backdrop.classList.add('open');
       backdrop.setAttribute('aria-hidden', 'false');
       document.body.style.overflow = 'hidden';
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
     }
 
     closeBtn.addEventListener('click', dismiss);
