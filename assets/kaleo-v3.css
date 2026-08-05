@@ -1998,44 +1998,33 @@ footer {
 /* ==================== SHORT-VIEWPORT RESPONSIVE HERO (desktop/tablet widths) ====================
    .hero-title's font-size scaled with viewport *width* only (clamp(...,10vw,...)),
    not height, so on a normal desktop/laptop window that's simply short
-   (~800-900px tall is common), a hero with several stacked pieces — top
-   badge/meta row, headline, bottom caption + CTA row — could need more
-   than 100vh even though the window was plenty wide. Because .hero was a
-   fixed height:100vh with overflow:hidden, that overflow got clipped, not
-   scrolled, and the CTA row could disappear below the fold. This applies
-   to every page (all share the same .hero markup), not just the one with
-   the most content.
-   Two things work together here, both driven continuously by vh (no
-   breakpoint switch, so there's no sudden jump as the window is resized —
-   it eases smoothly from full size down to its floor):
-     1) .hero-title's font-size also factors in viewport height via
-        min(10vw, Nvh), so it only shrinks below its normal width-based
-        size once the window gets short.
-     2) .hero-content's padding (and .hero-center's) also scale down on
-        short windows via clamp(), freeing up a little more room.
-   Below is min-width:721px only — phones are handled separately by the
-   mobile block further down, unaffected by this.
-   Even with this, an extreme window (well under 800px tall) can still
-   need a touch more than fits in one screen. For that, a second,
-   separate rule below (gated to max-height:850px, tighter than this
-   block) lets .hero grow with its content instead of clipping, so on
-   those rare windows the CTA row just needs a small scroll instead of
-   ever being hidden. That growth rule is deliberately NOT part of this
-   unconditional block: it turns off overflow:hidden, which is also
-   what keeps the Ken Burns zoom (.hero-img's scale animation) and the
-   vignette gradients contained inside the hero's edges. Stripping that
-   on every desktop window — not just the rare short ones that actually
-   need it — let the zoom bleed out past the hero into the section
-   below. So overflow stays hidden (Ken Burns stays contained) on all
-   normal-height windows, and only opens up as a last resort. */
+   (~800-900px tall is common), a hero with several stacked pieces could
+   need more than 100vh even though the window was plenty wide. Because
+   .hero was a fixed height:100vh with overflow:hidden, that overflow got
+   clipped, not scrolled, and the CTA row could disappear below the fold.
+
+   Turns out only Kazoo actually needs the font/padding shrink: its
+   4-line headline + top badge is uniquely tall, and testing showed it
+   needs a real reduction (font down to ~116px, well below its natural
+   144px) to avoid clipping around 850-950px window heights. Every other
+   page on this shared stylesheet fits fine unshrunk down to at least
+   860px (verified on classes.html), so applying the same aggressive
+   shrink site-wide was making every other page's hero text visibly
+   smaller than production for no reason. So the font/padding shrink
+   below is scoped to Kazoo only — still driven continuously by vh (no
+   breakpoint jump), it just doesn't apply anywhere it isn't needed.
+
+   The .hero-cta-row wrap/gap rule and the structural grow-fallback
+   below it stay global — they're harmless safety nets with no visual
+   cost on pages that don't need them. */
 @media (min-width: 721px) {
-  .hero-content {
+  body[data-screen-label="Kazoo"] .hero-content {
     padding: clamp(90px, 12vh, 130px) 0 clamp(36px, 5vh, 60px);
   }
-  .hero-center {
+  body[data-screen-label="Kazoo"] .hero-center {
     padding: clamp(20px, 3vh, 40px) 0;
   }
-  .hero-title {
+  body[data-screen-label="Kazoo"] .hero-title {
     font-size: clamp(56px, min(10vw, 13vh), 180px);
   }
   .hero-cta-row {
@@ -2045,10 +2034,11 @@ footer {
   .hero-cta-row .btn { flex: 0 1 auto; }
 }
 /* Last-resort fallback for genuinely short windows (~850px and under)
-   where the smooth shrink above still isn't quite enough. Only here
+   where Kazoo's smooth shrink above still isn't quite enough, and where
+   other pages could still theoretically run out of room too. Only here
    does .hero stop clipping overflow and grow with its content instead
-   — a deliberately narrow window so the Ken Burns zoom stays contained
-   everywhere else. */
+   — a deliberately narrow, page-agnostic query so the Ken Burns zoom
+   stays contained everywhere else. */
 @media (min-width: 721px) and (max-height: 850px) {
   .hero {
     height: auto;
