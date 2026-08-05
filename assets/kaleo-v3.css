@@ -326,9 +326,9 @@ input, select, textarea { font: inherit; color: inherit; }
      130px top padding instead. Mobile resets this back to normal flow
      below, since the mobile hero is height:auto and safely grows. */
   position: absolute;
-  top: -86px;
+  top: -64px;
   left: 0;
-  width: 132px;
+  width: 100px;
   height: auto;
   opacity: 0;
   animation: fade-in 1s ease 0.15s forwards;
