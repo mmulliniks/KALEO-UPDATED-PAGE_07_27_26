@@ -2014,12 +2014,30 @@ footer {
     inset: auto;
     min-height: 100vh;
     min-height: 100svh;
+    padding: 90px 0 36px;
+  }
+  .hero-center {
+    padding: 20px 0;
   }
   .hero-cta-row {
     flex-wrap: wrap;
     row-gap: 10px;
   }
   .hero-cta-row .btn { flex: 0 1 auto; }
+  /* Kazoo's hero-title has one more line than every other page's (4 vs.
+     3) plus the brand badge row, making it the tallest hero on the
+     site. Shrink its font-size based on viewport height too (the base
+     clamp only scales with width), so it actually fits within one
+     screen on a short desktop window instead of relying on the
+     grow + scroll fallback above. This keeps its normal ~144px size
+     down to roughly 900px tall and scales down from there — by 800px
+     tall it fits with zero clipping and zero scrolling; below that
+     (700px and under, an unusually short window) the grow + scroll
+     fallback above still has it covered, since text can only shrink so
+     far and stay readable. */
+  body[data-screen-label="Kazoo"] .hero-title {
+    font-size: clamp(56px, min(10vw, 13vh), 180px);
+  }
 }
 
 /* ==================== MOBILE-ONLY OPTIMIZATION (<=720px) ====================
