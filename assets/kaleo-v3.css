@@ -443,7 +443,14 @@ input, select, textarea { font: inherit; color: inherit; }
 }
 .hero-photo-caption {
   position: absolute;
-  bottom: 28px; right: 40px;
+  /* Stays clear of the CTA buttons above it. Was a fixed 28px, which
+     worked when .hero-content's bottom padding was a fixed 60px — but
+     now that padding shrinks (down to 36px) on short windows so the
+     hero can fit in one screen, a fixed 28px could land inside the
+     button row instead of below it. Scaling this smaller than the
+     smallest possible content padding keeps it below the buttons at
+     every window size. */
+  bottom: clamp(8px, 2vh, 20px); right: 40px;
   z-index: 4;
   font-family: 'JetBrains Mono', monospace;
   font-size: 10px;
@@ -1988,21 +1995,32 @@ footer {
   .hero.hero-typo .hero-title { font-size: 50px; }
 }
 
-/* ==================== SHORT-VIEWPORT SAFETY NET (desktop/tablet widths) ====================
-   .hero-title's font-size scales with viewport *width* (clamp(...,10vw,...)), not
-   height, so on a normal desktop/laptop window that's simply short (~800-900px
-   tall is common), a hero with a lot of stacked content — Kazoo's 4-line
-   headline plus its brand badge row is the tallest hero on the site — can
-   need more than 100vh even though the window is plenty wide. Because .hero
-   is height:100vh + overflow:hidden by default, that overflow gets clipped,
-   not scrolled, and the CTA row disappears below the fold.
-   The mobile block further down already solves this exact problem by
-   un-pinning .hero-content from its absolute-inset box so it grows with its
-   content — this block applies the same fix keyed off viewport *height*
-   instead of width, so any hero-heavy page is protected on short desktop
-   windows too, not just narrow phones. min-width excludes phones, which are
-   already handled by the mobile block below. */
-@media (min-width: 721px) and (max-height: 900px) {
+/* ==================== SHORT-VIEWPORT RESPONSIVE HERO (desktop/tablet widths) ====================
+   .hero-title's font-size scaled with viewport *width* only (clamp(...,10vw,...)),
+   not height, so on a normal desktop/laptop window that's simply short
+   (~800-900px tall is common), a hero with several stacked pieces — top
+   badge/meta row, headline, bottom caption + CTA row — could need more
+   than 100vh even though the window was plenty wide. Because .hero was a
+   fixed height:100vh with overflow:hidden, that overflow got clipped, not
+   scrolled, and the CTA row could disappear below the fold. This applies
+   to every page (all share the same .hero markup), not just the one with
+   the most content.
+   Two things work together here, both driven continuously by vh (no
+   breakpoint switch, so there's no sudden jump as the window is resized —
+   it eases smoothly from full size down to its floor):
+     1) .hero-title's font-size also factors in viewport height via
+        min(10vw, Nvh), so it only shrinks below its normal width-based
+        size once the window gets short.
+     2) .hero-content's padding (and .hero-center's) also scale down on
+        short windows via clamp(), freeing up a little more room.
+   Below is min-width:721px only — phones are handled separately by the
+   mobile block further down, unaffected by this.
+   Even with this, an extreme window (well under 700px tall) can still
+   need more than fits in one screen — .hero itself grows with its content
+   (height:auto + min-height:100vh) instead of clipping, so on those rare
+   windows the CTA row just needs a small scroll instead of ever being
+   hidden. */
+@media (min-width: 721px) {
   .hero {
     height: auto;
     min-height: 100vh;
@@ -2014,30 +2032,19 @@ footer {
     inset: auto;
     min-height: 100vh;
     min-height: 100svh;
-    padding: 90px 0 36px;
+    padding: clamp(90px, 12vh, 130px) 0 clamp(36px, 5vh, 60px);
   }
   .hero-center {
-    padding: 20px 0;
+    padding: clamp(20px, 3vh, 40px) 0;
+  }
+  .hero-title {
+    font-size: clamp(56px, min(10vw, 13vh), 180px);
   }
   .hero-cta-row {
     flex-wrap: wrap;
     row-gap: 10px;
   }
   .hero-cta-row .btn { flex: 0 1 auto; }
-  /* Kazoo's hero-title has one more line than every other page's (4 vs.
-     3) plus the brand badge row, making it the tallest hero on the
-     site. Shrink its font-size based on viewport height too (the base
-     clamp only scales with width), so it actually fits within one
-     screen on a short desktop window instead of relying on the
-     grow + scroll fallback above. This keeps its normal ~144px size
-     down to roughly 900px tall and scales down from there — by 800px
-     tall it fits with zero clipping and zero scrolling; below that
-     (700px and under, an unusually short window) the grow + scroll
-     fallback above still has it covered, since text can only shrink so
-     far and stay readable. */
-  body[data-screen-label="Kazoo"] .hero-title {
-    font-size: clamp(56px, min(10vw, 13vh), 180px);
-  }
 }
 
 /* ==================== MOBILE-ONLY OPTIMIZATION (<=720px) ====================
