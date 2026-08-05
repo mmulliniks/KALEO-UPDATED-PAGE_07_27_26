@@ -2272,6 +2272,18 @@ footer {
     min-height: 100svh;
     padding: 96px 0 44px !important;
   }
+  /* Typographic heroes (FAQ, About) put the wrap-lg class directly on
+     .hero-content itself instead of nesting a separate .wrap-lg child
+     the way photo heroes do — so zeroing .hero-content's own left/right
+     padding above (needed for photo heroes, whose nested .wrap-lg child
+     supplies its own 20px inset) left FAQ/About's headline and body
+     copy flush against the screen edge on phones, with no fallback
+     margin. Restore the same 20px gutter every other page's hero text
+     gets on mobile. */
+  .hero.hero-typo .hero-content {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
   /* Make sure the CTA row itself never gets clipped and always wraps
      cleanly on narrow screens (buttons stack if needed). */
   .hero-cta-row {
