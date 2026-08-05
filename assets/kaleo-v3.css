@@ -960,6 +960,22 @@ section.spread.tight { padding: 100px 0; }
   margin-bottom: 40px;
 }
 .pullq-text em { color: var(--amber); font-style: italic; }
+/* "Our belief" quote + Kazoo logo, side by side. The logo is sized to
+   roughly match the visual weight (height) of the two-line quote next
+   to it, rather than reading as a small badge. */
+.belief-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+}
+.belief-text { margin-bottom: 0; flex: 1; min-width: 0; }
+.belief-logo {
+  display: block;
+  width: auto;
+  height: 190px;
+  flex-shrink: 0;
+}
 .pullq-cite {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -1990,6 +2006,8 @@ footer {
   /* Kazoo hero brand badge — hero-top-meta (its row partner) is hidden
      above, so on mobile it just sits alone at a slightly smaller size. */
   .hero-brand-badge { height: 40px; }
+  /* "Our belief" quote + Kazoo logo — hidden entirely on phone. */
+  .belief-section { display: none !important; }
   /* Video poster meta ("Click to watch our welcome video", runtime, etc). */
   .video-poster .poster-meta { display: none !important; }
   /* Image corner captions on approach & pull-quote photos ("Backstage", "Solo"). */
