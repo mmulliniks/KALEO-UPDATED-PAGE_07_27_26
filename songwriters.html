@@ -29,8 +29,11 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/kaleo-v3.css"/>
 <style>
-  /* Center hero type so it sits in the open space — not over the
-     pianist's face on the left of the photo. */
+  /* Center hero TITLE only so it sits in the open space — not over the
+     pianist's face on the left of the photo. Body copy, caption, and
+     buttons stay in the site's standard left-aligned / two-column
+     layout (see .hero-bottom / .hero-caption / .hero-cta-row base
+     rules in kaleo-v3.css) to match every other page. */
   .hero-center {
     justify-content: center;
     text-align: center;
@@ -39,19 +42,6 @@
     margin-inline: auto;
     text-align: center;
   }
-  .hero-bottom {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-  }
-  .hero-caption {
-    border-left: 0;
-    border-top: 2px solid var(--amber);
-    padding: 20px 0 0;
-    max-width: 48ch;
-    margin-inline: auto;
-  }
-  .hero-cta-row { justify-content: center; }
 
   /* Album strip */
   .albums {
@@ -176,7 +166,6 @@
   }
   .album.has-art .sub { color: oklch(96% 0.015 82 / 0.75); margin-top: 0; }
   .album.has-art .yr { background: oklch(20% 0.02 260 / 0.5); padding: 6px 10px; backdrop-filter: blur(6px); }
-</style>
 </style>
 </head>
 <body data-screen-label="Songwriters">
