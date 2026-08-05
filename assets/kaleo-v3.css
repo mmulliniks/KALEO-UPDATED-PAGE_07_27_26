@@ -331,7 +331,7 @@ input, select, textarea { font: inherit; color: inherit; }
 .hero-brand-badge {
   display: block;
   width: auto;
-  height: 26px;
+  height: 52px;
   flex-shrink: 0;
   opacity: 0;
   animation: fade-in 1s ease 0.15s forwards;
@@ -1989,7 +1989,7 @@ footer {
   .hero-top-meta { display: none !important; }
   /* Kazoo hero brand badge — hero-top-meta (its row partner) is hidden
      above, so on mobile it just sits alone at a slightly smaller size. */
-  .hero-brand-badge { height: 22px; }
+  .hero-brand-badge { height: 40px; }
   /* Video poster meta ("Click to watch our welcome video", runtime, etc). */
   .video-poster .poster-meta { display: none !important; }
   /* Image corner captions on approach & pull-quote photos ("Backstage", "Solo"). */
