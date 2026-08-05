@@ -2015,23 +2015,21 @@ footer {
         short windows via clamp(), freeing up a little more room.
    Below is min-width:721px only — phones are handled separately by the
    mobile block further down, unaffected by this.
-   Even with this, an extreme window (well under 700px tall) can still
-   need more than fits in one screen — .hero itself grows with its content
-   (height:auto + min-height:100vh) instead of clipping, so on those rare
-   windows the CTA row just needs a small scroll instead of ever being
-   hidden. */
+   Even with this, an extreme window (well under 800px tall) can still
+   need a touch more than fits in one screen. For that, a second,
+   separate rule below (gated to max-height:850px, tighter than this
+   block) lets .hero grow with its content instead of clipping, so on
+   those rare windows the CTA row just needs a small scroll instead of
+   ever being hidden. That growth rule is deliberately NOT part of this
+   unconditional block: it turns off overflow:hidden, which is also
+   what keeps the Ken Burns zoom (.hero-img's scale animation) and the
+   vignette gradients contained inside the hero's edges. Stripping that
+   on every desktop window — not just the rare short ones that actually
+   need it — let the zoom bleed out past the hero into the section
+   below. So overflow stays hidden (Ken Burns stays contained) on all
+   normal-height windows, and only opens up as a last resort. */
 @media (min-width: 721px) {
-  .hero {
-    height: auto;
-    min-height: 100vh;
-    min-height: 100svh;
-    overflow: visible;
-  }
   .hero-content {
-    position: relative;
-    inset: auto;
-    min-height: 100vh;
-    min-height: 100svh;
     padding: clamp(90px, 12vh, 130px) 0 clamp(36px, 5vh, 60px);
   }
   .hero-center {
@@ -2045,6 +2043,25 @@ footer {
     row-gap: 10px;
   }
   .hero-cta-row .btn { flex: 0 1 auto; }
+}
+/* Last-resort fallback for genuinely short windows (~850px and under)
+   where the smooth shrink above still isn't quite enough. Only here
+   does .hero stop clipping overflow and grow with its content instead
+   — a deliberately narrow window so the Ken Burns zoom stays contained
+   everywhere else. */
+@media (min-width: 721px) and (max-height: 850px) {
+  .hero {
+    height: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+    overflow: visible;
+  }
+  .hero-content {
+    position: relative;
+    inset: auto;
+    min-height: 100vh;
+    min-height: 100svh;
+  }
 }
 
 /* ==================== MOBILE-ONLY OPTIMIZATION (<=720px) ====================
