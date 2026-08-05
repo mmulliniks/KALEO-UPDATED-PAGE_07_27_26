@@ -489,7 +489,10 @@
   }
   .hero-photo-caption {
     position: absolute;
-    bottom: 28px; right: 40px;
+    /* Scales smaller than the smallest possible .hero-content bottom
+       padding (see the short-viewport rules further down), so this
+       stays below the CTA buttons instead of landing inside them. */
+    bottom: clamp(8px, 2vh, 20px); right: 40px;
     z-index: 4;
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
@@ -1449,6 +1452,49 @@
   .r-d4 { transition-delay: .4s; }
 
   [data-parallax] { will-change: transform; }
+
+  /* ==================== SHORT-VIEWPORT RESPONSIVE HERO (desktop/tablet widths) ====================
+     Mirrors the same fix in assets/kaleo-v3.css (subpages) — see that
+     file for the full write-up. Short version: .hero-title's font-size
+     only scaled with viewport width, so a short-but-wide desktop window
+     could clip the CTA row. Font-size and padding scale continuously
+     with vh (no breakpoint jump), and only as a last resort — on
+     windows shorter than ~650px, where this page's shorter 3-line
+     title needs it — does .hero stop clipping overflow and grow with
+     its content instead. That grow rule is deliberately its own,
+     tighter media query: turning off overflow:hidden on every window
+     (not just the rare short ones) would let the Ken Burns zoom
+     animation bleed out past the hero into the section below. */
+  @media (min-width: 721px) {
+    .hero-content {
+      padding: clamp(90px, 12vh, 130px) 0 clamp(36px, 5vh, 60px);
+    }
+    .hero-center {
+      padding: clamp(20px, 3vh, 28px) 0 0;
+    }
+    .hero-title {
+      font-size: clamp(56px, min(8.4vw, 18vh), 140px);
+    }
+    .hero-cta-row {
+      flex-wrap: wrap;
+      row-gap: 10px;
+    }
+    .hero-cta-row .btn { flex: 0 1 auto; }
+  }
+  @media (min-width: 721px) and (max-height: 650px) {
+    .hero {
+      height: auto;
+      min-height: 100vh;
+      min-height: 100svh;
+      overflow: visible;
+    }
+    .hero-content {
+      position: relative;
+      inset: auto;
+      min-height: 100vh;
+      min-height: 100svh;
+    }
+  }
 
   /* ==================== RESPONSIVE ==================== */
   @media (max-width: 960px) {
