@@ -317,23 +317,28 @@ input, select, textarea { font: inherit; color: inherit; }
   width: 100%;
   align-self: stretch;
 }
+/* Badge sits inline, to the left of the eyebrow meta row, instead of
+   stacked above it — this way it shares the meta row's existing height
+   budget instead of adding a new block of height. .hero has a fixed
+   100vh height with overflow:hidden on desktop, so anything that adds
+   real height to .hero-content's flow risks pushing the CTA row below
+   the fold. */
+.hero-top-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
 .hero-brand-badge {
-  /* Positioned out of the flex flow (rather than stacked in-line above
-     .hero-top-meta) so it doesn't add extra height to .hero-content's
-     space-between stack — .hero has a fixed 100vh height with
-     overflow:hidden on desktop, so any added flow height pushes the
-     CTA row below the fold and clips it. It floats inside the existing
-     130px top padding instead. Mobile resets this back to normal flow
-     below, since the mobile hero is height:auto and safely grows. */
-  position: absolute;
-  top: -64px;
-  left: 0;
-  width: 100px;
-  height: auto;
+  display: block;
+  width: auto;
+  height: 26px;
+  flex-shrink: 0;
   opacity: 0;
   animation: fade-in 1s ease 0.15s forwards;
 }
 .hero-top-meta {
+  flex: 1;
+  min-width: 0;
   display: flex; justify-content: space-between; align-items: center;
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
@@ -1982,17 +1987,9 @@ footer {
   .hero-photo-caption { display: none !important; }
   /* Hero top-of-page meta strip ("Kaleo Arts — Oakland Township — EST. 2005"). */
   .hero-top-meta { display: none !important; }
-  /* Kazoo hero brand badge — keep visible (it's a real brand mark, not
-     decorative chrome) but shrink it a bit for phone width. Reset back to
-     normal flow here: the mobile hero is height:auto (see hero-content
-     rule above), so letting the badge take real flow space just grows
-     the section safely instead of needing the desktop's negative-offset
-     overlay trick. */
-  .hero-brand-badge {
-    position: static;
-    width: 104px;
-    margin-bottom: 16px;
-  }
+  /* Kazoo hero brand badge — hero-top-meta (its row partner) is hidden
+     above, so on mobile it just sits alone at a slightly smaller size. */
+  .hero-brand-badge { height: 22px; }
   /* Video poster meta ("Click to watch our welcome video", runtime, etc). */
   .video-poster .poster-meta { display: none !important; }
   /* Image corner captions on approach & pull-quote photos ("Backstage", "Solo"). */
