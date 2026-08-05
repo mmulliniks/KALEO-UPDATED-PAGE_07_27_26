@@ -498,7 +498,12 @@ input, select, textarea { font: inherit; color: inherit; }
   padding-right: 40px;
 }
 .hero.hero-typo .hero-title {
-  font-size: clamp(56px, 8.5vw, 148px);
+  /* Same smart vh-capped scaling as the photo-hero pages (see the
+     SHORT-VIEWPORT RESPONSIVE HERO block further down for the full
+     write-up on --hero-vh-cap) — ties this hero style into the same
+     mechanism so About/FAQ ease down on short windows like every
+     other page, instead of staying fixed-size regardless of height. */
+  font-size: clamp(56px, min(8.5vw, calc(var(--hero-vh-cap, 20) * 1vh)), 148px);
   max-width: 18ch;
   /* Descender clipping is handled on the base .hero-title .line
      rule (pad + negative margin). The typographic hero stacks 5
