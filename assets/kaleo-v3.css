@@ -317,6 +317,14 @@ input, select, textarea { font: inherit; color: inherit; }
   width: 100%;
   align-self: stretch;
 }
+.hero-brand-badge {
+  display: block;
+  width: 132px;
+  height: auto;
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: fade-in 1s ease 0.15s forwards;
+}
 .hero-top-meta {
   display: flex; justify-content: space-between; align-items: center;
   font-family: 'JetBrains Mono', monospace;
@@ -1966,6 +1974,9 @@ footer {
   .hero-photo-caption { display: none !important; }
   /* Hero top-of-page meta strip ("Kaleo Arts — Oakland Township — EST. 2005"). */
   .hero-top-meta { display: none !important; }
+  /* Kazoo hero brand badge — keep visible (it's a real brand mark, not
+     decorative chrome) but shrink it a bit for phone width. */
+  .hero-brand-badge { width: 104px; margin-bottom: 16px; }
   /* Video poster meta ("Click to watch our welcome video", runtime, etc). */
   .video-poster .poster-meta { display: none !important; }
   /* Image corner captions on approach & pull-quote photos ("Backstage", "Solo"). */
