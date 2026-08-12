@@ -72,6 +72,7 @@
           <a href="enroll.html">Enroll</a>
           <a href="https://abide.community/branches/kaleo-arts/" target="_blank" rel="noopener">Donate</a>
           <a href="https://g.page/r/CQpWBNSkI0EwEBM/review" target="_blank" rel="noopener">Leave a Review</a>
+          <a href="share.html">Share the Invitation</a>
         </div>
         <div class="footer-col footer-contact">
           <h4>Visit &amp; Contact</h4>
