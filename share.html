@@ -1,0 +1,1271 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Share the invitation — Kaleo Arts</title>
+<meta name="description" content="Help us spread the word about the new Kaleo Arts studio opening in Oakland Township this fall.">
+<meta property="og:title" content="Share the invitation — Kaleo Arts">
+<meta property="og:description" content="Help us spread the word about the new Kaleo Arts studio opening in Oakland Township this fall.">
+<meta name="theme-color" content="#0e1013">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --stage:      oklch(11% 0.018 260);
+    --stage-2:    oklch(15% 0.02 260);
+    --stage-3:    oklch(19% 0.022 260);
+    --rule:       oklch(28% 0.02 260);
+    --cream:      oklch(96% 0.015 82);
+    --cream-mute: oklch(82% 0.02 78);
+    --cream-fade: oklch(62% 0.02 260);
+    --amber:      oklch(75% 0.15 68);
+    --amber-hot:  oklch(68% 0.18 55);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--stage);
+    color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+  body {
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
+  a { color: inherit; text-decoration: none; }
+  em { font-style: italic; }
+  button { font-family: inherit; cursor: pointer; }
+
+  /* ============================================================
+     TOP BAR (fixed brand strip)
+     ============================================================ */
+  .topbar {
+    padding: 20px 24px;
+    display: flex; align-items: center; gap: 10px;
+    border-bottom: 1px solid var(--rule);
+    background: var(--stage);
+    position: sticky; top: 0; z-index: 20;
+    backdrop-filter: blur(20px);
+  }
+  .topbar img { height: 28px; width: auto; display: block; }
+  .topbar .name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--cream);
+    line-height: 1;
+  }
+  .topbar .name em { font-style: italic; color: var(--amber); font-weight: 400; }
+
+  /* ============================================================
+     WRAP
+     ============================================================ */
+  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
+
+  /* ============================================================
+     HERO (headline)
+     ============================================================ */
+  .hero { margin-bottom: 40px; }
+  .kicker {
+    display: inline-flex; align-items: center; gap: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; letter-spacing: 0.24em;
+    text-transform: uppercase; color: var(--amber);
+    margin-bottom: 20px;
+  }
+  .kicker::before { content: ""; width: 36px; height: 1px; background: var(--amber); }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: clamp(38px, 9vw, 56px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    color: var(--cream);
+    margin-bottom: 16px;
+    max-width: 14ch;
+    text-wrap: balance;
+  }
+  h1 em { font-style: italic; color: var(--amber); font-weight: 400; }
+  .lede {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 17px; line-height: 1.5;
+    color: var(--cream-mute);
+    max-width: 40ch;
+  }
+
+  /* ============================================================
+     STEP HEADER
+     ============================================================ */
+  .step {
+    margin: 40px 0 20px;
+    display: flex; align-items: baseline; gap: 14px;
+  }
+  .step .no {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--amber);
+  }
+  .step h2 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 26px; line-height: 1.1;
+    letter-spacing: -0.02em; color: var(--cream);
+  }
+  .step h2 em { font-style: italic; color: var(--amber); font-weight: 400; }
+
+  /* ============================================================
+     STEP 1 — TEMPLATE CAROUSEL
+     ============================================================ */
+  .templates {
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 4px 4px 20px;
+    margin: 0 -24px;
+    padding-left: 24px;
+    padding-right: 24px;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .templates::-webkit-scrollbar { display: none; }
+  .template {
+    flex: 0 0 260px;
+    scroll-snap-align: start;
+    aspect-ratio: 4 / 5;
+    position: relative;
+    background: var(--stage-2);
+    border: 2px solid var(--rule);
+    overflow: hidden;
+    cursor: pointer;
+    transition: border-color .2s, transform .2s;
+  }
+  .template.selected {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 4px oklch(75% 0.15 68 / 0.2);
+  }
+  .template:active { transform: scale(0.98); }
+  .template .thumb {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column;
+    padding: 20px;
+    overflow: hidden;
+  }
+  .template .thumb .bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .template .thumb .bg-scrim {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(135deg,
+        oklch(11% 0.018 260 / 0.85) 0%,
+        oklch(11% 0.018 260 / 0.55) 30%,
+        oklch(11% 0.018 260 / 0.1) 55%,
+        oklch(11% 0.018 260 / 0.6) 82%,
+        oklch(11% 0.018 260 / 0.95) 100%);
+  }
+  .template .thumb-inner {
+    position: relative; z-index: 1;
+    display: flex; flex-direction: column;
+    height: 100%;
+  }
+  .template .t-kicker {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; font-weight: 500;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--amber);
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .template .t-kicker::before {
+    content: ""; width: 20px; height: 1px; background: var(--amber);
+  }
+  .template .t-headline {
+    margin-top: auto;
+    margin-bottom: 12px;
+    font-family: 'DM Serif Display', serif;
+    font-size: 24px; line-height: 0.96;
+    letter-spacing: -0.03em;
+    color: var(--cream);
+  }
+  .template .t-headline em { font-style: italic; color: var(--amber); font-weight: 400; }
+  .template .t-footer {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream-mute);
+    border-top: 1px solid oklch(85% 0.02 78 / 0.25);
+    padding-top: 8px;
+    line-height: 1.7;
+  }
+  .template .t-footer .amber { color: var(--amber); display: block; margin-top: 4px; }
+
+  .template .check {
+    position: absolute;
+    top: 12px; right: 12px;
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: var(--amber);
+    color: var(--stage);
+    display: none;
+    align-items: center; justify-content: center;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 700; font-size: 15px;
+    z-index: 2;
+  }
+  .template.selected .check { display: flex; }
+
+  /* Custom-photo template card */
+  .template.custom {
+    display: flex; align-items: center; justify-content: center;
+    background: var(--stage-2);
+  }
+  .template.custom .thumb {
+    padding: 30px 24px;
+    align-items: center; justify-content: center;
+    text-align: center;
+  }
+  .template.custom .thumb-inner {
+    align-items: center; justify-content: center; text-align: center;
+  }
+  .template.custom .icon {
+    width: 48px; height: 48px;
+    border: 2px dashed var(--amber);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--amber);
+    margin-bottom: 14px;
+    font-size: 24px; line-height: 1;
+  }
+  .template.custom .lbl {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: 20px; line-height: 1.2;
+    color: var(--cream);
+    margin-bottom: 6px;
+  }
+  .template.custom .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--cream-mute);
+    line-height: 1.8;
+  }
+  .template.custom .preview-img {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    display: none;
+  }
+  .template.custom.has-photo .thumb-inner { display: none; }
+  .template.custom.has-photo .preview-img { display: block; }
+  .template.custom.has-photo::after {
+    content: "Your photo";
+    position: absolute; bottom: 10px; left: 10px;
+    z-index: 3;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--cream);
+    background: oklch(11% 0.018 260 / 0.7);
+    padding: 6px 10px;
+    border: 1px solid oklch(85% 0.02 78 / 0.3);
+  }
+
+  .templates-note {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px; line-height: 1.5;
+    color: var(--cream-fade);
+    margin-top: 4px;
+  }
+
+  /* ============================================================
+     STEP 2 — CAPTION EDITOR
+     ============================================================ */
+  .caption-wrap {
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    padding: 4px;
+  }
+  textarea.caption {
+    width: 100%;
+    min-height: 140px;
+    padding: 18px 18px;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    resize: vertical;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--cream);
+  }
+  textarea.caption::placeholder { color: var(--cream-fade); }
+  .caption-meta {
+    padding: 10px 18px 14px;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cream-fade);
+  }
+  .caption-meta button {
+    background: transparent;
+    border: 0;
+    color: var(--amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 4px 0;
+  }
+  .caption-meta button:hover { color: var(--cream); }
+
+  /* Copy caption button (small, inline) */
+  .copy-caption {
+    margin-top: 14px;
+    width: 100%;
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    padding: 14px 18px;
+    color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; font-weight: 500;
+    letter-spacing: 0.02em;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    transition: background .2s, border-color .2s;
+  }
+  .copy-caption:hover, .copy-caption.copied {
+    background: var(--stage-3);
+    border-color: var(--amber);
+    color: var(--amber);
+  }
+  .copy-caption svg { width: 14px; height: 14px; }
+
+  /* ============================================================
+     STEP 3 — SHARE BUTTONS
+     ============================================================ */
+  .share-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  .share-btn {
+    background: var(--stage-2);
+    border: 1px solid var(--rule);
+    padding: 18px 16px;
+    display: flex; align-items: center; gap: 14px;
+    color: var(--cream);
+    transition: background .2s, border-color .2s, transform .1s;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.01em;
+    text-align: left;
+    min-height: 62px;
+  }
+  .share-btn:hover { background: var(--stage-3); border-color: var(--amber); }
+  .share-btn:active { transform: scale(0.98); }
+  .share-btn .icon {
+    width: 34px; height: 34px;
+    background: var(--stage);
+    border: 1px solid var(--rule);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .share-btn .icon svg { width: 18px; height: 18px; color: var(--cream); }
+  .share-btn .lbl-wrap { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .share-btn .lbl { line-height: 1.1; }
+  .share-btn .sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--cream-fade);
+  }
+  .share-btn.primary {
+    background: var(--amber);
+    color: var(--stage);
+    border-color: var(--amber);
+    grid-column: 1 / -1;
+  }
+  .share-btn.primary .icon {
+    background: var(--stage);
+    border-color: var(--stage);
+  }
+  .share-btn.primary .icon svg { color: var(--amber); }
+  .share-btn.primary .sub { color: oklch(15% 0.02 260); }
+  .share-btn.primary:hover { background: var(--cream); border-color: var(--cream); }
+  .share-btn.primary:hover .icon { background: var(--stage); }
+
+  .share-section + .share-section { margin-top: 24px; }
+  .share-section-h {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--cream-fade);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* ============================================================
+     ASSISTED FLOW SHEET
+     ============================================================ */
+  .sheet-backdrop {
+    position: fixed; inset: 0;
+    background: oklch(9% 0.02 260 / 0.72);
+    backdrop-filter: blur(6px);
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity .3s;
+    display: flex; align-items: flex-end; justify-content: center;
+  }
+  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .sheet {
+    width: 100%;
+    max-width: 640px;
+    background: var(--stage-2);
+    border-top: 1px solid var(--rule);
+    padding: 28px 24px 32px;
+    padding-bottom: calc(32px + env(safe-area-inset-bottom));
+    transform: translateY(24px);
+    transition: transform .35s cubic-bezier(.22,.61,.36,1);
+    max-height: 92vh;
+    overflow-y: auto;
+  }
+  .sheet-backdrop.open .sheet { transform: translateY(0); }
+  .sheet-close {
+    position: absolute;
+    top: 16px; right: 16px;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border: 0;
+    background: transparent;
+    color: var(--cream);
+    font-size: 22px; line-height: 1;
+  }
+  .sheet .kicker { margin-bottom: 16px; }
+  .sheet h3 {
+    font-family: 'DM Serif Display', serif;
+    font-weight: 400;
+    font-size: 26px; line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--cream);
+    margin-bottom: 16px;
+    max-width: 18ch;
+  }
+  .sheet h3 em { font-style: italic; color: var(--amber); font-weight: 400; }
+  .sheet ol {
+    list-style: none;
+    counter-reset: step;
+    padding: 0; margin: 0 0 24px;
+  }
+  .sheet ol li {
+    counter-increment: step;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--rule);
+    display: flex; gap: 14px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--cream);
+  }
+  .sheet ol li:last-child { border-bottom: 0; }
+  .sheet ol li::before {
+    content: counter(step, decimal-leading-zero);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.2em;
+    color: var(--amber);
+    flex-shrink: 0;
+    padding-top: 4px;
+  }
+  .sheet .actions {
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  .sheet .actions button {
+    padding: 16px 22px;
+    border-radius: 100px;
+    border: 1px solid var(--rule);
+    background: var(--stage);
+    color: var(--cream);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px; font-weight: 500;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .sheet .actions button.primary {
+    background: var(--amber); color: var(--stage);
+    border-color: var(--amber);
+  }
+  .sheet .actions button:active { transform: scale(0.98); }
+
+  /* ============================================================
+     TOAST
+     ============================================================ */
+  .toast {
+    position: fixed;
+    bottom: 24px; left: 50%; transform: translateX(-50%) translateY(20px);
+    background: var(--amber);
+    color: var(--stage);
+    padding: 12px 20px;
+    border-radius: 100px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px; font-weight: 500;
+    opacity: 0; pointer-events: none;
+    transition: opacity .25s, transform .25s;
+    z-index: 200;
+    box-shadow: 0 12px 40px oklch(5% 0.02 260 / 0.4);
+  }
+  .toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+  }
+
+  /* ============================================================
+     FOOTER
+     ============================================================ */
+  .footer {
+    margin-top: 60px;
+    padding-top: 30px;
+    border-top: 1px solid var(--rule);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+    color: var(--cream-fade);
+    line-height: 1.9;
+    text-align: center;
+  }
+  .footer a { color: var(--amber); }
+
+  /* Hidden file input */
+  input[type="file"] { display: none; }
+</style>
+<link rel="canonical" href="https://kaleoarts.org/share"/>
+<link rel="icon" type="image/png" href="/assets/img/logo-kaleo-mark.png">
+</head>
+<body>
+
+<!-- ============ TOP BAR ============ -->
+<header class="topbar">
+  <img src="assets/img/logo-kaleo-mark.png" alt="">
+  <div class="name">Kaleo <em>Arts</em></div>
+</header>
+
+<main class="wrap">
+
+  <!-- ============ HERO ============ -->
+  <section class="hero">
+    <div class="kicker">Help us launch</div>
+    <h1>Share the <em>invitation</em>.</h1>
+    <p class="lede">Pick a template, add a personal note if you like, then post — or send it to a friend. Takes 20 seconds.</p>
+  </section>
+
+  <!-- ============ STEP 1 — TEMPLATE ============ -->
+  <div class="step">
+    <span class="no">01</span>
+    <h2>Pick a <em>template</em></h2>
+  </div>
+
+  <div class="templates" id="templates">
+    <!-- Templates rendered by JS -->
+  <div class="template selected" data-tpl="t1">
+      <div class="thumb">
+        <div class="bg" style="background-image: url('assets/img/kaleo-15.jpg'); background-position: 50% 20%;"></div>
+        <div class="bg-scrim"></div>
+        <div class="thumb-inner">
+          <div class="t-kicker">FALL 2026</div>
+          <div class="t-headline"><div>Where creativity </div><div><em>shines,</em> and</div><div>everyone <em>belongs.</em></div></div>
+          <div class="t-footer">A NEW HOME · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+        </div>
+      </div>
+      <div class="check">✓</div>
+    </div><div class="template" data-tpl="t2">
+      <div class="thumb">
+        <div class="bg" style="background-image: url('assets/img/kaleo-17.jpg'); background-position: 50% 10%;"></div>
+        <div class="bg-scrim"></div>
+        <div class="thumb-inner">
+          <div class="t-kicker">YOU'RE INVITED</div>
+          <div class="t-headline"><div>Come see</div><div>the <em>space.</em></div></div>
+          <div class="t-footer">SILVERBELL &amp; ADAMS · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+        </div>
+      </div>
+      <div class="check">✓</div>
+    </div><div class="template" data-tpl="t3">
+      <div class="thumb">
+        <div class="bg" style="background-image: url('assets/img/hero-chosen.jpg'); background-position: 50% 30%;"></div>
+        <div class="bg-scrim"></div>
+        <div class="thumb-inner">
+          <div class="t-kicker">LAUNCH SEASON</div>
+          <div class="t-headline"><div>Help us</div><div><em>open the</em></div><div><em>doors.</em></div></div>
+          <div class="t-footer">A NEW STUDIO · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+        </div>
+      </div>
+      <div class="check">✓</div>
+    </div><div class="template custom" data-tpl="custom">
+    <div class="preview-img" id="custom-preview-img"></div>
+    <div class="thumb">
+      <div class="thumb-inner">
+        <div class="icon">+</div>
+        <div class="lbl">Use my <em>own photo</em></div>
+        <div class="sub">Tap to upload</div>
+      </div>
+    </div>
+    <div class="check">✓</div>
+  </div></div>
+  <p class="templates-note">Swipe to see all four. The last card lets you use your own photo — a selfie from the event, the stage, whatever.</p>
+
+  <!-- Hidden file input for the custom template -->
+  <input type="file" id="photo-input" accept="image/*">
+
+  <!-- ============ STEP 2 — CAPTION ============ -->
+  <div class="step">
+    <span class="no">02</span>
+    <h2>Edit the <em>caption</em></h2>
+  </div>
+
+  <div class="caption-wrap">
+    <textarea class="caption" id="caption" spellcheck="true">So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+
+https://kaleoarts.org
+
+#KaleoArts #OaklandTownship #KidsArts #Michigan</textarea>
+    <div class="caption-meta">
+      <span id="char-count">170 chars</span>
+      <button type="button" id="reset-caption">Reset</button>
+    </div>
+  </div>
+
+  <button class="copy-caption" id="copy-caption">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+      <path d="M5 15V5a2 2 0 0 1 2-2h10"></path>
+    </svg>
+    <span id="copy-label">Copy caption to clipboard</span>
+  </button>
+
+  <!-- ============ STEP 3 — SHARE ============ -->
+  <div class="step">
+    <span class="no">03</span>
+    <h2>Post it <em>anywhere</em></h2>
+  </div>
+
+  <!-- Native share (primary, works best on mobile) -->
+  <div class="share-section">
+    <div class="share-grid">
+      <button class="share-btn primary" id="btn-native">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+            <polyline points="16 6 12 2 8 6"></polyline>
+            <line x1="12" y1="2" x2="12" y2="15"></line>
+          </svg>
+        </span>
+        <span class="lbl-wrap">
+          <span class="lbl">Share via your phone</span>
+          <span class="sub">Opens your phone's share sheet · fastest</span>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- One-tap platforms -->
+  <div class="share-section">
+    <div class="share-section-h">One-tap · caption pre-filled</div>
+    <div class="share-grid">
+      <button class="share-btn" data-share="twitter">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">X (Twitter)</span><span class="sub">Post</span></span>
+      </button>
+
+      <button class="share-btn" data-share="threads">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.02c.028-3.577.877-6.431 2.523-8.482C5.845 1.205 8.598.024 12.179 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.968-3.898-5.994-8.304-6.026-2.91.022-5.11.936-6.54 2.716-1.34 1.667-2.032 4.075-2.056 7.156.024 3.082.716 5.49 2.057 7.158 1.429 1.78 3.628 2.694 6.539 2.716 2.628-.02 4.363-.634 5.803-2.05 1.643-1.617 1.614-3.602 1.089-4.811-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.323.144 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Threads</span><span class="sub">Post</span></span>
+      </button>
+
+      <button class="share-btn" data-share="linkedin">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">LinkedIn</span><span class="sub">Post</span></span>
+      </button>
+
+      <button class="share-btn" data-share="whatsapp">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">WhatsApp</span><span class="sub">Send</span></span>
+      </button>
+
+      <button class="share-btn" data-share="sms">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Text message</span><span class="sub">iMessage · SMS</span></span>
+      </button>
+
+      <button class="share-btn" data-share="email">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Email</span><span class="sub">Send</span></span>
+      </button>
+
+      <button class="share-btn" data-share="copy">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Copy link</span><span class="sub">Fallback</span></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Assisted platforms (Instagram / Facebook / TikTok) -->
+  <div class="share-section">
+    <div class="share-section-h">Two-tap · we prep, you post</div>
+    <div class="share-grid">
+      <button class="share-btn" data-assisted="instagram">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Instagram</span><span class="sub">Copy + open app</span></span>
+      </button>
+
+      <button class="share-btn" data-assisted="facebook">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.3c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V14h2.7v8h3.2z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">Facebook</span><span class="sub">Copy + open app</span></span>
+      </button>
+
+      <button class="share-btn" data-assisted="tiktok">
+        <span class="icon">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.7 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.74-.1z"></path>
+          </svg>
+        </span>
+        <span class="lbl-wrap"><span class="lbl">TikTok</span><span class="sub">Copy + open app</span></span>
+      </button>
+    </div>
+  </div>
+
+  <div class="footer">
+    Kaleo Arts · Est. 2005<br>
+    <a href="https://kaleoarts.org">kaleoarts.org</a> · Oakland Township, MI
+  </div>
+
+</main>
+
+<!-- ============ ASSISTED FLOW SHEET ============ -->
+<div class="sheet-backdrop" id="sheet-backdrop">
+  <div class="sheet" id="sheet">
+    <button class="sheet-close" id="sheet-close" aria-label="Close">✕</button>
+    <div class="kicker" id="sheet-kicker">Instagram · assisted</div>
+    <h3 id="sheet-title">Post to <em>Instagram</em></h3>
+    <ol id="sheet-steps">
+      <li>Caption copied to your clipboard.</li>
+      <li>Template image downloaded to your photo library.</li>
+      <li>Open Instagram, tap +, and pick the image.</li>
+      <li>Paste the caption — done.</li>
+    </ol>
+    <div class="actions">
+      <button type="button" class="primary" id="sheet-open-app">Open Instagram</button>
+      <button type="button" id="sheet-download-again">Download image again</button>
+      <button type="button" id="sheet-copy-again">Copy caption again</button>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TOAST ============ -->
+<div class="toast" id="toast">Caption copied</div>
+
+<script>
+  // =====================================================
+  // DATA
+  // =====================================================
+  const SHARE_URL = 'https://kaleoarts.org';
+  const DEFAULT_CAPTION = `So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+
+https://kaleoarts.org
+
+#KaleoArts #OaklandTownship #KidsArts #Michigan`;
+
+  const TEMPLATES = [
+    {
+      id: 't1',
+      photo: 'assets/img/kaleo-15.jpg',
+      focalY: 0.20,
+      kicker: 'FALL 2026',
+      headline: [
+        [{ t: 'Where creativity ', i: false }],
+        [{ t: 'shines,', i: true }, { t: ' and', i: false }],
+        [{ t: 'everyone ', i: false }, { t: 'belongs.', i: true }],
+      ],
+      footerL: 'A NEW HOME',
+      footerR: 'FALL 2026',
+    },
+    {
+      id: 't2',
+      photo: 'assets/img/kaleo-17.jpg',
+      focalY: 0.10,
+      kicker: "YOU'RE INVITED",
+      headline: [
+        [{ t: 'Come see', i: false }],
+        [{ t: 'the ', i: false }, { t: 'space.', i: true }],
+      ],
+      footerL: 'SILVERBELL & ADAMS',
+      footerR: 'FALL 2026',
+    },
+    {
+      id: 't3',
+      photo: 'assets/img/hero-chosen.jpg',
+      focalY: 0.30,
+      kicker: 'LAUNCH SEASON',
+      headline: [
+        [{ t: 'Help us', i: false }],
+        [{ t: 'open the', i: true }],
+        [{ t: 'doors.', i: true }],
+      ],
+      footerL: 'A NEW STUDIO',
+      footerR: 'FALL 2026',
+    },
+  ];
+
+  // =====================================================
+  // RENDER TEMPLATES
+  // =====================================================
+  const templatesEl = document.getElementById('templates');
+  TEMPLATES.forEach((tpl, idx) => {
+    const el = document.createElement('div');
+    el.className = 'template' + (idx === 0 ? ' selected' : '');
+    el.dataset.tpl = tpl.id;
+    const headlineHTML = tpl.headline.map(line =>
+      `<div>${line.map(s => s.i ? `<em>${s.t}</em>` : s.t).join('')}</div>`
+    ).join('');
+    el.innerHTML = `
+      <div class="thumb">
+        <div class="bg" style="background-image: url('${tpl.photo}'); background-position: 50% ${tpl.focalY * 100}%;"></div>
+        <div class="bg-scrim"></div>
+        <div class="thumb-inner">
+          <div class="t-kicker">${tpl.kicker}</div>
+          <div class="t-headline">${headlineHTML}</div>
+          <div class="t-footer">${tpl.footerL} · ${tpl.footerR}<span class="amber">KALEOARTS.ORG</span></div>
+        </div>
+      </div>
+      <div class="check">✓</div>
+    `;
+    templatesEl.appendChild(el);
+  });
+
+  // Custom photo card
+  const customEl = document.createElement('div');
+  customEl.className = 'template custom';
+  customEl.dataset.tpl = 'custom';
+  customEl.innerHTML = `
+    <div class="preview-img" id="custom-preview-img"></div>
+    <div class="thumb">
+      <div class="thumb-inner">
+        <div class="icon">+</div>
+        <div class="lbl">Use my <em>own photo</em></div>
+        <div class="sub">Tap to upload</div>
+      </div>
+    </div>
+    <div class="check">✓</div>
+  `;
+  templatesEl.appendChild(customEl);
+
+  // =====================================================
+  // SELECTION STATE
+  // =====================================================
+  let selectedTpl = 't1';
+  let customPhotoDataURL = null;
+
+  function selectTemplate(id) {
+    selectedTpl = id;
+    document.querySelectorAll('.template').forEach(el => {
+      el.classList.toggle('selected', el.dataset.tpl === id);
+    });
+  }
+
+  templatesEl.addEventListener('click', (e) => {
+    const t = e.target.closest('.template');
+    if (!t) return;
+    if (t.dataset.tpl === 'custom') {
+      if (!customPhotoDataURL) {
+        document.getElementById('photo-input').click();
+      } else {
+        selectTemplate('custom');
+      }
+      return;
+    }
+    selectTemplate(t.dataset.tpl);
+  });
+
+  // Handle photo upload
+  document.getElementById('photo-input').addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      customPhotoDataURL = ev.target.result;
+      const preview = document.getElementById('custom-preview-img');
+      preview.style.backgroundImage = `url('${customPhotoDataURL}')`;
+      customEl.classList.add('has-photo');
+      selectTemplate('custom');
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // =====================================================
+  // CAPTION EDITOR
+  // =====================================================
+  const captionEl = document.getElementById('caption');
+  const charCountEl = document.getElementById('char-count');
+  function updateCharCount() {
+    charCountEl.textContent = `${captionEl.value.length} chars`;
+  }
+  captionEl.addEventListener('input', updateCharCount);
+  updateCharCount();
+
+  document.getElementById('reset-caption').addEventListener('click', () => {
+    captionEl.value = DEFAULT_CAPTION;
+    updateCharCount();
+  });
+
+  // =====================================================
+  // TOAST HELPER
+  // =====================================================
+  const toast = document.getElementById('toast');
+  let toastTimeout;
+  function showToast(msg) {
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => toast.classList.remove('show'), 2200);
+  }
+
+  // =====================================================
+  // COPY HELPER
+  // =====================================================
+  async function copyText(text) {
+    try {
+      await navigator.clipboard.writeText(text);
+      return true;
+    } catch (e) {
+      // Fallback
+      const ta = document.createElement('textarea');
+      ta.value = text;
+      ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e2) {}
+      document.body.removeChild(ta);
+      return true;
+    }
+  }
+
+  document.getElementById('copy-caption').addEventListener('click', async () => {
+    const ok = await copyText(captionEl.value);
+    if (ok) {
+      showToast('Caption copied');
+      document.getElementById('copy-caption').classList.add('copied');
+      document.getElementById('copy-label').textContent = 'Copied ✓';
+      setTimeout(() => {
+        document.getElementById('copy-caption').classList.remove('copied');
+        document.getElementById('copy-label').textContent = 'Copy caption to clipboard';
+      }, 2500);
+    }
+  });
+
+  // =====================================================
+  // TEMPLATE IMAGE RENDERING (to canvas → blob → download)
+  // Renders the currently selected template as a 1080×1350 PNG.
+  // =====================================================
+  const AMBER = '#e8a75a';
+  const CREAM = '#f6f1e2';
+  const OUT_W = 1080, OUT_H = 1350;
+
+  function loadImage(src) {
+    return new Promise((resolve, reject) => {
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.onload = () => resolve(img);
+      img.onerror = reject;
+      img.src = src;
+    });
+  }
+
+  async function renderTemplateToBlob() {
+    const canvas = document.createElement('canvas');
+    canvas.width = OUT_W; canvas.height = OUT_H;
+    const ctx = canvas.getContext('2d');
+
+    let photoSrc, focalY, tpl;
+    if (selectedTpl === 'custom' && customPhotoDataURL) {
+      photoSrc = customPhotoDataURL;
+      focalY = 0.5;
+      // Use the "Come see" copy for custom photos since it works with any subject
+      tpl = TEMPLATES[1];
+    } else {
+      tpl = TEMPLATES.find(t => t.id === selectedTpl) || TEMPLATES[0];
+      photoSrc = tpl.photo;
+      focalY = tpl.focalY;
+    }
+
+    // Draw photo cover-cropped
+    const img = await loadImage(photoSrc);
+    const scale = Math.max(OUT_W / img.width, OUT_H / img.height);
+    const dw = img.width * scale, dh = img.height * scale;
+    const dx = (OUT_W - dw) / 2;
+    const dy = (OUT_H - dh) * focalY;
+    ctx.drawImage(img, dx, dy, dw, dh);
+
+    // Directional scrim
+    const scrim = ctx.createLinearGradient(0, 0, OUT_W * 0.9, OUT_H);
+    scrim.addColorStop(0, 'rgba(14,16,19,0.85)');
+    scrim.addColorStop(0.22, 'rgba(14,16,19,0.6)');
+    scrim.addColorStop(0.55, 'rgba(14,16,19,0.1)');
+    scrim.addColorStop(0.80, 'rgba(14,16,19,0.55)');
+    scrim.addColorStop(1, 'rgba(14,16,19,0.95)');
+    ctx.fillStyle = scrim; ctx.fillRect(0, 0, OUT_W, OUT_H);
+    const vignette = ctx.createRadialGradient(OUT_W/2, OUT_H*0.45, OUT_W*0.1, OUT_W/2, OUT_H*0.5, OUT_W*0.75);
+    vignette.addColorStop(0, 'rgba(0,0,0,0)');
+    vignette.addColorStop(1, 'rgba(14,16,19,0.5)');
+    ctx.fillStyle = vignette; ctx.fillRect(0, 0, OUT_W, OUT_H);
+
+    const PAD = 72;
+    // Kicker
+    ctx.strokeStyle = AMBER; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(PAD, 112); ctx.lineTo(PAD + 60, 112); ctx.stroke();
+    ctx.fillStyle = AMBER;
+    ctx.font = "500 22px 'JetBrains Mono', monospace";
+    ctx.textBaseline = 'middle';
+    ctx.fillText(tpl.kicker, PAD + 76, 112);
+
+    // Headline
+    const HL_SIZE = 96; const HL_LINE = HL_SIZE * 0.94;
+    ctx.textBaseline = 'top';
+    const FOOTER_TOP = OUT_H - 180;
+    const hlY = FOOTER_TOP - tpl.headline.length * HL_LINE - 40;
+    tpl.headline.forEach((line, li) => {
+      let cx = PAD;
+      line.forEach(seg => {
+        ctx.font = seg.i
+          ? `italic 400 ${HL_SIZE}px 'DM Serif Display', serif`
+          : `400 ${HL_SIZE}px 'DM Serif Display', serif`;
+        ctx.fillStyle = seg.i ? AMBER : CREAM;
+        ctx.fillText(seg.t, cx, hlY + li * HL_LINE);
+        cx += ctx.measureText(seg.t).width;
+      });
+    });
+
+    // Footer
+    ctx.strokeStyle = 'rgba(246,241,226,0.3)'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(PAD, FOOTER_TOP); ctx.lineTo(OUT_W - PAD, FOOTER_TOP); ctx.stroke();
+    ctx.textBaseline = 'top';
+    ctx.font = "500 22px 'JetBrains Mono', monospace";
+    ctx.fillStyle = CREAM;
+    ctx.fillText(tpl.footerL, PAD, FOOTER_TOP + 30);
+    ctx.fillStyle = 'rgba(214,205,181,0.85)';
+    const fwR = ctx.measureText(tpl.footerR).width;
+    ctx.fillText(tpl.footerR, OUT_W - PAD - fwR, FOOTER_TOP + 30);
+    ctx.fillStyle = AMBER;
+    ctx.font = "500 20px 'JetBrains Mono', monospace";
+    ctx.fillText('KALEOARTS.ORG', PAD, FOOTER_TOP + 70);
+
+    return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
+  }
+
+  async function downloadImage() {
+    const blob = await renderTemplateToBlob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'kaleo-launch.jpg';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+  }
+
+  // =====================================================
+  // NATIVE SHARE (best on mobile)
+  // =====================================================
+  document.getElementById('btn-native').addEventListener('click', async () => {
+    const text = captionEl.value;
+    // Try to include the rendered image
+    let file = null;
+    try {
+      const blob = await renderTemplateToBlob();
+      if (blob) file = new File([blob], 'kaleo-launch.jpg', { type: 'image/jpeg' });
+    } catch (e) {}
+
+    // Check for file-share capability
+    if (navigator.canShare && file && navigator.canShare({ files: [file] })) {
+      try {
+        await navigator.share({ files: [file], text });
+        return;
+      } catch (e) { /* user cancelled or unsupported — fall through */ }
+    }
+    // Fallback: text-only share
+    if (navigator.share) {
+      try {
+        await navigator.share({ text, url: SHARE_URL });
+        return;
+      } catch (e) { /* user cancelled */ }
+    }
+    // Last resort: copy + tell them
+    await copyText(text);
+    showToast('Caption copied — no share sheet available');
+  });
+
+  // =====================================================
+  // ONE-TAP PLATFORMS
+  // =====================================================
+  document.querySelectorAll('[data-share]').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const platform = btn.dataset.share;
+      const text = captionEl.value;
+      const encoded = encodeURIComponent(text);
+      const url = SHARE_URL;
+      const encUrl = encodeURIComponent(url);
+
+      switch (platform) {
+        case 'twitter':
+          window.open(`https://twitter.com/intent/tweet?text=${encoded}`, '_blank');
+          break;
+        case 'threads':
+          // Threads intent takes a `text` param (which can include URL)
+          window.open(`https://www.threads.net/intent/post?text=${encoded}`, '_blank');
+          break;
+        case 'linkedin':
+          // LinkedIn's official share picks up OG data from the URL; we open the compose with the URL
+          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encUrl}`, '_blank');
+          // Also copy the caption for pasting into LinkedIn's compose (URL alone doesn't pass caption)
+          await copyText(text);
+          showToast('URL opening in LinkedIn · caption copied to paste');
+          break;
+        case 'whatsapp':
+          window.open(`https://wa.me/?text=${encoded}`, '_blank');
+          break;
+        case 'sms':
+          // iOS: sms:&body= / Android: sms:?body= — using `&` works on iOS and most Androids
+          window.location.href = `sms:?&body=${encoded}`;
+          break;
+        case 'email':
+          window.location.href = `mailto:?subject=${encodeURIComponent('Kaleo Arts — new studio opening!')}&body=${encoded}`;
+          break;
+        case 'copy':
+          await copyText(text + '\n\n' + url);
+          showToast('Link + caption copied');
+          break;
+      }
+    });
+  });
+
+  // =====================================================
+  // ASSISTED FLOW (Instagram / Facebook / TikTok)
+  // =====================================================
+  const sheet = document.getElementById('sheet-backdrop');
+  const sheetTitle = document.getElementById('sheet-title');
+  const sheetKicker = document.getElementById('sheet-kicker');
+  const sheetOpenApp = document.getElementById('sheet-open-app');
+  let currentAssisted = null;
+
+  const ASSISTED_CONFIG = {
+    instagram: {
+      title: 'Post to <em>Instagram</em>',
+      kicker: 'Instagram · assisted',
+      appName: 'Instagram',
+      appURL: 'instagram://camera',
+      webURL: 'https://www.instagram.com',
+    },
+    facebook: {
+      title: 'Post to <em>Facebook</em>',
+      kicker: 'Facebook · assisted',
+      appName: 'Facebook',
+      appURL: 'fb://composer',
+      webURL: 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl(),
+    },
+    tiktok: {
+      title: 'Post to <em>TikTok</em>',
+      kicker: 'TikTok · assisted',
+      appName: 'TikTok',
+      appURL: 'tiktok://',
+      webURL: 'https://www.tiktok.com',
+    },
+  };
+  function encUrl() { return encodeURIComponent(SHARE_URL); }
+
+  async function openAssisted(platform) {
+    currentAssisted = platform;
+    const cfg = ASSISTED_CONFIG[platform];
+    sheetTitle.innerHTML = cfg.title;
+    sheetKicker.textContent = cfg.kicker;
+    sheetOpenApp.textContent = `Open ${cfg.appName}`;
+    sheet.classList.add('open');
+    // Do the prep automatically: copy caption + download image
+    await copyText(captionEl.value);
+    await downloadImage();
+  }
+
+  document.querySelectorAll('[data-assisted]').forEach(btn => {
+    btn.addEventListener('click', () => openAssisted(btn.dataset.assisted));
+  });
+
+  document.getElementById('sheet-close').addEventListener('click', () => {
+    sheet.classList.remove('open');
+  });
+  sheet.addEventListener('click', (e) => {
+    if (e.target === sheet) sheet.classList.remove('open');
+  });
+
+  sheetOpenApp.addEventListener('click', () => {
+    if (!currentAssisted) return;
+    const cfg = ASSISTED_CONFIG[currentAssisted];
+    // Try native app scheme first; fall back to web URL
+    const fallbackTimeout = setTimeout(() => {
+      window.location.href = cfg.webURL;
+    }, 500);
+    window.location.href = cfg.appURL;
+    // If the app opens, we won't hit the fallback because the page will lose focus
+    window.addEventListener('blur', () => clearTimeout(fallbackTimeout), { once: true });
+  });
+
+  document.getElementById('sheet-download-again').addEventListener('click', downloadImage);
+  document.getElementById('sheet-copy-again').addEventListener('click', async () => {
+    await copyText(captionEl.value);
+    showToast('Caption copied');
+  });
+</script>
+
+
+
+</body></html>
