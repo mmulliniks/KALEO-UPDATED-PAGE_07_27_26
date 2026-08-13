@@ -338,7 +338,45 @@
   /* ============================================================
      STEP 3 — SHARE BUTTONS
      ============================================================ */
-  .share-grid {
+  .format-toggle {
+ display: flex;
+ gap: 8px;
+ margin-bottom: 12px;
+ }
+ .format-btn {
+ flex: 1;
+ background: var(--stage-2);
+ border: 1px solid var(--rule);
+ padding: 12px 14px;
+ color: var(--cream-mute);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 13px;
+ font-weight: 500;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 8px;
+ transition: background .2s, border-color .2s, color .2s;
+ }
+ .format-btn:hover { border-color: var(--amber); color: var(--cream); }
+ .format-btn.active {
+ background: var(--amber);
+ border-color: var(--amber);
+ color: var(--stage);
+ }
+ .format-ratio {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.08em;
+ opacity: 0.7;
+ }
+ .format-hint {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 12px;
+ color: var(--cream-fade);
+ margin-bottom: 20px;
+ }
+ .share-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
@@ -645,6 +683,16 @@ https://kaleoarts.org
 <h2>Post it <em>anywhere</em></h2>
 </div>
 
+<!-- Format picker: social apps crop images to fit the surface they're
+posted to. A feed post wants a portrait-ish 4:5 frame; a Story or Reel
+is full-screen vertical 9:16. Rendering the canvas at the right ratio
+up front means nothing gets cropped by the platform after the fact. -->
+<div class="format-toggle" role="group" aria-label="Choose image format">
+<button type="button" class="format-btn active" id="fmt-feed" data-format="feed">Feed post <span class="format-ratio">4:5</span></button>
+<button type="button" class="format-btn" id="fmt-story" data-format="story">Story · Reel <span class="format-ratio">9:16</span></button>
+</div>
+<p class="format-hint">Match where you're posting so the photo isn't cropped or cut off.</p>
+
 <!-- Native share: one tap hands the rendered image + caption straight to
 the OS share sheet, so people can pick literally any app — Messages,
 Instagram, WhatsApp, Mail, AirDrop, Facebook, whatever's installed — with
@@ -785,6 +833,14 @@ https://kaleoarts.org
   let selectedTpl = 't1';
   let customPhotoDataURL = null;
 
+ document.querySelectorAll('.format-btn').forEach(btn => {
+ btn.addEventListener('click', () => {
+ document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ selectedFormat = btn.dataset.format;
+ });
+ });
+
   function selectTemplate(id) {
     selectedTpl = id;
     document.querySelectorAll('.template').forEach(el => {
@@ -888,7 +944,9 @@ https://kaleoarts.org
   // =====================================================
   const AMBER = '#e8a75a';
   const CREAM = '#f6f1e2';
-  const OUT_W = 1080, OUT_H = 1350;
+  const OUT_W = 1080;
+ const FORMAT_HEIGHTS = { feed: 1350, story: 1920 };
+ let selectedFormat = 'feed';
 
   function loadImage(src) {
     return new Promise((resolve, reject) => {
@@ -902,7 +960,8 @@ https://kaleoarts.org
 
   async function renderTemplateToBlob() {
     const canvas = document.createElement('canvas');
-    canvas.width = OUT_W; canvas.height = OUT_H;
+    const OUT_H = FORMAT_HEIGHTS[selectedFormat];
+ canvas.width = OUT_W; canvas.height = OUT_H;
     const ctx = canvas.getContext('2d');
 
     let photoSrc, focalY, tpl;
