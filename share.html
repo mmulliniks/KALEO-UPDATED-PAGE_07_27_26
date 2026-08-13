@@ -536,17 +536,7 @@ transition: color .2s;
   /* ============================================================
      FOOTER
      ============================================================ */
-  .footer {
-    margin-top: 60px;
-    padding-top: 30px;
-    border-top: 1px solid var(--rule);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--cream-fade);
-    line-height: 1.9;
-    text-align: center;
-  }
-  .footer a { color: var(--amber); }
+  
 
   /* Hidden file input */
   input[type="file"] { display: none; }
@@ -630,11 +620,11 @@ transition: color .2s;
   </div>
 
   <div class="caption-wrap">
-    <textarea class="share-caption" id="caption" spellcheck="true">So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+    <textarea class="share-caption" id="caption" spellcheck="true">I'm so excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall! Like and share to help spread the word!
 
 https://kaleoarts.org
 
-#KaleoArts #OaklandTownship #KidsArts #Michigan</textarea>
+#KaleoArts #OaklandTownship #KidsArts #OaklandCounty #Michigan</textarea>
     <div class="caption-meta">
       <span id="char-count">170 chars</span>
       <button type="button" id="reset-caption">Reset</button>
@@ -687,12 +677,9 @@ Prefer to post it yourself? Download the image
 </button>
 </div>
 
-<div class="footer">
-    Kaleo Arts · Est. 2005<br>
-    <a href="https://kaleoarts.org">kaleoarts.org</a> · Oakland Township, MI
-  </div>
-
 </main>
+
+<div id="footer-slot"></div>
 
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast">Caption copied</div>
@@ -702,11 +689,11 @@ Prefer to post it yourself? Download the image
   // DATA
   // =====================================================
   const SHARE_URL = 'https://kaleoarts.org';
-  const DEFAULT_CAPTION = `So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+  const DEFAULT_CAPTION = `I'm so excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall! Like and share to help spread the word!
 
 https://kaleoarts.org
 
-#KaleoArts #OaklandTownship #KidsArts #Michigan`;
+#KaleoArts #OaklandTownship #KidsArts #OaklandCounty #Michigan`;
 
   const TEMPLATES = [
     {
