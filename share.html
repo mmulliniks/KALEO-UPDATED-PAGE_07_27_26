@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="assets/kaleo-v3.css"/>
+
 <style>
   :root {
     --stage:      oklch(11% 0.018 260);
@@ -42,29 +44,9 @@
   button { font-family: inherit; cursor: pointer; }
 
   /* ============================================================
-     TOP BAR (fixed brand strip)
-     ============================================================ */
-  .topbar {
-    padding: 20px 24px;
-    display: flex; align-items: center; gap: 10px;
-    border-bottom: 1px solid var(--rule);
-    background: var(--stage);
-    position: sticky; top: 0; z-index: 20;
-    backdrop-filter: blur(20px);
-  }
-  .topbar img { height: 28px; width: auto; display: block; }
-  .topbar .name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--cream);
-    line-height: 1;
-  }
-  .topbar .name em { font-style: italic; color: var(--amber); font-weight: 400; }
-
-  /* ============================================================
      WRAP
      ============================================================ */
-  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
+  .wrap { max-width: 640px; margin: 0 auto; padding: 110px 24px 80px; }
 
   /* ============================================================
      HERO (headline)
@@ -546,12 +528,7 @@
 <link rel="icon" type="image/png" href="/assets/img/logo-kaleo-mark.png">
 </head>
 <body>
-
-<!-- ============ TOP BAR ============ -->
-<header class="topbar">
-  <img src="assets/img/logo-kaleo-mark.png" alt="">
-  <div class="name">Kaleo <em>Arts</em></div>
-</header>
+<div id="nav-slot"></div>
 
 <main class="wrap">
 
@@ -559,7 +536,7 @@
   <section class="hero">
     <div class="kicker">Help us launch</div>
     <h1>Share the <em>invitation</em>.</h1>
-    <p class="lede">Pick a template, add a personal note if you like, then post — or send it to a friend. Takes 20 seconds.</p>
+    <p class="lede">Pick a template, add a personal note if you like, then post to your social channels — or send it to a friend. Takes 20 seconds.</p>
   </section>
 
   <!-- ============ STEP 1 — TEMPLATE ============ -->
@@ -743,7 +720,7 @@ https://kaleoarts.org
 
   <!-- Assisted platforms (Instagram / Facebook / TikTok) -->
   <div class="share-section">
-    <div class="share-section-h">Two-tap · we prep, you post</div>
+    <div class="share-section-h">One-tap · opens your share sheet</div>
     <div class="share-grid">
       <button class="share-btn" data-assisted="instagram">
         <span class="icon">
@@ -753,7 +730,7 @@ https://kaleoarts.org
             <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
           </svg>
         </span>
-        <span class="lbl-wrap"><span class="lbl">Instagram</span><span class="sub">Copy + open app</span></span>
+        <span class="lbl-wrap"><span class="lbl">Instagram</span><span class="sub">Share sheet</span></span>
       </button>
 
       <button class="share-btn" data-assisted="facebook">
@@ -762,7 +739,7 @@ https://kaleoarts.org
             <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.3c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V14h2.7v8h3.2z"></path>
           </svg>
         </span>
-        <span class="lbl-wrap"><span class="lbl">Facebook</span><span class="sub">Copy + open app</span></span>
+        <span class="lbl-wrap"><span class="lbl">Facebook</span><span class="sub">Share sheet</span></span>
       </button>
 
       <button class="share-btn" data-assisted="tiktok">
@@ -771,7 +748,7 @@ https://kaleoarts.org
             <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.7 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.74-.1z"></path>
           </svg>
         </span>
-        <span class="lbl-wrap"><span class="lbl">TikTok</span><span class="sub">Copy + open app</span></span>
+        <span class="lbl-wrap"><span class="lbl">TikTok</span><span class="sub">Share sheet</span></span>
       </button>
     </div>
   </div>
@@ -1236,9 +1213,39 @@ https://kaleoarts.org
     await downloadImage();
   }
 
-  document.querySelectorAll('[data-assisted]').forEach(btn => {
-    btn.addEventListener('click', () => openAssisted(btn.dataset.assisted));
-  });
+  // One-tap native share: hands the rendered image + caption straight to
+// the OS share sheet (Web Share API L2, files support) so the user can
+// pick Instagram/Facebook/TikTok directly with the image pre-attached.
+// Caption text is passed too, but Instagram in particular does not accept
+// pre-filled captions from third-party share hand-offs (a platform
+// restriction, not something a website can work around) — so we also
+// copy the caption to the clipboard first, letting the user paste it
+// with one tap inside the app's composer if it isn't picked up automatically.
+// Falls back to the manual assisted flow (copy caption + download image +
+// open app) only when the browser can't share files (mostly desktop).
+async function shareToApp(platform) {
+ const text = captionEl.value;
+ let file = null;
+ try {
+ const blob = await renderTemplateToBlob();
+ if (blob) file = new File([blob], 'kaleo-launch.jpg', { type: 'image/jpeg' });
+ } catch (e) {}
+
+ if (navigator.canShare && file && navigator.canShare({ files: [file] })) {
+ await copyText(text);
+ try {
+ await navigator.share({ files: [file], text, title: 'Kaleo Arts' });
+ return;
+ } catch (e) {
+ if (e && e.name === 'AbortError') return;
+ }
+ }
+ openAssisted(platform);
+}
+
+document.querySelectorAll('[data-assisted]').forEach(btn => {
+ btn.addEventListener('click', () => shareToApp(btn.dataset.assisted));
+});
 
   document.getElementById('sheet-close').addEventListener('click', () => {
     sheet.classList.remove('open');
@@ -1266,6 +1273,7 @@ https://kaleoarts.org
   });
 </script>
 
-
-
-</body></html>
+<script>window.__page = 'share';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>
