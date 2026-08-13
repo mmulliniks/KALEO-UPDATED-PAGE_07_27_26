@@ -12,6 +12,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&amp;family=Space+Grotesk:wght@400;500;600;700&amp;family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 
+<link rel="stylesheet" href="assets/kaleo-v3.css"/>
+
 <style>
   :root {
     --stage:      oklch(11% 0.018 260);
@@ -42,34 +44,14 @@
   button { font-family: inherit; cursor: pointer; }
 
   /* ============================================================
-     TOP BAR (fixed brand strip)
-     ============================================================ */
-  .topbar {
-    padding: 20px 24px;
-    display: flex; align-items: center; gap: 10px;
-    border-bottom: 1px solid var(--rule);
-    background: var(--stage);
-    position: sticky; top: 0; z-index: 20;
-    backdrop-filter: blur(20px);
-  }
-  .topbar img { height: 28px; width: auto; display: block; }
-  .topbar .name {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--cream);
-    line-height: 1;
-  }
-  .topbar .name em { font-style: italic; color: var(--amber); font-weight: 400; }
-
-  /* ============================================================
      WRAP
      ============================================================ */
-  .wrap { max-width: 640px; margin: 0 auto; padding: 32px 24px 80px; }
+  .share-wrap { max-width: 640px; margin: 0 auto; padding: 110px 24px 80px; }
 
   /* ============================================================
      HERO (headline)
      ============================================================ */
-  .hero { margin-bottom: 40px; }
+  .share-hero { margin-bottom: 40px; }
   .kicker {
     display: inline-flex; align-items: center; gap: 12px;
     font-family: 'JetBrains Mono', monospace;
@@ -105,7 +87,7 @@
     margin: 40px 0 20px;
     display: flex; align-items: baseline; gap: 14px;
   }
-  .step .no {
+  .step .share-no {
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px; font-weight: 500;
     letter-spacing: 0.24em; text-transform: uppercase;
@@ -205,6 +187,15 @@
     line-height: 1.7;
   }
   .template .t-footer .amber { color: var(--amber); display: block; margin-top: 4px; }
+.template .t-footer .t-brand {
+ display: flex; align-items: center; gap: 5px;
+ margin-top: 5px;
+ font-family: 'DM Serif Display', serif;
+ font-size: 11px; letter-spacing: -0.01em; text-transform: none;
+ color: var(--cream);
+}
+.template .t-footer .t-brand em { font-style: italic; color: var(--amber); font-weight: 400; }
+.template .t-logo-mark { height: 12px; width: auto; display: block; flex-shrink: 0; }
 
   .template .check {
     position: absolute;
@@ -243,14 +234,14 @@
     margin-bottom: 14px;
     font-size: 24px; line-height: 1;
   }
-  .template.custom .lbl {
+  .template.custom .share-lbl {
     font-family: 'DM Serif Display', serif;
     font-style: italic;
     font-size: 20px; line-height: 1.2;
     color: var(--cream);
     margin-bottom: 6px;
   }
-  .template.custom .sub {
+  .template.custom .share-sub {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
     color: var(--cream-mute);
@@ -286,12 +277,12 @@
   /* ============================================================
      STEP 2 — CAPTION EDITOR
      ============================================================ */
-  .caption-wrap {
+  .share-caption-wrap {
     background: var(--stage-2);
     border: 1px solid var(--rule);
     padding: 4px;
   }
-  textarea.caption {
+  textarea.share-caption {
     width: 100%;
     min-height: 140px;
     padding: 18px 18px;
@@ -304,8 +295,8 @@
     line-height: 1.55;
     color: var(--cream);
   }
-  textarea.caption::placeholder { color: var(--cream-fade); }
-  .caption-meta {
+  textarea.share-caption::placeholder { color: var(--cream-fade); }
+  .share-caption-meta {
     padding: 10px 18px 14px;
     display: flex; justify-content: space-between; align-items: center;
     border-top: 1px solid var(--rule);
@@ -313,7 +304,7 @@
     font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
     color: var(--cream-fade);
   }
-  .caption-meta button {
+  .share-caption-meta button {
     background: transparent;
     border: 0;
     color: var(--amber);
@@ -321,7 +312,7 @@
     font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
     padding: 4px 0;
   }
-  .caption-meta button:hover { color: var(--cream); }
+  .share-caption-meta button:hover { color: var(--cream); }
 
   /* Copy caption button (small, inline) */
   .copy-caption {
@@ -347,7 +338,45 @@
   /* ============================================================
      STEP 3 — SHARE BUTTONS
      ============================================================ */
-  .share-grid {
+  .format-toggle {
+ display: flex;
+ gap: 8px;
+ margin-bottom: 12px;
+ }
+ .format-btn {
+ flex: 1;
+ background: var(--stage-2);
+ border: 1px solid var(--rule);
+ padding: 12px 14px;
+ color: var(--cream-mute);
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 13px;
+ font-weight: 500;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ gap: 8px;
+ transition: background .2s, border-color .2s, color .2s;
+ }
+ .format-btn:hover { border-color: var(--amber); color: var(--cream); }
+ .format-btn.active {
+ background: var(--amber);
+ border-color: var(--amber);
+ color: var(--stage);
+ }
+ .format-ratio {
+ font-family: 'JetBrains Mono', monospace;
+ font-size: 10px;
+ letter-spacing: 0.08em;
+ opacity: 0.7;
+ }
+ .format-hint {
+ font-family: 'Space Grotesk', sans-serif;
+ font-size: 12px;
+ color: var(--cream-fade);
+ margin-bottom: 20px;
+ }
+ .share-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px;
@@ -377,9 +406,9 @@
     flex-shrink: 0;
   }
   .share-btn .icon svg { width: 18px; height: 18px; color: var(--cream); }
-  .share-btn .lbl-wrap { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-  .share-btn .lbl { line-height: 1.1; }
-  .share-btn .sub {
+  .share-btn .share-lbl-wrap { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+  .share-btn .share-lbl { line-height: 1.1; }
+  .share-btn .share-sub {
     font-family: 'JetBrains Mono', monospace;
     font-size: 9px; letter-spacing: 0.16em; text-transform: uppercase;
     color: var(--cream-fade);
@@ -395,12 +424,30 @@
     border-color: var(--stage);
   }
   .share-btn.primary .icon svg { color: var(--amber); }
-  .share-btn.primary .sub { color: oklch(15% 0.02 260); }
+  .share-btn.primary .share-sub { color: oklch(15% 0.02 260); }
   .share-btn.primary:hover { background: var(--cream); border-color: var(--cream); }
   .share-btn.primary:hover .icon { background: var(--stage); }
 
   .share-section + .share-section { margin-top: 24px; }
-  .share-section-h {
+  .download-fallback {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 8px;
+width: 100%;
+margin-top: 14px;
+padding: 12px;
+background: transparent;
+border: 0;
+color: var(--cream-fade);
+font-family: 'Space Grotesk', sans-serif;
+font-size: 13px;
+transition: color .2s;
+}
+.download-fallback svg { width: 15px; height: 15px; flex-shrink: 0; }
+.download-fallback:hover { color: var(--amber); }
+
+.share-section-h {
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px; font-weight: 500;
     letter-spacing: 0.24em; text-transform: uppercase;
@@ -422,7 +469,7 @@
     transition: opacity .3s;
     display: flex; align-items: flex-end; justify-content: center;
   }
-  .sheet-backdrop.open { opacity: 1; pointer-events: auto; }
+  .sheet-backdrop.share-open { opacity: 1; pointer-events: auto; }
   .sheet {
     width: 100%;
     max-width: 640px;
@@ -435,7 +482,7 @@
     max-height: 92vh;
     overflow-y: auto;
   }
-  .sheet-backdrop.open .sheet { transform: translateY(0); }
+  .sheet-backdrop.share-open .sheet { transform: translateY(0); }
   .sheet-close {
     position: absolute;
     top: 16px; right: 16px;
@@ -527,17 +574,7 @@
   /* ============================================================
      FOOTER
      ============================================================ */
-  .footer {
-    margin-top: 60px;
-    padding-top: 30px;
-    border-top: 1px solid var(--rule);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
-    color: var(--cream-fade);
-    line-height: 1.9;
-    text-align: center;
-  }
-  .footer a { color: var(--amber); }
+  
 
   /* Hidden file input */
   input[type="file"] { display: none; }
@@ -546,25 +583,20 @@
 <link rel="icon" type="image/png" href="/assets/img/logo-kaleo-mark.png">
 </head>
 <body>
+<div id="nav-slot"></div>
 
-<!-- ============ TOP BAR ============ -->
-<header class="topbar">
-  <img src="assets/img/logo-kaleo-mark.png" alt="">
-  <div class="name">Kaleo <em>Arts</em></div>
-</header>
-
-<main class="wrap">
+<main class="share-wrap">
 
   <!-- ============ HERO ============ -->
-  <section class="hero">
+  <section class="share-hero">
     <div class="kicker">Help us launch</div>
     <h1>Share the <em>invitation</em>.</h1>
-    <p class="lede">Pick a template, add a personal note if you like, then post — or send it to a friend. Takes 20 seconds.</p>
+    <p class="lede">Pick a template, add a personal note if you like, then post to your social channels — or send it to a friend. Takes 20 seconds.</p>
   </section>
 
   <!-- ============ STEP 1 — TEMPLATE ============ -->
   <div class="step">
-    <span class="no">01</span>
+    <span class="share-no">01</span>
     <h2>Pick a <em>template</em></h2>
   </div>
 
@@ -577,7 +609,7 @@
         <div class="thumb-inner">
           <div class="t-kicker">FALL 2026</div>
           <div class="t-headline"><div>Where creativity </div><div><em>shines,</em> and</div><div>everyone <em>belongs.</em></div></div>
-          <div class="t-footer">A NEW HOME · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+          <div class="t-footer">A NEW HOME · FALL 2026<span class="t-brand"><img class="t-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></span></div>
         </div>
       </div>
       <div class="check">✓</div>
@@ -588,7 +620,7 @@
         <div class="thumb-inner">
           <div class="t-kicker">YOU'RE INVITED</div>
           <div class="t-headline"><div>Come see</div><div>the <em>space.</em></div></div>
-          <div class="t-footer">SILVERBELL &amp; ADAMS · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+          <div class="t-footer">SILVERBELL &amp; ADAMS · FALL 2026<span class="t-brand"><img class="t-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></span></div>
         </div>
       </div>
       <div class="check">✓</div>
@@ -599,7 +631,7 @@
         <div class="thumb-inner">
           <div class="t-kicker">LAUNCH SEASON</div>
           <div class="t-headline"><div>Help us</div><div><em>open the</em></div><div><em>doors.</em></div></div>
-          <div class="t-footer">A NEW STUDIO · FALL 2026<span class="amber">KALEOARTS.ORG</span></div>
+          <div class="t-footer">A NEW STUDIO · FALL 2026<span class="t-brand"><img class="t-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></span></div>
         </div>
       </div>
       <div class="check">✓</div>
@@ -608,8 +640,8 @@
     <div class="thumb">
       <div class="thumb-inner">
         <div class="icon">+</div>
-        <div class="lbl">Use my <em>own photo</em></div>
-        <div class="sub">Tap to upload</div>
+        <div class="share-lbl">Use my <em>own photo</em></div>
+        <div class="share-sub">Tap to upload</div>
       </div>
     </div>
     <div class="check">✓</div>
@@ -621,16 +653,16 @@
 
   <!-- ============ STEP 2 — CAPTION ============ -->
   <div class="step">
-    <span class="no">02</span>
+    <span class="share-no">02</span>
     <h2>Edit the <em>caption</em></h2>
   </div>
 
   <div class="caption-wrap">
-    <textarea class="caption" id="caption" spellcheck="true">So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+    <textarea class="share-caption" id="caption" spellcheck="true">I'm so excited for the @kaleo.arts launch coming to Silverbell and Adams in Oakland Township this fall! Like and share to help spread the word!
 
 https://kaleoarts.org
 
-#KaleoArts #OaklandTownship #KidsArts #Michigan</textarea>
+#KaleoArts #OaklandTownship #KidsArts #OaklandCounty #Michigan</textarea>
     <div class="caption-meta">
       <span id="char-count">170 chars</span>
       <button type="button" id="reset-caption">Reset</button>
@@ -646,162 +678,56 @@ https://kaleoarts.org
   </button>
 
   <!-- ============ STEP 3 — SHARE ============ -->
-  <div class="step">
-    <span class="no">03</span>
-    <h2>Post it <em>anywhere</em></h2>
-  </div>
+<div class="step">
+<span class="share-no">03</span>
+<h2>Post it <em>anywhere</em></h2>
+</div>
 
-  <!-- Native share (primary, works best on mobile) -->
-  <div class="share-section">
-    <div class="share-grid">
-      <button class="share-btn primary" id="btn-native">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
-            <polyline points="16 6 12 2 8 6"></polyline>
-            <line x1="12" y1="2" x2="12" y2="15"></line>
-          </svg>
-        </span>
-        <span class="lbl-wrap">
-          <span class="lbl">Share via your phone</span>
-          <span class="sub">Opens your phone's share sheet · fastest</span>
-        </span>
-      </button>
-    </div>
-  </div>
+<!-- Format picker: social apps crop images to fit the surface they're
+posted to. A feed post wants a portrait-ish 4:5 frame; a Story or Reel
+is full-screen vertical 9:16. Rendering the canvas at the right ratio
+up front means nothing gets cropped by the platform after the fact. -->
+<div class="format-toggle" role="group" aria-label="Choose image format">
+<button type="button" class="format-btn active" id="fmt-feed" data-format="feed">Feed post <span class="format-ratio">4:5</span></button>
+<button type="button" class="format-btn" id="fmt-story" data-format="story">Story · Reel <span class="format-ratio">9:16</span></button>
+</div>
+<p class="format-hint">Match where you're posting so the photo isn't cropped or cut off.</p>
 
-  <!-- One-tap platforms -->
-  <div class="share-section">
-    <div class="share-section-h">One-tap · caption pre-filled</div>
-    <div class="share-grid">
-      <button class="share-btn" data-share="twitter">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">X (Twitter)</span><span class="sub">Post</span></span>
-      </button>
-
-      <button class="share-btn" data-share="threads">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12.186 24h-.007c-3.581-.024-6.334-1.205-8.184-3.509C2.35 18.44 1.5 15.586 1.472 12.01v-.02c.028-3.577.877-6.431 2.523-8.482C5.845 1.205 8.598.024 12.179 0h.014c2.746.02 5.043.725 6.826 2.098 1.677 1.29 2.858 3.13 3.509 5.467l-2.04.569c-1.104-3.968-3.898-5.994-8.304-6.026-2.91.022-5.11.936-6.54 2.716-1.34 1.667-2.032 4.075-2.056 7.156.024 3.082.716 5.49 2.057 7.158 1.429 1.78 3.628 2.694 6.539 2.716 2.628-.02 4.363-.634 5.803-2.05 1.643-1.617 1.614-3.602 1.089-4.811-.31-.71-.873-1.3-1.634-1.75-.192 1.352-.622 2.446-1.284 3.272-.886 1.102-2.14 1.704-3.73 1.79-1.202.065-2.361-.218-3.259-.801-1.063-.689-1.685-1.74-1.752-2.964-.065-1.19.408-2.285 1.33-3.082.88-.76 2.119-1.207 3.583-1.291a13.853 13.853 0 0 1 3.02.142c-.126-.742-.375-1.332-.75-1.757-.513-.586-1.308-.883-2.359-.89h-.029c-.844 0-1.992.232-2.721 1.32L7.734 7.847c.98-1.454 2.568-2.256 4.478-2.256h.044c3.194.02 5.097 1.975 5.287 5.388.108.046.216.094.323.144 1.49.7 2.58 1.761 3.154 3.07.797 1.82.871 4.79-1.548 7.158-1.85 1.81-4.094 2.628-7.277 2.65Zm1.003-11.69c-.242 0-.487.007-.739.021-1.836.103-2.98.946-2.916 2.143.067 1.256 1.452 1.839 2.784 1.767 1.224-.065 2.818-.543 3.086-3.71a10.5 10.5 0 0 0-2.215-.221z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Threads</span><span class="sub">Post</span></span>
-      </button>
-
-      <button class="share-btn" data-share="linkedin">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.063 2.063 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">LinkedIn</span><span class="sub">Post</span></span>
-      </button>
-
-      <button class="share-btn" data-share="whatsapp">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">WhatsApp</span><span class="sub">Send</span></span>
-      </button>
-
-      <button class="share-btn" data-share="sms">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Text message</span><span class="sub">iMessage · SMS</span></span>
-      </button>
-
-      <button class="share-btn" data-share="email">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-            <polyline points="22,6 12,13 2,6"></polyline>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Email</span><span class="sub">Send</span></span>
-      </button>
-
-      <button class="share-btn" data-share="copy">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Copy link</span><span class="sub">Fallback</span></span>
-      </button>
-    </div>
-  </div>
-
-  <!-- Assisted platforms (Instagram / Facebook / TikTok) -->
-  <div class="share-section">
-    <div class="share-section-h">Two-tap · we prep, you post</div>
-    <div class="share-grid">
-      <button class="share-btn" data-assisted="instagram">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="3" y="3" width="18" height="18" rx="5"></rect>
-            <circle cx="12" cy="12" r="4"></circle>
-            <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"></circle>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Instagram</span><span class="sub">Copy + open app</span></span>
-      </button>
-
-      <button class="share-btn" data-assisted="facebook">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M13.5 22v-8h2.7l.4-3.2h-3.1V8.8c0-.9.3-1.6 1.6-1.6h1.7V4.3c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.4H7.6V14h2.7v8h3.2z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">Facebook</span><span class="sub">Copy + open app</span></span>
-      </button>
-
-      <button class="share-btn" data-assisted="tiktok">
-        <span class="icon">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5.7 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.74-.1z"></path>
-          </svg>
-        </span>
-        <span class="lbl-wrap"><span class="lbl">TikTok</span><span class="sub">Copy + open app</span></span>
-      </button>
-    </div>
-  </div>
-
-  <div class="footer">
-    Kaleo Arts · Est. 2005<br>
-    <a href="https://kaleoarts.org">kaleoarts.org</a> · Oakland Township, MI
-  </div>
+<!-- Native share: one tap hands the rendered image + caption straight to
+the OS share sheet, so people can pick literally any app — Messages,
+Instagram, WhatsApp, Mail, AirDrop, Facebook, whatever's installed — with
+the photo already attached. This is the only mechanism a website can use
+to hand off an actual image file, so the page leans on it entirely
+instead of a grid of platform links that could never carry the photo. -->
+<div class="share-section">
+<div class="share-grid">
+<button class="share-btn primary" id="btn-native">
+<span class="icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+<path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+<polyline points="16 6 12 2 8 6"></polyline>
+<line x1="12" y1="2" x2="12" y2="15"></line>
+</svg>
+</span>
+<span class="lbl-wrap">
+<span class="share-lbl">Share your photo</span>
+<span class="share-sub">Opens your share sheet — image + caption included</span>
+</span>
+</button>
+</div>
+<button class="download-fallback" id="btn-download">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+<path d="M12 3v12"></path>
+<path d="M7 10l5 5 5-5"></path>
+<path d="M4 21h16"></path>
+</svg>
+Prefer to post it yourself? Download the image
+</button>
+</div>
 
 </main>
 
-<!-- ============ ASSISTED FLOW SHEET ============ -->
-<div class="sheet-backdrop" id="sheet-backdrop">
-  <div class="sheet" id="sheet">
-    <button class="sheet-close" id="sheet-close" aria-label="Close">✕</button>
-    <div class="kicker" id="sheet-kicker">Instagram · assisted</div>
-    <h3 id="sheet-title">Post to <em>Instagram</em></h3>
-    <ol id="sheet-steps">
-      <li>Caption copied to your clipboard.</li>
-      <li>Template image downloaded to your photo library.</li>
-      <li>Open Instagram, tap +, and pick the image.</li>
-      <li>Paste the caption — done.</li>
-    </ol>
-    <div class="actions">
-      <button type="button" class="primary" id="sheet-open-app">Open Instagram</button>
-      <button type="button" id="sheet-download-again">Download image again</button>
-      <button type="button" id="sheet-copy-again">Copy caption again</button>
-    </div>
-  </div>
-</div>
+<div id="footer-slot"></div>
 
 <!-- ============ TOAST ============ -->
 <div class="toast" id="toast">Caption copied</div>
@@ -811,11 +737,11 @@ https://kaleoarts.org
   // DATA
   // =====================================================
   const SHARE_URL = 'https://kaleoarts.org';
-  const DEFAULT_CAPTION = `So excited for the @KaleoArts launch coming to Silverbell and Adams in Oakland Township this fall!
+  const DEFAULT_CAPTION = `I'm so excited for the @kaleo.arts launch coming to Silverbell and Adams in Oakland Township this fall! Like and share to help spread the word!
 
 https://kaleoarts.org
 
-#KaleoArts #OaklandTownship #KidsArts #Michigan`;
+#KaleoArts #OaklandTownship #KidsArts #OaklandCounty #Michigan`;
 
   const TEMPLATES = [
     {
@@ -876,7 +802,7 @@ https://kaleoarts.org
         <div class="thumb-inner">
           <div class="t-kicker">${tpl.kicker}</div>
           <div class="t-headline">${headlineHTML}</div>
-          <div class="t-footer">${tpl.footerL} · ${tpl.footerR}<span class="amber">KALEOARTS.ORG</span></div>
+          <div class="t-footer">${tpl.footerL} · ${tpl.footerR}<span class="t-brand"><img class="t-logo-mark" src="assets/img/logo-kaleo-mark.png" alt=""/>Kaleo <em>Arts</em></span></div>
         </div>
       </div>
       <div class="check">✓</div>
@@ -893,8 +819,8 @@ https://kaleoarts.org
     <div class="thumb">
       <div class="thumb-inner">
         <div class="icon">+</div>
-        <div class="lbl">Use my <em>own photo</em></div>
-        <div class="sub">Tap to upload</div>
+        <div class="share-lbl">Use my <em>own photo</em></div>
+        <div class="share-sub">Tap to upload</div>
       </div>
     </div>
     <div class="check">✓</div>
@@ -906,6 +832,14 @@ https://kaleoarts.org
   // =====================================================
   let selectedTpl = 't1';
   let customPhotoDataURL = null;
+
+ document.querySelectorAll('.format-btn').forEach(btn => {
+ btn.addEventListener('click', () => {
+ document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+ btn.classList.add('active');
+ selectedFormat = btn.dataset.format;
+ });
+ });
 
   function selectTemplate(id) {
     selectedTpl = id;
@@ -1010,7 +944,9 @@ https://kaleoarts.org
   // =====================================================
   const AMBER = '#e8a75a';
   const CREAM = '#f6f1e2';
-  const OUT_W = 1080, OUT_H = 1350;
+  const OUT_W = 1080;
+ const FORMAT_HEIGHTS = { feed: 1350, story: 1920 };
+ let selectedFormat = 'feed';
 
   function loadImage(src) {
     return new Promise((resolve, reject) => {
@@ -1024,7 +960,8 @@ https://kaleoarts.org
 
   async function renderTemplateToBlob() {
     const canvas = document.createElement('canvas');
-    canvas.width = OUT_W; canvas.height = OUT_H;
+    const OUT_H = FORMAT_HEIGHTS[selectedFormat];
+ canvas.width = OUT_W; canvas.height = OUT_H;
     const ctx = canvas.getContext('2d');
 
     let photoSrc, focalY, tpl;
@@ -1096,11 +1033,22 @@ https://kaleoarts.org
     ctx.fillStyle = 'rgba(214,205,181,0.85)';
     const fwR = ctx.measureText(tpl.footerR).width;
     ctx.fillText(tpl.footerR, OUT_W - PAD - fwR, FOOTER_TOP + 30);
-    ctx.fillStyle = AMBER;
-    ctx.font = "500 20px 'JetBrains Mono', monospace";
-    ctx.fillText('KALEOARTS.ORG', PAD, FOOTER_TOP + 70);
+    const logoImg = await loadImage('assets/img/logo-kaleo-mark.png');
+ const logoH = 44;
+ const logoW = logoH * (492 / 530);
+ const brandY = FOOTER_TOP + 72;
+ ctx.drawImage(logoImg, PAD, brandY - logoH / 2, logoW, logoH);
+ ctx.textBaseline = 'middle';
+ ctx.font = "400 36px 'DM Serif Display', serif";
+ ctx.fillStyle = CREAM;
+ const kaleoText = 'Kaleo ';
+ ctx.fillText(kaleoText, PAD + logoW + 16, brandY + 1);
+ const kaleoW = ctx.measureText(kaleoText).width;
+ ctx.font = "italic 400 36px 'DM Serif Display', serif";
+ ctx.fillStyle = AMBER;
+ ctx.fillText('Arts', PAD + logoW + 16 + kaleoW, brandY + 1);
 
-    return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
+ return new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.92));
   }
 
   async function downloadImage() {
@@ -1116,156 +1064,42 @@ https://kaleoarts.org
   }
 
   // =====================================================
-  // NATIVE SHARE (best on mobile)
-  // =====================================================
-  document.getElementById('btn-native').addEventListener('click', async () => {
-    const text = captionEl.value;
-    // Try to include the rendered image
-    let file = null;
-    try {
-      const blob = await renderTemplateToBlob();
-      if (blob) file = new File([blob], 'kaleo-launch.jpg', { type: 'image/jpeg' });
-    } catch (e) {}
+  // NATIVE SHARE — one tap hands the rendered image + caption straight to
+// the OS share sheet, so people can pick literally any app (Messages,
+// Instagram, WhatsApp, Mail, AirDrop, Facebook, whatever's installed)
+// with the photo already attached. This is the only mechanism a website
+// can use to hand off an actual image file — the old per-platform
+// "compose" links (Twitter/LinkedIn/SMS/etc.) never could carry an
+// image, only text, so the page leans on this one flow instead of
+// pretending those links did something they structurally couldn't.
+// =====================================================
+async function shareNow() {
+const text = captionEl.value;
+let file = null;
+try {
+const blob = await renderTemplateToBlob();
+if (blob) file = new File([blob], 'kaleo-launch.jpg', { type: 'image/jpeg' });
+} catch (e) {}
 
-    // Check for file-share capability
-    if (navigator.canShare && file && navigator.canShare({ files: [file] })) {
-      try {
-        await navigator.share({ files: [file], text });
-        return;
-      } catch (e) { /* user cancelled or unsupported — fall through */ }
-    }
-    // Fallback: text-only share
-    if (navigator.share) {
-      try {
-        await navigator.share({ text, url: SHARE_URL });
-        return;
-      } catch (e) { /* user cancelled */ }
-    }
-    // Last resort: copy + tell them
-    await copyText(text);
-    showToast('Caption copied — no share sheet available');
-  });
+if (navigator.canShare && file && navigator.canShare({ files: [file] })) {
+try {
+await navigator.share({ files: [file], text, title: 'Kaleo Arts' });
+return;
+} catch (e) {
+if (e && e.name === 'AbortError') return;
+}
+}
+await downloadImage();
+await copyText(text);
+showToast('Image downloaded & caption copied — attach it in your post');
+}
 
-  // =====================================================
-  // ONE-TAP PLATFORMS
-  // =====================================================
-  document.querySelectorAll('[data-share]').forEach(btn => {
-    btn.addEventListener('click', async () => {
-      const platform = btn.dataset.share;
-      const text = captionEl.value;
-      const encoded = encodeURIComponent(text);
-      const url = SHARE_URL;
-      const encUrl = encodeURIComponent(url);
+document.getElementById('btn-native').addEventListener('click', shareNow);
+document.getElementById('btn-download').addEventListener('click', downloadImage);
 
-      switch (platform) {
-        case 'twitter':
-          window.open(`https://twitter.com/intent/tweet?text=${encoded}`, '_blank');
-          break;
-        case 'threads':
-          // Threads intent takes a `text` param (which can include URL)
-          window.open(`https://www.threads.net/intent/post?text=${encoded}`, '_blank');
-          break;
-        case 'linkedin':
-          // LinkedIn's official share picks up OG data from the URL; we open the compose with the URL
-          window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encUrl}`, '_blank');
-          // Also copy the caption for pasting into LinkedIn's compose (URL alone doesn't pass caption)
-          await copyText(text);
-          showToast('URL opening in LinkedIn · caption copied to paste');
-          break;
-        case 'whatsapp':
-          window.open(`https://wa.me/?text=${encoded}`, '_blank');
-          break;
-        case 'sms':
-          // iOS: sms:&body= / Android: sms:?body= — using `&` works on iOS and most Androids
-          window.location.href = `sms:?&body=${encoded}`;
-          break;
-        case 'email':
-          window.location.href = `mailto:?subject=${encodeURIComponent('Kaleo Arts — new studio opening!')}&body=${encoded}`;
-          break;
-        case 'copy':
-          await copyText(text + '\n\n' + url);
-          showToast('Link + caption copied');
-          break;
-      }
-    });
-  });
-
-  // =====================================================
-  // ASSISTED FLOW (Instagram / Facebook / TikTok)
-  // =====================================================
-  const sheet = document.getElementById('sheet-backdrop');
-  const sheetTitle = document.getElementById('sheet-title');
-  const sheetKicker = document.getElementById('sheet-kicker');
-  const sheetOpenApp = document.getElementById('sheet-open-app');
-  let currentAssisted = null;
-
-  const ASSISTED_CONFIG = {
-    instagram: {
-      title: 'Post to <em>Instagram</em>',
-      kicker: 'Instagram · assisted',
-      appName: 'Instagram',
-      appURL: 'instagram://camera',
-      webURL: 'https://www.instagram.com',
-    },
-    facebook: {
-      title: 'Post to <em>Facebook</em>',
-      kicker: 'Facebook · assisted',
-      appName: 'Facebook',
-      appURL: 'fb://composer',
-      webURL: 'https://www.facebook.com/sharer/sharer.php?u=' + encUrl(),
-    },
-    tiktok: {
-      title: 'Post to <em>TikTok</em>',
-      kicker: 'TikTok · assisted',
-      appName: 'TikTok',
-      appURL: 'tiktok://',
-      webURL: 'https://www.tiktok.com',
-    },
-  };
-  function encUrl() { return encodeURIComponent(SHARE_URL); }
-
-  async function openAssisted(platform) {
-    currentAssisted = platform;
-    const cfg = ASSISTED_CONFIG[platform];
-    sheetTitle.innerHTML = cfg.title;
-    sheetKicker.textContent = cfg.kicker;
-    sheetOpenApp.textContent = `Open ${cfg.appName}`;
-    sheet.classList.add('open');
-    // Do the prep automatically: copy caption + download image
-    await copyText(captionEl.value);
-    await downloadImage();
-  }
-
-  document.querySelectorAll('[data-assisted]').forEach(btn => {
-    btn.addEventListener('click', () => openAssisted(btn.dataset.assisted));
-  });
-
-  document.getElementById('sheet-close').addEventListener('click', () => {
-    sheet.classList.remove('open');
-  });
-  sheet.addEventListener('click', (e) => {
-    if (e.target === sheet) sheet.classList.remove('open');
-  });
-
-  sheetOpenApp.addEventListener('click', () => {
-    if (!currentAssisted) return;
-    const cfg = ASSISTED_CONFIG[currentAssisted];
-    // Try native app scheme first; fall back to web URL
-    const fallbackTimeout = setTimeout(() => {
-      window.location.href = cfg.webURL;
-    }, 500);
-    window.location.href = cfg.appURL;
-    // If the app opens, we won't hit the fallback because the page will lose focus
-    window.addEventListener('blur', () => clearTimeout(fallbackTimeout), { once: true });
-  });
-
-  document.getElementById('sheet-download-again').addEventListener('click', downloadImage);
-  document.getElementById('sheet-copy-again').addEventListener('click', async () => {
-    await copyText(captionEl.value);
-    showToast('Caption copied');
-  });
 </script>
 
-
-
-</body></html>
+<script>window.__page = 'share';</script>
+<script src="assets/chrome-v3.js"></script>
+</body>
+</html>
