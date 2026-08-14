@@ -997,6 +997,12 @@ section.spread.tight { padding: 100px 0; }
   font-style: normal;
   display: inline-flex; align-items: center; gap: 14px;
 }
+.pullq-cite .stars {
+font-size: 15px;
+letter-spacing: 0.08em;
+color: var(--amber);
+margin-right: 4px;
+}
 .pullq-cite::before {
   content: "";
   display: inline-block;
@@ -1236,6 +1242,12 @@ section.spread.tight { padding: 100px 0; }
   display: block;
   padding-top: 16px;
   border-top: 1px solid oklch(85% 0.02 78 / 0.25);
+}
+.voice cite .stars {
+font-size: 15px;
+letter-spacing: 0.08em;
+color: var(--amber);
+margin-right: 4px;
 }
 
 /* ==================== STATS STRIP ==================== */
