@@ -17,6 +17,11 @@ function gtag_report_conversion(url) {
   });
   return false;
 }
+function kaleoPrivateLessonsRedirect() {
+var target = window.innerWidth <= 720 ? 'private-lessons.html#offer-begin' : 'private-lessons.html#offer';
+window.location = target;
+return false;
+}
 </script>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -156,7 +161,7 @@ function gtag_report_conversion(url) {
 <div class="p-price">$133 / mo</div>
 <div class="p-actions">
 <a class="p-btn p-btn-secondary" href="private-lessons.html">Learn more</a>
-<a class="p-btn p-btn-primary" href="private-lessons.html#offer" onclick="window.location = (window.innerWidth <= 720 ? 'private-lessons.html#offer-begin' : 'private-lessons.html#offer'); return false;">Register</a>
+<a class="p-btn p-btn-primary" href="private-lessons.html#offer" onclick="return kaleoPrivateLessonsRedirect();">Register</a>
 </div>
 </div>
       <div class="program-row reveal">
@@ -249,7 +254,7 @@ function gtag_report_conversion(url) {
 .p-btn-secondary { color: var(--cream-mute); }
 .p-btn-secondary:hover { border-color: var(--amber); color: var(--amber); }
 .p-btn-primary { background: var(--amber); color: var(--stage); border-color: var(--amber); }
-.p-btn-primary:hover { background: var(--amber-hot); border-color: var(--amber-hot); }
+.p-btn-primary:hover { background: var(--cream); border-color: var(--cream); }
 @media (max-width: 960px) {
 .program-row { grid-template-columns: 40px 1fr; gap: 12px; }
 .p-desc, .p-grade, .p-price, .p-actions { grid-column: 2; }
