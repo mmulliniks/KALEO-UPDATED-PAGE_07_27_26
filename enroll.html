@@ -156,7 +156,7 @@ function gtag_report_conversion(url) {
 <div class="p-price">$133 / mo</div>
 <div class="p-actions">
 <a class="p-btn p-btn-secondary" href="private-lessons.html">Learn more</a>
-<a class="p-btn p-btn-primary" href="private-lessons.html#offer">Register</a>
+<a class="p-btn p-btn-primary" href="private-lessons.html#offer" onclick="window.location = (window.innerWidth <= 720 ? 'private-lessons.html#offer-begin' : 'private-lessons.html#offer'); return false;">Register</a>
 </div>
 </div>
       <div class="program-row reveal">
@@ -261,6 +261,7 @@ function gtag_report_conversion(url) {
 .p-name, .p-desc, .p-grade, .p-price, .p-actions { grid-column: 1 !important; }
 .p-actions { flex-wrap: wrap; margin-top: 10px; }
 .p-btn { flex: 1; text-align: center; }
+.section-h { font-size: 46px !important; line-height: 1.02; }
 }
 </style>
 
