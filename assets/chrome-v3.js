@@ -95,6 +95,7 @@
       <div class="footer-fine">
         <span>© 2026 Kaleo Arts</span>
         <span>Est. 2005 · Oakland Township, MI</span>
+        <span><a href="privacy-policy.html" style="color:inherit; text-decoration: underline; text-decoration-color: var(--rule);">Privacy Policy</a></span>
       </div>
     </div>
   </footer>`;
