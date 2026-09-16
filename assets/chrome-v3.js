@@ -221,9 +221,77 @@
       updateParallax();
     }
 
-    if (window.__page !== 'share') initEarlyBirdPopup();
+    if (window.__page !== 'share') { initEarlyBirdPopup(); initFallPopup(); }
   }
 
+
+  // ---------- Fall session popup ----------
+  // Announces that fall enrollment is still open once per visitor (until
+  // they dismiss it) and auto-expires after Oct 12 so nobody has to
+  // remember to remove it later.
+  function initFallPopup(){
+    var DEADLINE = new Date('2026-10-13T00:00:00-07:00'); // midnight Pacific, Oct 13 (live through Oct 12)
+    var STORAGE_KEY = 'kaleo-fall-popup-dismissed-2026-10-12';
+    var SESSION_KEY = 'kaleo-fall-popup-seen-session';
+    if (Date.now() >= DEADLINE.getTime()) return;
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+    } catch (e) { /* localStorage unavailable (private mode etc) — show anyway */ }
+    try {
+      // Already shown once this site visit (this tab) — don't show again on other pages.
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+    } catch (e) { /* sessionStorage unavailable — show anyway */ }
+
+    var html = ''
+      + '<div class="eb-popup-backdrop" id="fall-popup-backdrop" aria-hidden="true">'
+      +   '<div class="eb-popup" role="dialog" aria-modal="true" aria-labelledby="fall-popup-title">'
+      +     '<button class="eb-popup-close" id="fall-popup-close" aria-label="Close">&times;</button>'
+      +     '<picture class="eb-popup-photo">'
+      +       '<source srcset="assets/img/eb-popup.webp" type="image/webp"/>'
+      +       '<img src="assets/img/eb-popup.jpg" width="920" height="336" alt="Kaleo Kids performers cheering on stage with scarves raised and mics in hand"/>'
+      +     '</picture>'
+      +     '<div class="eb-popup-body-wrap">'
+      +       '<span class="eb-popup-eyebrow">§ Fall enrollment</span>'
+      +       '<h2 class="eb-popup-title" id="fall-popup-title">Kaleo fall session is off to a great start, <em>but it&rsquo;s not too late to sign up!</em></h2>'
+      +       '<div class="eb-popup-actions">'
+      +         '<a class="btn btn-primary" href="enroll.html" id="fall-popup-enroll">Enroll today'
+      +           '<svg viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>'
+      +         '</a>'
+      +         '<button class="btn btn-secondary" id="fall-popup-dismiss">Maybe later</button>'
+      +       '</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    var backdrop = document.getElementById('fall-popup-backdrop');
+    var closeBtn = document.getElementById('fall-popup-close');
+    var dismissBtn = document.getElementById('fall-popup-dismiss');
+    var enrollBtn = document.getElementById('fall-popup-enroll');
+
+    function dismiss(){
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    }
+    function show(){
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+    dismissBtn.addEventListener('click', dismiss);
+    enrollBtn.addEventListener('click', dismiss);
+    backdrop.addEventListener('click', function(e){ if (e.target === backdrop) dismiss(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) dismiss();
+    });
+
+    setTimeout(show, 3500);
+  }
 
   // ---------- Early-bird registration popup ----------
   // Announces the Aug 25 early-bird deadline once per visitor (until they
