@@ -252,7 +252,7 @@
       +     '</picture>'
       +     '<div class="eb-popup-body-wrap">'
       +       '<span class="eb-popup-eyebrow">§ Fall enrollment</span>'
-      +       '<h2 class="eb-popup-title" id="fall-popup-title">Kaleo fall session is off to a great start, <em>but it&rsquo;s not too late to sign up!</em></h2>'
+      +       '<h2 class="eb-popup-title" id="fall-popup-title">Kaleo fall session is off to a great start&hellip; <em>and there is still time to join!</em></h2>'
       +       '<div class="eb-popup-actions">'
       +         '<a class="btn btn-primary" href="enroll.html" id="fall-popup-enroll">Enroll today'
       +           '<svg viewBox="0 0 14 10" fill="none"><path d="M1 5h12M8 1l4 4-4 4" stroke="currentColor" stroke-width="1.5"/></svg>'
