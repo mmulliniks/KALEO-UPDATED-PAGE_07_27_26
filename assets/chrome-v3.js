@@ -321,7 +321,7 @@
       +       '<span class="eb-popup-eyebrow">§ January classes</span>'
       +       '<h2 class="eb-popup-title" id="jan-popup-title">Save the date! <em>January Classes open for registration on Dec 1st</em></h2>'
       +       '<div class="eb-popup-actions">'
-      +         '<button class="btn btn-secondary" id="jan-popup-dismiss">Got it</button>'
+      +         '<button class="btn btn-secondary" id="jan-popup-dismiss">Got it!</button>'
       +       '</div>'
       +     '</div>'
       +   '</div>'
