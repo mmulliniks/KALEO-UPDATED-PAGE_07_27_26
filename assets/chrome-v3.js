@@ -221,7 +221,7 @@
       updateParallax();
     }
 
-    if (window.__page !== 'share') { initEarlyBirdPopup(); initFallPopup(); }
+    if (window.__page !== 'share') { initEarlyBirdPopup(); initFallPopup(); initJanPopup(); }
   }
 
 
@@ -285,6 +285,68 @@
     closeBtn.addEventListener('click', dismiss);
     dismissBtn.addEventListener('click', dismiss);
     enrollBtn.addEventListener('click', dismiss);
+    backdrop.addEventListener('click', function(e){ if (e.target === backdrop) dismiss(); });
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && backdrop.classList.contains('open')) dismiss();
+    });
+
+    setTimeout(show, 3500);
+  }
+
+  // ---------- January registration popup ----------
+  // Announces that the January class schedule opens for registration Dec 1.
+  // Auto-expires after Dec 1 (Pacific).
+  function initJanPopup(){
+    var DEADLINE = new Date('2026-12-02T00:00:00-08:00'); // midnight Pacific, Dec 2 (live through Dec 1)
+    var STORAGE_KEY = 'kaleo-jan-popup-dismissed-2026-12-01';
+    var SESSION_KEY = 'kaleo-jan-popup-seen-session';
+    if (Date.now() >= DEADLINE.getTime()) return;
+    try {
+      if (localStorage.getItem(STORAGE_KEY)) return;
+    } catch (e) { /* localStorage unavailable (private mode etc) — show anyway */ }
+    try {
+      // Already shown once this site visit (this tab) — don't show again on other pages.
+      if (sessionStorage.getItem(SESSION_KEY)) return;
+    } catch (e) { /* sessionStorage unavailable — show anyway */ }
+
+    var html = ''
+      + '<div class="eb-popup-backdrop" id="jan-popup-backdrop" aria-hidden="true">'
+      +   '<div class="eb-popup" role="dialog" aria-modal="true" aria-labelledby="jan-popup-title">'
+      +     '<button class="eb-popup-close" id="jan-popup-close" aria-label="Close">&times;</button>'
+      +     '<picture class="eb-popup-photo">'
+      +       '<source srcset="assets/img/eb-popup.webp" type="image/webp"/>'
+      +       '<img src="assets/img/eb-popup.jpg" width="920" height="336" alt="Kaleo Kids performers cheering on stage with scarves raised and mics in hand"/>'
+      +     '</picture>'
+      +     '<div class="eb-popup-body-wrap">'
+      +       '<span class="eb-popup-eyebrow">§ January classes</span>'
+      +       '<h2 class="eb-popup-title" id="jan-popup-title">January class schedule <em>opens for registration December 1st</em></h2>'
+      +       '<div class="eb-popup-actions">'
+      +         '<button class="btn btn-secondary" id="jan-popup-dismiss">Maybe later</button>'
+      +       '</div>'
+      +     '</div>'
+      +   '</div>'
+      + '</div>';
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    var backdrop = document.getElementById('jan-popup-backdrop');
+    var closeBtn = document.getElementById('jan-popup-close');
+    var dismissBtn = document.getElementById('jan-popup-dismiss');
+
+    function dismiss(){
+      backdrop.classList.remove('open');
+      backdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      try { localStorage.setItem(STORAGE_KEY, '1'); } catch (e) {}
+    }
+    function show(){
+      backdrop.classList.add('open');
+      backdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      try { sessionStorage.setItem(SESSION_KEY, '1'); } catch (e) {}
+    }
+
+    closeBtn.addEventListener('click', dismiss);
+    dismissBtn.addEventListener('click', dismiss);
     backdrop.addEventListener('click', function(e){ if (e.target === backdrop) dismiss(); });
     document.addEventListener('keydown', function(e){
       if (e.key === 'Escape' && backdrop.classList.contains('open')) dismiss();
